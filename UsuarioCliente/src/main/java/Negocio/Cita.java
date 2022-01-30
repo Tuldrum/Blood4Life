@@ -45,4 +45,8 @@ public class Cita {
 		this.fecha = fecha;
 	}
 	
+	public void prueba() {
+		
+	}
+	
 }
