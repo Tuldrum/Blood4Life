@@ -11,5 +11,6 @@ package Negocio;
  * @author ASUS
  */
 public class Cita {
+    public Cita() {}
     
 }
