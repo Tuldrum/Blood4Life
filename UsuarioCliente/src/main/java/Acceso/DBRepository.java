@@ -5,10 +5,6 @@
  */
 package Acceso;
 
-/**
- *
- * @author ASUS
- */
 public class DBRepository {
     
 }
