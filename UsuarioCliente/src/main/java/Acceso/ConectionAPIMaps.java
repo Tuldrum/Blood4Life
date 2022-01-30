@@ -10,5 +10,7 @@ package Acceso;
  * @author ASUS
  */
 public class ConectionAPIMaps {
+	
+	public ConectionAPIMaps() {}
     
 }
