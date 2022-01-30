@@ -51,7 +51,7 @@ public class Cita {
 		this.fecha = fecha;
 	}
 	
-	public void prueba3() {
+	public void prueba4() {
 		
 	}
 	
