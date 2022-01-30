@@ -22,7 +22,6 @@ public class Cita {
     public Cita() {}
     
 	public Cita(int usuario_id, int lugar_id, Date fecha) {
-		super();
 		this.usuario_id = usuario_id;
 		this.lugar_id = lugar_id;
 		this.fecha = fecha;

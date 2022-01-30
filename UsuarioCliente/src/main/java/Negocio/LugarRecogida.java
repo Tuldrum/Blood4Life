@@ -10,14 +10,14 @@ package Negocio;
  * @author ASUS
  */
 public class LugarRecogida {
-    private int lugar_id;  
-    private String direccion; 
-    private String nombre;
-    
-    
+	private int lugar_id;
+	private String direccion;
+	private String nombre;
+
 	public LugarRecogida() {
 		super();
 	}
+
 	/**
 	 * @param lugar_id
 	 * @param direccion
@@ -29,24 +29,29 @@ public class LugarRecogida {
 		this.direccion = direccion;
 		this.nombre = nombre;
 	}
+
 	public int getLugar_id() {
 		return lugar_id;
 	}
+
 	public void setLugar_id(int lugar_id) {
 		this.lugar_id = lugar_id;
 	}
+
 	public String getDireccion() {
 		return direccion;
 	}
+
 	public void setDireccion(String direccion) {
 		this.direccion = direccion;
 	}
+
 	public String getNombre() {
 		return nombre;
 	}
+
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
-	} 
-    
-    
+	}
+
 }
