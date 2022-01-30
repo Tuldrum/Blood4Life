@@ -46,13 +46,13 @@ public class Cita {
 	public Date getFecha() {
 		return fecha;
 	}
-
-	public void setFecha(Date fecha) {
-		this.fecha = fecha;
+	
+	public void dolordecabeza() {
+		
 	}
 	
-	public void prueba4() {
-		
+	public void setFecha(Date fecha) {
+		this.fecha = fecha;
 	}
 	
 }
