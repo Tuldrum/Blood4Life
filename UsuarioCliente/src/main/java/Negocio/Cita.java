@@ -8,12 +8,6 @@ import java.sql.Date;
  * and open the template in the editor.
  */
 
-/**
- *
- * @author ASUS
- */
-
-
 public class Cita {
 	private int usuario_id; 
 	private int lugar_id;  
@@ -45,10 +39,6 @@ public class Cita {
 
 	public Date getFecha() {
 		return fecha;
-	}
-	
-	public void dolordecabeza() {
-		
 	}
 	
 	public void setFecha(Date fecha) {

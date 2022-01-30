@@ -18,11 +18,6 @@ public class LugarRecogida {
 		super();
 	}
 
-	/**
-	 * @param lugar_id
-	 * @param direccion
-	 * @param nombre
-	 */
 	public LugarRecogida(int lugar_id, String direccion, String nombre) {
 		super();
 		this.lugar_id = lugar_id;
