@@ -10,43 +10,19 @@ import blood4life.server.access.ICustomerRepository;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Servicio de clientes. Da acceso a la lógica de negocio
- *
- * @author Libardo, Julio
- */
+
 public class CustomerService {
 
-    /**
-     * Repositorio de clientes
-     */
     ICustomerRepository repo;
 
-    /**
-     * Constructor parametrizado. Hace inyeccion de dependencias
-     *
-     * @param repo repositorio de tipo ICustomerRepository
-     */
     public CustomerService(ICustomerRepository repo) {
         this.repo = repo;
     }
-
-    /**
-     * Buscar un cliente
-     *
-     * @param id cedula
-     * @return objeto tipo Customer
-     */
+    
     public synchronized Customer findCustomer(String id) {
         return repo.findCustomer(id);
     }
 
-    /**
-     * Crea un nuevo customer. Aplica validaciones de negocio
-     *
-     * @param customer cliente
-     * @return devuelve la cedula del customer creado
-     */
     public synchronized String createCustomer(Customer customer) {
         List<JsonError> errors = new ArrayList<>();
   
@@ -69,7 +45,6 @@ public class CustomerService {
             errors.add(new JsonError("400", "BAD_REQUEST","Teléfono móvil debe contener sólo dígitos "));
             
         }
-        // Que no esté repetido
         
         Customer customerSearched = this.findCustomer(customer.getId());
         if (customerSearched != null){
