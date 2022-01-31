@@ -5,19 +5,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-/**
- * Utilidades varias utilizadas por otras clases
- *
- * @author Libardo, Julio
- */
 public class Utilities {
 
-    /**
-     * Cargar una propiedadd de config.properties
-     *
-     * @param key llave de la propiedad
-     * @return valor de la propiedad
-     */
     public static String loadProperty(String key) {
         Properties prop = new Properties();
         InputStream is;
@@ -31,11 +20,7 @@ public class Utilities {
 
         return prop.getProperty(key);
     }
-    /**
-     * Verifica si un String contiene sólo digitos
-     * @param str Cadena a verificvar
-     * @return true si contiene sólo digitos, false en caso contrario
-     */
+    
     public static boolean isNumeric(String str) {
 
         boolean resultado;
