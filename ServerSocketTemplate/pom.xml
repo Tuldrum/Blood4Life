@@ -24,6 +24,11 @@
             <version>1.0-SNAPSHOT</version>
             <scope>runtime</scope>
         </dependency>
+        <dependency>
+            <groupId>co.unicauca.agencia.servidor</groupId>
+            <artifactId>Blood4Life-Server</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
