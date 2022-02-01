@@ -85,5 +85,19 @@ public class Factory {
 			result = new LugaresRepository(getConn());
 		return result;
 	}
+        
+        public ICitaRepository getCitaRepository() {
+		ICitaRepository result = null;
+		try {
+			result = (ICitaRepository) Class.forName(Utilities.loadProperty("CitaRepository")).getConstructor()
+					.newInstance(getConn());
+		} catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException
+				| IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+			Logger.getLogger(Factory.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		if (result == null)
+			result = new CitaRepository(getConn());
+		return result;
+	}
 
 }

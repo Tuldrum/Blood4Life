@@ -5,8 +5,7 @@
  */
 package blood4life.server.infra;
 
-import blood4life.server.access.CustomerRepositoryImplArrays;
-import blood4life.server.domain.services.CustomerService;
+import blood4life.server.domain.services.ServiceModel;
 import co.unicauca.serversocket.serversockettemplate.infra.ServerSocketMultiThread;
 
 /**
@@ -22,7 +21,7 @@ public class TravelAgencyServer2 {
         // TODO code application logic here
         ServerSocketMultiThread myServer = new ServerSocketMultiThread(3000);
         TravelAgencyHandler myHandler = new TravelAgencyHandler();
-        myHandler.setService(new CustomerService(new CustomerRepositoryImplArrays()) );
+        myHandler.setService(new ServiceModel());
         myServer.setServerHandler(myHandler);
         myServer.startServer();
     }
