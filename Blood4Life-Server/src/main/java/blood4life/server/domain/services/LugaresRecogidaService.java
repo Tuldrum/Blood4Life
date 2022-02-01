@@ -46,6 +46,6 @@ public class LugaresRecogidaService {
             return errorsJson;
        }
        repo.save(lugar);  
-        return "";  
+        return "Guardado con éxito" + lugar.toString();  
     }
 }

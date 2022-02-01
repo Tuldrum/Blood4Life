@@ -6,21 +6,22 @@
 package blood4life.server.infra;
 
 import blood4life.server.domain.services.ServiceModel;
-import co.unicauca.serversocket.serversockettemplate.infra.ServerSocketMultiThread;
+import blood4life.serversocket.serversockettemplate.infra.ServerSocketMultiThread;
+
 
 /**
  *
  * @author ahurtado
  */
-public class TravelAgencyServer2 {
+public class Blood4LifeServer3 {
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        ServerSocketMultiThread myServer = new ServerSocketMultiThread(3000);
-        TravelAgencyHandler myHandler = new TravelAgencyHandler();
+        ServerSocketMultiThread myServer = new ServerSocketMultiThread(5003);
+        Blood4LifeHandler myHandler = new Blood4LifeHandler();
         myHandler.setService(new ServiceModel());
         myServer.setServerHandler(myHandler);
         myServer.startServer();

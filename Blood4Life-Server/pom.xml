@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>co.unicauca.agencia.servidor</groupId>
-    <artifactId>TravelAgency-Server</artifactId>
+    <artifactId>Blood4Life-Server</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <dependencies>
@@ -15,12 +15,6 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.20</version>
-        </dependency>
-        <dependency>
-            <groupId>co.unicauca.travelagency.commons</groupId>
-            <artifactId>TravelAgency-commons</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <type>jar</type>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -41,8 +35,13 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>co.unicauca.travelagency.commons</groupId>
+            <artifactId>Blood4Life-commons</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
             <groupId>co.unicauca.serversocket</groupId>
-            <artifactId>ServerSocketTemplate</artifactId>
+            <artifactId>Blood4Life-ServerSocketTemplate</artifactId>
             <version>1.0</version>
         </dependency>
     </dependencies>
@@ -51,5 +50,5 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
-    <name>TravelAgency-Server</name>
+    <name>Blood4Life-Server</name>
 </project>

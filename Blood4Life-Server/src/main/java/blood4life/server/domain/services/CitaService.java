@@ -5,9 +5,10 @@
  */
 package blood4life.server.domain.services;
 
+
 import blood4life.commons.domain.Cita;
-import blood4life.commons.infra.JsonError;
 import blood4life.server.access.ICitaRepository;
+import blood4life.serversocket.serversockettemplate.helpers.JsonError;
 import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +45,7 @@ public class CitaService {
             return errorsJson;
        }
        repo.save(cita); 
-       return "";  
+       return "Guardado con éxito" + cita.toString();  
     }
     
 }

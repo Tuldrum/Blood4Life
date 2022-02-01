@@ -56,7 +56,7 @@ public class UsuarioClienteService {
             return errorsJson;
         }
         repo.save(customer);
-        return "";
+        return "Guardado con exito" + customer.toString();
     }
 
 }
