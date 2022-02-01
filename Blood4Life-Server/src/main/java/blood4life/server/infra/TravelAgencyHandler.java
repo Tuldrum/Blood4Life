@@ -9,10 +9,9 @@ import co.unicauca.serversocket.serversockettemplate.infra.ServerHandler;
 
 import com.google.gson.Gson;
 
-import blood4life.commons.domain.Customer;
 import blood4life.commons.infra.JsonError;
 import blood4life.commons.infra.Protocol;
-import blood4life.server.domain.services.CustomerService;
+import blood4life.server.domain.services.ServiceModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +25,15 @@ public class TravelAgencyHandler extends ServerHandler {
      /**
      * Servicio de clientes
      */
-    private static CustomerService service;
+    private static ServiceModel service;
+
+    public static ServiceModel getService() {
+        return service;
+    }
+
+    public static void setService(ServiceModel service) {
+        TravelAgencyHandler.service = service;
+    }
     
     
      /**
@@ -117,18 +124,4 @@ public class TravelAgencyHandler extends ServerHandler {
 
         return errorsJson;
     }
-
-    /**
-     * @return the service
-     */
-    public CustomerService getService() {
-        return service;
-    }
-
-    /**
-     * @param service the service to set
-     */
-    public void setService(CustomerService service) {
-        this.service = service;
-    } 
 }
