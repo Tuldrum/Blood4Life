@@ -15,11 +15,16 @@ import java.sql.Date;
 public class AssignmentsRepository implements IAssignmentsRepository {
 
     private Connection conn;
-
-    public AssignmentsRepository(IConnectionRepository connection) {
+    private ILugaresRepository lugares; 
+    private ISangreRepository sangres;  
+    
+    public AssignmentsRepository(IConnectionRepository connection, ILugaresRepository lugares, ISangreRepository sangres) {
         conn = connection.getConn();
+        this.lugares = lugares;  
+        this.sangres = sangres; 
     }
 
+    @Override
     public List<Assignments> list() {
         List<Assignments> products = new ArrayList<>();
         try {
@@ -30,10 +35,9 @@ public class AssignmentsRepository implements IAssignmentsRepository {
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
                 Assignments newAssignment = new Assignments();
-                newAssignment.setLugar_id(rs.getInt("lugar_id"));
-                newAssignment.setSangre_id(rs.getInt("sangre_id"));
+                newAssignment.setLugar_id(lugares.find(rs.getInt("lugar_id")));
+                newAssignment.setSangre_id(sangres.find(rs.getInt("sangre_id")));
                 newAssignment.setFecha(rs.getDate("fecha"));
-
                 products.add(newAssignment);
             }
             //this.disconnect();
@@ -44,14 +48,14 @@ public class AssignmentsRepository implements IAssignmentsRepository {
         return products;
     }
 
-    public Assignments find(int lugar_id, Date fecha, int sangre_id) {
+    @Override
+    public Assignments find(int lugar_id, Date fecha) {
         
         Assignments assis = null;
         try {
             
             String sql = "SELECT lugar_id, sangre_id, fecha FROM Assignments where lugar_id =" +
-                    String.valueOf(lugar_id) + " and fecha=" + fecha.toString() +
-                    "and sangre_id=" + String.valueOf(sangre_id);
+                    String.valueOf(lugar_id) + " and fecha=" + fecha.toString();
             
             //this.connect();
             Statement stmt = conn.createStatement();
@@ -59,8 +63,8 @@ public class AssignmentsRepository implements IAssignmentsRepository {
             
             if (rs.next()) {
                 assis = new Assignments();  
-                assis.setLugar_id(rs.getInt("lugar_id"));
-                assis.setSangre_id(rs.getInt("sangre_id"));
+                assis.setLugar_id(lugares.find(rs.getInt("lugar_id")));
+                assis.setSangre_id(sangres.find(rs.getInt("sangre_id")));
                 assis.setFecha(rs.getDate("fecha"));
             }
             //this.disconnect();

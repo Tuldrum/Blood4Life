@@ -23,20 +23,20 @@ import java.util.logging.Logger;
 public class CitaRepository implements ICitaRepository{
 
     private Connection conn;
-
-    public CitaRepository(IConnectionRepository connection) {
+    private IClienteRepository cliente; 
+    private ILugaresRepository lugares; 
+    public CitaRepository(IConnectionRepository connection, IClienteRepository cliente,ILugaresRepository lugares) {
         conn = connection.getConn();
+        this.cliente = cliente;  
+        this.lugares = lugares;  
     }
-    public CitaRepository(){
-        
-    } 
-
+    
     public boolean save(Cita cita) {
 
         try {
             //Validate product
             if (cita == null || cita.getCodigo() < 0 || cita.getFecha() == null
-                    || cita.getUsuario_id() < 0 || cita.getLugar_id() < 0) {
+                    || cita.getUsuario() == null || cita.getLugar() == null) {
                 return false;
             }
             //this.connect();
@@ -46,8 +46,8 @@ public class CitaRepository implements ICitaRepository{
 
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, cita.getCodigo());
-            pstmt.setInt(2, cita.getLugar_id());
-            pstmt.setInt(3, cita.getUsuario_id());
+            pstmt.setInt(2, cita.getLugar().getLugar_id());
+            pstmt.setInt(3, cita.getUsuario().getUser_id());
             pstmt.setDate(4, cita.getFecha());
             pstmt.executeUpdate();
             //this.disconnect();
@@ -69,8 +69,8 @@ public class CitaRepository implements ICitaRepository{
             while (rs.next()) {
                 Cita cita = new Cita();
                 cita.setCodigo(rs.getInt("cod_id"));
-                cita.setLugar_id(rs.getInt("lugar_id"));
-                cita.setUsuario_id(rs.getInt("user_id"));
+                cita.setLugar(lugares.find(rs.getInt("lugar_id")));
+                cita.setUsuario(cliente.find(rs.getInt("user_id")));
                 cita.setFecha(rs.getDate("fecha"));
                 products.add(cita);
             }
@@ -95,8 +95,8 @@ public class CitaRepository implements ICitaRepository{
             if (rs.next()) {
                 cita = new Cita();  
                 cita.setCodigo(rs.getInt("cod_id"));
-                cita.setLugar_id(rs.getInt("lugar_id"));
-                cita.setUsuario_id(rs.getInt("user_id"));
+                cita.setLugar(lugares.find(rs.getInt("lugar_id")));
+                cita.setUsuario(cliente.find(rs.getInt("user_id")));
                 cita.setFecha(rs.getDate("fecha"));
             }
             //this.disconnect();

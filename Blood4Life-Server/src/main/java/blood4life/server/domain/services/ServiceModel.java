@@ -33,7 +33,7 @@ public class ServiceModel {
     }
     
     public Assignments find(int lugar_id, Date fecha, int sangre_id){
-        return serAssis.find(lugar_id, fecha, sangre_id);  
+        return serAssis.find(lugar_id, fecha);  
     }
     
     public List<Assignments> list(){

@@ -13,8 +13,8 @@ import blood4life.commons.domain.UsuarioCliente;
 public class ClienteRepository implements IClienteRepository {
 
     private Connection conn;
-
-    public ClienteRepository(IConnectionRepository connection) {
+    private ISangreRepository sangre;  
+    public ClienteRepository(IConnectionRepository connection, ISangreRepository sangre) {
         this.conn = connection.getConn();
     }
 
@@ -22,7 +22,7 @@ public class ClienteRepository implements IClienteRepository {
 
         try {
             //Validate product
-            if (newCliente == null || newCliente.getUser_id() < 0 || newCliente.getName().isEmpty()) {
+            if (!newCliente.Status()) {
                 return false;
             }
             //this.connect();
@@ -36,7 +36,7 @@ public class ClienteRepository implements IClienteRepository {
             pstmt.setString(3, newCliente.getLastname());
             pstmt.setString(4, newCliente.getMail());
             pstmt.setInt(5, newCliente.getNumeroTelefono());
-            pstmt.setInt(6, newCliente.getSangre());
+            pstmt.setInt(6, newCliente.getSangre().getSangre_id());
             pstmt.executeUpdate();
             //this.disconnect();
             return true;
@@ -64,7 +64,7 @@ public class ClienteRepository implements IClienteRepository {
                 cliente.setLastname(rs.getString("apellido"));
                 cliente.setMail(rs.getString("mail"));
                 cliente.setNumeroTelefono(rs.getInt("telefono"));
-                cliente.setSangre(rs.getInt("sangre"));
+                cliente.setSangre(sangre.find(rs.getInt("sangre")));
             }
             //this.disconnect();
 

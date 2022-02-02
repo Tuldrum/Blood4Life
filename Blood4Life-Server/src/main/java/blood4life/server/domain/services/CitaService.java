@@ -28,24 +28,27 @@ public class CitaService {
     }
     
     public synchronized String save(Cita cita){
-         List<JsonError> errors = new ArrayList<>();
+        List<JsonError> errors = new ArrayList<>();
   
         // Validaciones y reglas de negocio
-        if(cita.getLugar_id()<0 || cita.getCodigo() < 0 || cita.getUsuario_id() < 0 || cita.getFecha() == null){
+        if(cita.getLugar() == null || cita.getCodigo() < 0 || cita.getFecha() == null){
             errors.add(new JsonError("400", "BAD_REQUEST","cod_id, lugar_id, user_id, fecha son obligatorios."));
         }
         
-        if (find(cita.getCodigo())!= null){
+       if (find(cita.getCodigo())!= null){
             errors.add(new JsonError("400", "BAD_REQUEST","Ya existe una cita asignada. "));
-        }
-        
+       }
+       
        if (!errors.isEmpty()) {
             Gson gson = new Gson();
             String errorsJson = gson.toJson(errors);
             return errorsJson;
        }
-       repo.save(cita); 
-       return "Guardado con éxito" + cita.toString();  
+       
+       if(repo.save(cita)){
+            return "Guardado con éxito" + cita.toString();  
+       }
+       return "";  
     }
     
 }

@@ -9,5 +9,5 @@ public interface IAssignmentsRepository {
     
     public List<Assignments> list();
 
-    public Assignments find(int lugar_id, Date fecha, int sangre_id); 
+    public Assignments find(int lugar_id, Date fecha); 
 }

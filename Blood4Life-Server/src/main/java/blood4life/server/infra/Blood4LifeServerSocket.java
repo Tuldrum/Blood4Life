@@ -7,7 +7,6 @@ import blood4life.commons.infra.JsonError;
 import blood4life.commons.infra.Protocol;
 import blood4life.commons.infra.Utilities;
 import blood4life.server.domain.services.ServiceModel;
-import static blood4life.server.infra.Blood4LifeHandler.getService;
 import blood4life.serversocket.serversockettemplate.infra.ServerSocketTemplate;
 
 import com.google.gson.Gson;

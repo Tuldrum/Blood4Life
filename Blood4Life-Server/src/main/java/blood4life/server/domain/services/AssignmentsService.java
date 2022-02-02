@@ -21,8 +21,8 @@ public class AssignmentsService {
         this.repo = repo;
     }
     
-    public synchronized Assignments find(int lugar_id, Date fecha, int sangre_id){
-        return repo.find(lugar_id, fecha, sangre_id); 
+    public synchronized Assignments find(int lugar_id, Date fecha){
+        return repo.find(lugar_id, fecha); 
     }
     
     public synchronized List<Assignments> list(){

@@ -34,8 +34,8 @@ public class UsuarioClienteService {
 
         // Validaciones y reglas de negocio
         if (customer.getUser_id() < 0 || customer.getName().isEmpty() || customer.getLastname().isEmpty()
-                || customer.getMail().isEmpty() || customer.getNumeroTelefono() < 0 || customer.getSangre() <= 0) {
-            errors.add(new JsonError("400", "BAD_REQUEST", "id, nombres, apellidos, email y género son obligatorios. "));
+                || customer.getMail().isEmpty() || customer.getNumeroTelefono() < 0 || customer.getSangre() == null) {
+            errors.add(new JsonError("400", "BAD_REQUEST", "id, nombres, apellidos, email y sangre, telefono son obligatorios. "));
         }
 
         if (!customer.getMail().contains("@")) {

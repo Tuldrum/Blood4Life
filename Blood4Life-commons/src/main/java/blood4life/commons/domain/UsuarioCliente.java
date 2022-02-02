@@ -16,7 +16,7 @@ public class UsuarioCliente {
     private String lastname;
     private String mail;
     private int numeroTelefono;
-    private int sangre;
+    private Sangre sangre;
 
     /**
      * @param user_id
@@ -26,13 +26,13 @@ public class UsuarioCliente {
      * @param numeroTelefono
      * @param sangre
      */
-    public UsuarioCliente(int user_id, String name, String lastname, String mail, int numeroTelefono, int sangre) {
+    public UsuarioCliente(int user_id, String name, String lastname, String mail, int numeroTelefono, Sangre sangre) {
         this.user_id = user_id;
         this.name = name;
         this.lastname = lastname;
         this.mail = mail;
         this.numeroTelefono = numeroTelefono;
-        this.sangre = sangre;
+        this.sangre = sangre;  
     }
 
     public UsuarioCliente() {
@@ -77,13 +77,26 @@ public class UsuarioCliente {
     public void setNumeroTelefono(int numeroTelefono) {
         this.numeroTelefono = numeroTelefono;
     }
-
-    public int getSangre() {
+     public Sangre getSangre() {
         return sangre;
     }
 
-    public void setSangre(int sangre) {
+    public void setSangre(Sangre sangre) {
         this.sangre = sangre;
     }
-
+    
+    public boolean Status(){
+        if(this.sangre == null){
+            return false; 
+        }
+        if(this.user_id < 0 || this.numeroTelefono < 0){
+            return false;  
+        }
+        
+        if(this.name.isEmpty() || this.lastname.isEmpty() || this.mail.isEmpty()){
+            return false;  
+        }
+        
+        return true; 
+    }
 }

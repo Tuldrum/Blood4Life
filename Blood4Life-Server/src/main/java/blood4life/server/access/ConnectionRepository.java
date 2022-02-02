@@ -88,7 +88,7 @@ public class ConnectionRepository implements IConnectionRepository {
         tablas.add("CREATE TABLE IF NOT EXISTS Sangre (\n"
                 + " sangre_id integer PRIMARY KEY,\n"
                 + " tipo text NOT NULL,\n"
-                + " RH text\n NOT NULL" + ");");
+                + " RH text NOT NULL" + ");");
 
         tablas.add("CREATE TABLE IF NOT EXISTS Entidad (\n"
                 + " entidad_id integer PRIMARY KEY,\n"
