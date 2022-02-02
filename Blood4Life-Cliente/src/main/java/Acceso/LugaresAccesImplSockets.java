@@ -43,19 +43,19 @@ public class LugaresAccesImplSockets implements ILugaresAcces{
             mySocket.disconnect();
 
         } catch (IOException ex) {
-            Logger.getLogger(LugaresAccessImplSockets.class.getName()).log(Level.SEVERE, "No hubo conexión con el servidor", ex);
+            Logger.getLogger(LugaresAccesImplSockets.class.getName()).log(Level.SEVERE, "No hubo conexión con el servidor", ex);
         }
         if (jsonResponse == null) {
             throw new Exception("No se pudo conectar con el servidor. Revise la red o que el servidor esté escuchando. ");
         } else {
             if (jsonResponse.contains("error")) {
                 //Devolvió algún error
-                Logger.getLogger(LugaresAccessImplSockets.class.getName()).log(Level.INFO, jsonResponse);
+                Logger.getLogger(LugaresAccesImplSockets.class.getName()).log(Level.INFO, jsonResponse);
                 throw new Exception(extractMessages(jsonResponse));
             } else {
                 //Encontró el lugar
                 LugarRecogida lugares = jsonToLugares(jsonResponse);
-                Logger.getLogger(LugaresAccessImplSockets.class.getName()).log(Level.INFO, "Lo que va en el JSon: ("+jsonResponse.toString()+ ")");
+                Logger.getLogger(LugaresAccesImplSockets.class.getName()).log(Level.INFO, "Lo que va en el JSon: ("+jsonResponse.toString()+ ")");
                 return lugares;
             }
         }
@@ -79,7 +79,7 @@ public class LugaresAccesImplSockets implements ILugaresAcces{
             mySocket.disconnect();
 
         } catch (IOException ex) {
-            Logger.getLogger(LugaresAccessImplSockets.class.getName()).log(Level.SEVERE, "No hubo conexión con el servidor", ex);
+            Logger.getLogger(LugaresAccesImplSockets.class.getName()).log(Level.SEVERE, "No hubo conexión con el servidor", ex);
         }
         if (jsonResponse == null) {
             throw new Exception("No se pudo conectar con el servidor");
@@ -87,7 +87,7 @@ public class LugaresAccesImplSockets implements ILugaresAcces{
 
             if (jsonResponse.contains("error")) {
                 //Devolvió algún error                
-                Logger.getLogger(LugaresAccessImplSockets.class.getName()).log(Level.INFO, jsonResponse);
+                Logger.getLogger(LugaresAccesImplSockets.class.getName()).log(Level.INFO, jsonResponse);
                 throw new Exception(extractMessages(jsonResponse));
             } else {
                 //Agregó correctamente, devuelve la cedula del customer 

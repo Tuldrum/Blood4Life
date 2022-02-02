@@ -1,13 +1,13 @@
 package Acceso;
 
-import blood4life.commons.domain.LugaresAcces;
+import blood4life.commons.domain.UsuarioCliente; 
 
 
 
 public interface ICustomerAcces {
     
 
-    public LugaresAcces findCustomer(String id) throws Exception;
+    public UsuarioCliente findCustomer(String id) throws Exception;
     
-    public String createCustomer(LugaresAcces customer) throws Exception;
+    public String createCustomer(UsuarioCliente customer) throws Exception;
 }

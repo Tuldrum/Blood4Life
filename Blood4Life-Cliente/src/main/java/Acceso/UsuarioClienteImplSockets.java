@@ -1,7 +1,7 @@
 
 package Acceso;
 
-import blood4life.commons.domain.LugaresAcces;
+import blood4life.commons.domain.UsuarioCliente;
 import blood4life.commons.infra.JsonError;
 import blood4life.commons.infra.Protocol;
 import com.google.gson.Gson;
@@ -16,13 +16,13 @@ import java.util.logging.Logger;
  *
  * @author Libardo Pantoja, Julio A. Hurtado
  */
-public class LugaresAccessImplSockets implements ICustomerAcces {
+public class UsuarioClienteImplSockets implements ICustomerAcces {
     /**
      * El servicio utiliza un socket para comunicarse con la aplicación server
      */
     private Blood4LifeClientSocket mySocket;
 
-    public LugaresAccessImplSockets() {
+    public UsuarioClienteImplSockets() {
         mySocket = new Blood4LifeClientSocket();
     }
 
@@ -34,7 +34,7 @@ public class LugaresAccessImplSockets implements ICustomerAcces {
      * @throws Exception cuando no pueda conectarse con el servidor
      */
     @Override
-    public LugaresAcces findCustomer(String id) throws Exception {
+    public UsuarioCliente findCustomer(String id) throws Exception {
         String jsonResponse = null;
         String requestJson = doFindCustomerRequestJson(id);
         System.out.println(requestJson);
@@ -44,19 +44,19 @@ public class LugaresAccessImplSockets implements ICustomerAcces {
             mySocket.disconnect();
 
         } catch (IOException ex) {
-            Logger.getLogger(LugaresAccessImplSockets.class.getName()).log(Level.SEVERE, "No hubo conexión con el servidor", ex);
+            Logger.getLogger(UsuarioClienteImplSockets.class.getName()).log(Level.SEVERE, "No hubo conexión con el servidor", ex);
         }
         if (jsonResponse == null) {
             throw new Exception("No se pudo conectar con el servidor. Revise la red o que el servidor esté escuchando. ");
         } else {
             if (jsonResponse.contains("error")) {
                 //Devolvió algún error
-                Logger.getLogger(LugaresAccessImplSockets.class.getName()).log(Level.INFO, jsonResponse);
+                Logger.getLogger(UsuarioClienteImplSockets.class.getName()).log(Level.INFO, jsonResponse);
                 throw new Exception(extractMessages(jsonResponse));
             } else {
                 //Encontró el customer
-                LugaresAcces customer = jsonToCustomer(jsonResponse);
-                Logger.getLogger(LugaresAccessImplSockets.class.getName()).log(Level.INFO, "Lo que va en el JSon: ("+jsonResponse.toString()+ ")");
+                UsuarioCliente customer = jsonToCustomer(jsonResponse);
+                Logger.getLogger(UsuarioClienteImplSockets.class.getName()).log(Level.INFO, "Lo que va en el JSon: ("+jsonResponse.toString()+ ")");
                 return customer;
             }
         }
@@ -71,7 +71,7 @@ public class LugaresAccessImplSockets implements ICustomerAcces {
      * @throws Exception error crear el cliente
      */
     @Override
-    public String createCustomer(LugaresAcces customer) throws Exception {
+    public String createCustomer(UsuarioCliente customer) throws Exception {
         String jsonResponse = null;
         String requestJson = doCreateCustomerRequestJson(customer);
         try {
@@ -80,7 +80,7 @@ public class LugaresAccessImplSockets implements ICustomerAcces {
             mySocket.disconnect();
 
         } catch (IOException ex) {
-            Logger.getLogger(LugaresAccessImplSockets.class.getName()).log(Level.SEVERE, "No hubo conexión con el servidor", ex);
+            Logger.getLogger(UsuarioClienteImplSockets.class.getName()).log(Level.SEVERE, "No hubo conexión con el servidor", ex);
         }
         if (jsonResponse == null) {
             throw new Exception("No se pudo conectar con el servidor");
@@ -88,7 +88,7 @@ public class LugaresAccessImplSockets implements ICustomerAcces {
 
             if (jsonResponse.contains("error")) {
                 //Devolvió algún error                
-                Logger.getLogger(LugaresAccessImplSockets.class.getName()).log(Level.INFO, jsonResponse);
+                Logger.getLogger(UsuarioClienteImplSockets.class.getName()).log(Level.INFO, jsonResponse);
                 throw new Exception(extractMessages(jsonResponse));
             } else {
                 //Agregó correctamente, devuelve la cedula del customer 
@@ -153,7 +153,7 @@ public class LugaresAccessImplSockets implements ICustomerAcces {
      * @return devulve algo como:
      * {"resource":"customer","action":"post","parameters":[{"name":"id","value":"980000012"},{"name":"fistName","value":"Juan"},...}]}
      */
-    private String doCreateCustomerRequestJson(LugaresAcces customer) {
+    private String doCreateCustomerRequestJson(UsuarioCliente customer) {
 
         Protocol protocol = new Protocol();
         protocol.setResource("customer");
@@ -176,10 +176,10 @@ public class LugaresAccessImplSockets implements ICustomerAcces {
      *
      * @param jsonCustomer objeto cliente en formato json
      */
-    private LugaresAcces jsonToCustomer(String jsonCustomer) {
+    private UsuarioCliente jsonToCustomer(String jsonCustomer) {
 
         Gson gson = new Gson();
-        LugaresAcces customer = gson.fromJson(jsonCustomer, LugaresAcces.class);
+        UsuarioCliente customer = gson.fromJson(jsonCustomer, UsuarioCliente.class);
         return customer;
 
     }
