@@ -46,7 +46,6 @@ public class ServiceModel {
         return serCitas.find(cod_cita); 
     }
     
-    @Deprecated
     public String saveCita(Cita cita){
         return serCitas.save(cita);
     }
@@ -55,7 +54,9 @@ public class ServiceModel {
         int numCel = cliente.getNumeroTelefono();
         String infoCita = cita.infoCita();
         serWhatsAppReminder.sendReminder(numCel, infoCita);
-        return serCitas.save(cita);
+
+        cita.setUsuario(cliente);
+        return saveCita(cita);
     }
     
     public String crearLugarRecogida(LugarRecogida lugar){
