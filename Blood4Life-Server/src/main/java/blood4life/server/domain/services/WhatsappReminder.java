@@ -5,8 +5,8 @@ import com.twilio.rest.api.v2010.account.Message;
  
 public class WhatsappReminder implements ITwilioWhatsappMessager { 
     // Find your Account Sid and Token at twilio.com/console 
-    public static final String ACCOUNT_SID = "";
-    public static final String AUTH_TOKEN = ""; 
+    public static String ACCOUNT_SID = "";
+    public static String AUTH_TOKEN = ""; 
  
     public WhatsappReminder() {
         ACCOUNT_SID = "AC5992ec956e3bb928637fdd9c3e348743"; 
