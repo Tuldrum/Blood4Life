@@ -123,6 +123,7 @@ public class Blood4LifeHandler extends ServerHandler {
         cliente.setLastname(protocolRequest.getParameters().get(2).getValue());
         cliente.setMail(protocolRequest.getParameters().get(3).getValue());
         cliente.setNumeroTelefono(Integer.parseInt(protocolRequest.getParameters().get(4).getValue()));
+        cliente.setSangre(Integer.parseInt(protocolRequest.getParameters().get(5).getValue()));
         String response = getService().createCustomer(cliente);
         respond(response);
     }
