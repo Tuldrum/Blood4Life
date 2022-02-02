@@ -3,12 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Negocio;
+package Acceso;
+
+import blood4life.commons.domain.Cita;
 
 /**
  *
  * @author ASUS
  */
-public class ComponenteMensajeria {
+public interface ICitaAcces {
+    
+    public String createCita(Cita cita) throws Exception; 
+
+    public Cita findCita(String id) throws Exception;
     
 }

@@ -9,7 +9,7 @@ package blood4life.commons.domain;
  *
  * @author ASUS
  */
-public class UsuarioCliente {
+public class LugaresAcces {
 	private int user_id;
 	private String name;
 	private String lastname;
@@ -25,7 +25,7 @@ public class UsuarioCliente {
 	 * @param numeroTelefono
 	 * @param sangre
 	 */
-	public UsuarioCliente(int user_id, String name, String lastname, String mail, int numeroTelefono, int sangre) {
+	public LugaresAcces(int user_id, String name, String lastname, String mail, int numeroTelefono, int sangre) {
 		this.user_id = user_id;
 		this.name = name;
 		this.lastname = lastname;
@@ -34,7 +34,7 @@ public class UsuarioCliente {
 		this.sangre = sangre;
 	}
 	
-	public UsuarioCliente() {
+	public LugaresAcces() {
 	}
 
 	public int getUser_id() {
