@@ -1,6 +1,6 @@
-co\unicauca\serversocket\serversockettemplate\helpers\JsonError.class
-co\unicauca\serversocket\serversockettemplate\infra\ServerSocketMultiThread.class
-co\unicauca\serversocket\serversockettemplate\helpers\Utilities.class
-co\unicauca\serversocket\serversockettemplate\infra\ExecuteServer.class
-co\unicauca\serversocket\serversockettemplate\infra\ServerSocketTemplate.class
-co\unicauca\serversocket\serversockettemplate\infra\ServerHandler.class
+blood4life\serversocket\serversockettemplate\infra\ServerHandler.class
+blood4life\serversocket\serversockettemplate\infra\ServerSocketTemplate.class
+blood4life\serversocket\serversockettemplate\infra\ServerSocketMultiThread.class
+blood4life\serversocket\serversockettemplate\infra\ExecuteServer.class
+blood4life\serversocket\serversockettemplate\helpers\Utilities.class
+blood4life\serversocket\serversockettemplate\helpers\JsonError.class

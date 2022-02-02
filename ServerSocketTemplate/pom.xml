@@ -14,19 +14,18 @@
         </dependency>
         <dependency>
             <groupId>co.unicauca.agencia.servidor</groupId>
-            <artifactId>TravelAgency-Server</artifactId>
+            <artifactId>Blood4LifeServer</artifactId>
             <version>1.0-SNAPSHOT</version>
-            <scope>runtime</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>co.unicauca.travelagency.commons</groupId>
+                    <artifactId>Blood4Life-commons</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>co.unicauca.travelagency.commons</groupId>
-            <artifactId>TravelAgency-commons</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>co.unicauca.agencia.servidor</groupId>
-            <artifactId>Blood4Life-Server</artifactId>
+            <artifactId>Blood4Life-commons</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
