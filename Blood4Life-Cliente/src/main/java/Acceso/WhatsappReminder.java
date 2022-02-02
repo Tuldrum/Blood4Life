@@ -8,12 +8,12 @@ import com.twilio.type.PhoneNumber;
 import java.net.URI; 
 import java.math.BigDecimal; 
  
-public class WhatsappServlet { 
+public class WhatsappReminder implements ITwilioWhatsappMessager { 
     // Find your Account Sid and Token at twilio.com/console 
     public static final String ACCOUNT_SID = "AC5992ec956e3bb928637fdd9c3e348743"; 
-    public static final String AUTH_TOKEN = "[051afd69edf649a26b87b0194047829f]"; 
+    public static final String AUTH_TOKEN = "d0a75f952a9a7193eac2db60ec7fa260"; 
  
-    public static void main(String[] args) { 
+    public boolean remindersThread() { 
         Twilio.init(ACCOUNT_SID, AUTH_TOKEN); 
         //Podría hacerse el recorrido de un arreglo con todos los teléfonos y mensajes de citas para automatizar
         //String destinataryNumber = Logica de acceso al teléfono del usuario
@@ -27,5 +27,6 @@ public class WhatsappServlet {
             .create(); 
  
         System.out.println(message.getSid()); 
+        return true;
     } 
 }
