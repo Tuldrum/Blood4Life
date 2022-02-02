@@ -23,7 +23,7 @@ public class ServiceModel {
     private LugaresRecogidaService serLug; 
     private UsuarioClienteService serUsuCli; 
     private CitaService serCitas;
-    private ITwilioWhatsappMessager serWhatsAppReminder;
+    private static ITwilioWhatsappMessager serWhatsAppReminder;
     
     public ServiceModel() {
         factory = Factory.getInstance();
@@ -51,12 +51,17 @@ public class ServiceModel {
     }
 
     public String saveCita(Cita cita, UsuarioCliente cliente){
-        int numCel = cliente.getNumeroTelefono();
+        String numCel = cliente.getNumeroTelefono();
         String infoCita = cita.infoCita();
-        serWhatsAppReminder.sendReminder(numCel, infoCita);
+        enviarRecordatorio(numCel, infoCita);
 
         cita.setUsuario(cliente);
         return saveCita(cita);
+    }
+
+    // Equis
+    public void enviarRecordatorio (String numCel, String infoCita) {
+        serWhatsAppReminder.sendReminder(numCel, infoCita);
     }
     
     public String crearLugarRecogida(LugarRecogida lugar){

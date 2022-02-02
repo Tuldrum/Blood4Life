@@ -35,7 +35,7 @@ public class ClienteRepository implements IClienteRepository {
             pstmt.setString(2, newCliente.getName());
             pstmt.setString(3, newCliente.getLastname());
             pstmt.setString(4, newCliente.getMail());
-            pstmt.setInt(5, newCliente.getNumeroTelefono());
+            pstmt.setString(5, newCliente.getNumeroTelefono());
             pstmt.setInt(6, newCliente.getSangre().getSangre_id());
             pstmt.executeUpdate();
             //this.disconnect();
@@ -63,7 +63,7 @@ public class ClienteRepository implements IClienteRepository {
                 cliente.setName(rs.getString("nombre"));
                 cliente.setLastname(rs.getString("apellido"));
                 cliente.setMail(rs.getString("mail"));
-                cliente.setNumeroTelefono(rs.getInt("telefono"));
+                cliente.setNumeroTelefono(rs.getString("telefono"));
                 cliente.setSangre(sangre.find(rs.getInt("sangre")));
             }
             //this.disconnect();

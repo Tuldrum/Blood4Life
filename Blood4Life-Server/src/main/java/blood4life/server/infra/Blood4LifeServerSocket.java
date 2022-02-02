@@ -2,6 +2,7 @@ package blood4life.server.infra;
 
 import blood4life.commons.domain.Cita;
 import blood4life.commons.domain.LugarRecogida;
+import blood4life.commons.domain.Sangre;
 import blood4life.commons.domain.UsuarioCliente;
 import blood4life.commons.infra.JsonError;
 import blood4life.commons.infra.Protocol;
@@ -28,12 +29,12 @@ public class Blood4LifeServerSocket extends ServerSocketTemplate {
      * Servicio de clientes
      */
     private ServiceModel service;
-
+    private Gson gson; 
     /**
      * Constructor
      */
     public Blood4LifeServerSocket() {
-
+        gson = new Gson();
     }
 
     /**
@@ -60,7 +61,6 @@ public class Blood4LifeServerSocket extends ServerSocketTemplate {
     @Override
     protected void processRequest(String requestJson) {
         // Convertir la solicitud a objeto Protocol para poderlo procesar
-        Gson gson = new Gson();
         Protocol protocolRequest = gson.fromJson(requestJson, Protocol.class);
 
         switch (protocolRequest.getResource()) {
@@ -117,8 +117,9 @@ public class Blood4LifeServerSocket extends ServerSocketTemplate {
         // Reconstruir el customer a partid de lo que viene en los parámetros
         cita.setCodigo(Integer.parseInt(protocolRequest.getParameters().get(0).getValue()));
         cita.setFecha(Date.valueOf(protocolRequest.getParameters().get(1).getValue()));
-        cita.setLugar_id(Integer.valueOf(protocolRequest.getParameters().get(2).getValue()));
-        cita.setUsuario_id(Integer.valueOf(protocolRequest.getParameters().get(3).getValue()));
+        //Cómo vrg ahago esto?? xd
+        cita.setLugar(gson.fromJson(protocolRequest.getParameters().get(2).getValue(), LugarRecogida.class));
+        cita.setUsuario(gson.fromJson(protocolRequest.getParameters().get(3).getValue(), UsuarioCliente.class));
         String response = getService().saveCita(cita);
         respond(response);
     }
@@ -141,7 +142,8 @@ public class Blood4LifeServerSocket extends ServerSocketTemplate {
         cliente.setName(protocolRequest.getParameters().get(1).getValue());
         cliente.setLastname(protocolRequest.getParameters().get(2).getValue());
         cliente.setMail(protocolRequest.getParameters().get(3).getValue());
-        cliente.setNumeroTelefono(Integer.parseInt(protocolRequest.getParameters().get(4).getValue()));
+        cliente.setNumeroTelefono(protocolRequest.getParameters().get(4).getValue());
+        cliente.setSangre(gson.fromJson(protocolRequest.getParameters().get(5).getValue(),Sangre.class));
         String response = getService().createCustomer(cliente);
         respond(response);
     }

@@ -48,20 +48,6 @@
             <groupId>co.unicauca.serversocket</groupId>
             <artifactId>Blood4Life-ServerSocketTemplate</artifactId>
             <version>1.0</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>co.unicauca.serversocket</groupId>
-                    <artifactId>ServerSocketTemplate</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>co.unicauca.agencia.servidor</groupId>
-                    <artifactId>TravelAgency-Server</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>co.unicauca.travelagency.commons</groupId>
-                    <artifactId>TravelAgency-commons</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
     </dependencies>
     <properties>

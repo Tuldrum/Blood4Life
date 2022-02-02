@@ -13,9 +13,9 @@ public class WhatsappReminder implements ITwilioWhatsappMessager {
         AUTH_TOKEN = "d0a75f952a9a7193eac2db60ec7fa260"; 
     }
 
-    public boolean sendReminder(int numCel, String reminderMessage) { 
+    public boolean sendReminder(String numCel, String reminderMessage) { 
         Twilio.init(ACCOUNT_SID, AUTH_TOKEN); 
-        String destinataryNumber = "+57" + String.valueOf(numCel);
+        String destinataryNumber = "+57" + numCel;
         Message message = Message.creator(
             new com.twilio.type.PhoneNumber("whatsapp:"+destinataryNumber), 
             new com.twilio.type.PhoneNumber("whatsapp:+14155238886"),  
