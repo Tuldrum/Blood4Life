@@ -83,7 +83,7 @@ public class CitaAccesImplSockets implements ICitaAcces {
                 Logger.getLogger(CitaAccesImplSockets.class.getName()).log(Level.INFO, "Lo que va en el JSon: (" + jsonResponse.toString() + ")");
                 return null;
             } else {
-                //Encontró el customer
+                //Encontró las citas
                 List<Cita> citas = jsonToList(jsonResponse);
                 Logger.getLogger(CitaAccesImplSockets.class.getName()).log(Level.INFO, "Lo que va en el JSon: (" + jsonResponse.toString() + ")");
                 return citas;
