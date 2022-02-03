@@ -38,7 +38,11 @@ public class ServiceModel {
     public String createCita(Cita cita) throws Exception {
         return citas.createCita(cita);
     }
-
+    
+    public String updateCita(Cita cita) throws Exception{
+        return citas.updateCita(cita);  
+    }
+    
     public LugarRecogida findLugares(String id) throws Exception {
         return lugares.findLugares(id);
     }
