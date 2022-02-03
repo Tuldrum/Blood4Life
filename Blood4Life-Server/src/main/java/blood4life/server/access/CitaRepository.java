@@ -82,7 +82,7 @@ public class CitaRepository implements ICitaRepository{
         return products;
     }
     
-     public Cita find(int id) {
+    public Cita find(int id) {
     	Cita cita = null;
         try {
             

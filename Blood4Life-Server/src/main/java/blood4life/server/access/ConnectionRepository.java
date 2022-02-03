@@ -71,7 +71,7 @@ public class ConnectionRepository implements IConnectionRepository {
                 + "	nombre text NOT NULL,\n"
                 + "	apellido text NOT NULL,\n"
                 + "	mail text NOT NULL,\n"
-                + "	telefono integer NOT NULL,\n"
+                + "	telefono text NOT NULL,\n"
                 + " sangre_id integer NOT NULL\n" + ");");
 
         tablas.add("CREATE TABLE IF NOT EXISTS cita (\n"

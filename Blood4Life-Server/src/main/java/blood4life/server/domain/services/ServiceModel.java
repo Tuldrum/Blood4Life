@@ -22,7 +22,8 @@ public class ServiceModel {
     private AssignmentsService serAssis; 
     private LugaresRecogidaService serLug; 
     private UsuarioClienteService serUsuCli; 
-    private CitaService serCitas; 
+    private CitaService serCitas;
+    private static ITwilioWhatsappMessager serWhatsAppReminder;
     
     public ServiceModel() {
         factory = Factory.getInstance();
@@ -30,6 +31,7 @@ public class ServiceModel {
         serLug = new LugaresRecogidaService(factory.getLugaresRepository()); 
         serUsuCli = new UsuarioClienteService(factory.getClienteRepository());
         serCitas = new CitaService(factory.getCitaRepository());
+        serWhatsAppReminder = new WhatsappReminder();
     }
     
     public Assignments find(int lugar_id, Date fecha, int sangre_id){
@@ -45,7 +47,21 @@ public class ServiceModel {
     }
     
     public String saveCita(Cita cita){
-        return serCitas.save(cita);  
+        return serCitas.save(cita);
+    }
+
+    public String saveCita(Cita cita, UsuarioCliente cliente){
+        String numCel = cliente.getNumeroTelefono();
+        String infoCita = cita.infoCita();
+        enviarRecordatorio(numCel, infoCita);
+
+        cita.setUsuario(cliente);
+        return saveCita(cita);
+    }
+
+    // Equis
+    public void enviarRecordatorio (String numCel, String infoCita) {
+        serWhatsAppReminder.sendReminder(numCel, infoCita);
     }
     
     public String crearLugarRecogida(LugarRecogida lugar){
