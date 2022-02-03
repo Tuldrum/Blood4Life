@@ -89,11 +89,11 @@ public class UsuarioCliente {
         if(this.sangre == null){
             return false; 
         }
-        if(this.user_id < 0 || this.numeroTelefono != ""){
+        if(this.user_id < 0){
             return false;  
         }
         
-        if(this.name.isEmpty() || this.lastname.isEmpty() || this.mail.isEmpty()){
+        if(this.name.isEmpty() || this.lastname.isEmpty() || this.mail.isEmpty() || this.numeroTelefono.isEmpty() ){
             return false;  
         }
         

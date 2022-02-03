@@ -119,7 +119,7 @@ public class LugaresAccesImplSockets implements ILugaresAcces{
         protocol.setAction("post");
         protocol.addParameter("id", String.valueOf(lugar.getLugar_id()));
         protocol.addParameter("dirección", lugar.getDireccion());
-        protocol.addParameter("nombre", lugar.getNombre().toString());
+        protocol.addParameter("nombre", lugar.getNombre());
 
         Gson gson = new Gson();
         String requestJson = gson.toJson(protocol);

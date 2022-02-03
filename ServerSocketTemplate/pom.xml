@@ -13,6 +13,17 @@
             <type>jar</type>
         </dependency>
         <dependency>
+            <groupId>co.unicauca.agencia.servidor</groupId>
+            <artifactId>Blood4LifeServer</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>co.unicauca.travelagency.commons</groupId>
+                    <artifactId>Blood4Life-commons</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
             <groupId>co.unicauca.travelagency.commons</groupId>
             <artifactId>Blood4Life-commons</artifactId>
             <version>1.0-SNAPSHOT</version>

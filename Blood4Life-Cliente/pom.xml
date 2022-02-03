@@ -13,9 +13,14 @@
     <dependencies>
         <dependency>
             <groupId>org.openapitools</groupId>
-            <artifactId>openapi-java-client</artifactId>
-            <version>1.0.0</version>
-            <scope>compile</scope>
+            <artifactId>openapi-generator-maven-plugin</artifactId>
+            <version>5.4.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.twilio.sdk</groupId>
+            <artifactId>twilio</artifactId>
+            <version>8.25.1</version>
         </dependency>
         <dependency>
             <groupId>com.google.code.gson</groupId>
@@ -24,13 +29,13 @@
             <type>jar</type>
         </dependency>
         <dependency>
-            <groupId>co.unicauca.travelagency.commons</groupId>
-            <artifactId>Blood4Life-commons</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <groupId>co.unicauca.serversocket</groupId>
+            <artifactId>Blood4Life-ServerSocketTemplate</artifactId>
+            <version>1.0</version>
         </dependency>
         <dependency>
-            <groupId>co.unicauca.agencia.servidor</groupId>
-            <artifactId>Blood4Life-Server</artifactId>
+            <groupId>co.unicauca.travelagency.commons</groupId>
+            <artifactId>Blood4Life-commons</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>

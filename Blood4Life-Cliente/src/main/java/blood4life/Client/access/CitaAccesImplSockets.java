@@ -84,6 +84,34 @@ public class CitaAccesImplSockets implements ICitaAcces{
 
     }
     
+    @Override
+    public String updateCita(Cita cita) throws Exception {
+        String jsonResponse = null;
+        String requestJson = doUpdateCustomerRequestJson(cita);
+        try {
+            mySocket.connect();
+            jsonResponse = mySocket.sendRequest(requestJson);
+            mySocket.disconnect();
+
+        } catch (IOException ex) {
+            Logger.getLogger(CitaAccesImplSockets.class.getName()).log(Level.SEVERE, "No hubo conexión con el servidor", ex);
+        }
+        if (jsonResponse == null) {
+            throw new Exception("No se pudo conectar con el servidor");
+        } else {
+
+            if (jsonResponse.contains("error")) {
+                //Devolvió algún error                
+                Logger.getLogger(CitaAccesImplSockets.class.getName()).log(Level.INFO, jsonResponse);
+                throw new Exception(extractMessages(jsonResponse));
+            } else {
+                //Agregó correctamente, devuelve la cedula del cita 
+                return "Cita " + cita.getCodigo() + " agendada";
+            }
+
+        }
+    }
+    
     private String extractMessages(String jsonResponse) {
         JsonError[] errors = jsonToErrors(jsonResponse);
         String msjs = "";
@@ -113,16 +141,31 @@ public class CitaAccesImplSockets implements ICitaAcces{
     }
 
     private String doCreateCustomerRequestJson(Cita cita) {
-
+        
+        Gson gson = new Gson();
         Protocol protocol = new Protocol();
         protocol.setResource("cita");
         protocol.setAction("post");
         protocol.addParameter("id", String.valueOf(cita.getCodigo()));
         protocol.addParameter("fecha", cita.getFecha().toString());
-        protocol.addParameter("lugar", String.valueOf(cita.getLugar()));
-        protocol.addParameter("usuario", String.valueOf(cita.getUsuario()));
-
+        protocol.addParameter("lugar", gson.toJson(cita.getLugar()));
+        protocol.addParameter("usuario", gson.toJson(cita.getUsuario()));
+        
+        String requestJson = gson.toJson(protocol);
+        return requestJson;
+    }
+    
+    private String doUpdateCustomerRequestJson(Cita cita) {
+        
         Gson gson = new Gson();
+        Protocol protocol = new Protocol();
+        protocol.setResource("cita");
+        protocol.setAction("update");
+        protocol.addParameter("id", String.valueOf(cita.getCodigo()));
+        protocol.addParameter("fecha", cita.getFecha().toString());
+        protocol.addParameter("lugar", gson.toJson(cita.getLugar()));
+        protocol.addParameter("usuario", gson.toJson(cita.getUsuario()));
+        
         String requestJson = gson.toJson(protocol);
         return requestJson;
     }

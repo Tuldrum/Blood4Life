@@ -41,7 +41,7 @@ public class CitaRepository implements ICitaRepository{
             }
             //this.connect();
 
-            String sql = "INSERT INTO UsuarioCliente ( cod_id, lugar_id, user_id, fecha)"
+            String sql = "INSERT INTO cita ( cod_id, lugar_id, user_id, fecha)"
                     + "VALUES ( ?, ?, ?, ? )";
 
             PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -82,7 +82,7 @@ public class CitaRepository implements ICitaRepository{
         return products;
     }
     
-    public Cita find(int id) {
+     public Cita find(int id) {
     	Cita cita = null;
         try {
             
@@ -105,5 +105,39 @@ public class CitaRepository implements ICitaRepository{
             Logger.getLogger(CitaRepository.class.getName()).log(Level.SEVERE, "Error al buscar el producto en la base de datos", ex);
         }
         return cita;
+    }
+
+    @Override
+    public boolean update(Cita cita) {
+         try {
+            //Validate product
+            if (cita == null || cita.getCodigo() < 0 || cita.getFecha() == null
+                    || cita.getUsuario() == null || cita.getLugar() == null) {
+                return false;
+            }
+            if(find(cita.getCodigo()) == null){
+                return false;  
+            }
+            //this.connect();
+            String sql = "UPDATE cita "
+                    + "SET cod_id = ?, "
+                    + "lugar_id = ?," 
+                    + "user_id = ?," 
+                    + "fecha = ?," 
+                    + "WHERE cod_id = " + cita.getCodigo();
+
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, cita.getCodigo());
+            pstmt.setInt(2, cita.getLugar().getLugar_id());
+            pstmt.setInt(3, cita.getUsuario().getUser_id());
+            pstmt.setDate(4, cita.getFecha());
+            pstmt.executeUpdate();
+            //this.disconnect();
+            return true;
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(CitaRepository.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
     }
 }

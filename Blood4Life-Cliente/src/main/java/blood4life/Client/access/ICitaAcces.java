@@ -12,9 +12,11 @@ import blood4life.commons.domain.Cita;
  * @author ASUS
  */
 public interface ICitaAcces {
-    
-    public String createCita(Cita cita) throws Exception; 
+
+    public String createCita(Cita cita) throws Exception;
 
     public Cita findCita(String id) throws Exception;
-    
+
+    public String updateCita(Cita cita) throws Exception;
+
 }

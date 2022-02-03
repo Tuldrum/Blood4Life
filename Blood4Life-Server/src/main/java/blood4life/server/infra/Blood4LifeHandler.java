@@ -66,6 +66,9 @@ public class Blood4LifeHandler extends ServerHandler {
                     // Agregar un customer    
                     processPostCita(protocolRequest);
                 }
+                if (protocolRequest.getAction().equals("update")){
+                    proccesUpdateCita(protocolRequest);  
+                }
                 break;
             case "lugar":
                 if (protocolRequest.getAction().equals("get")) {
@@ -100,6 +103,17 @@ public class Blood4LifeHandler extends ServerHandler {
         cita.setLugar(gson.fromJson(protocolRequest.getParameters().get(2).getValue(), LugarRecogida.class));
         cita.setUsuario(gson.fromJson(protocolRequest.getParameters().get(3).getValue(), UsuarioCliente.class));
         String response = getService().saveCita(cita);
+        respond(response);
+    }
+    
+    private void proccesUpdateCita(Protocol protocolRequest) {
+        Cita cita = new Cita();
+        // Reconstruir el customer a partid de lo que viene en los parámetros
+        cita.setCodigo(Integer.parseInt(protocolRequest.getParameters().get(0).getValue()));
+        cita.setFecha(Date.valueOf(protocolRequest.getParameters().get(1).getValue()));
+        cita.setLugar(gson.fromJson(protocolRequest.getParameters().get(2).getValue(), LugarRecogida.class));
+        cita.setUsuario(gson.fromJson(protocolRequest.getParameters().get(3).getValue(), UsuarioCliente.class));
+        String response = getService().updateCitaUsuario(cita);
         respond(response);
     }
 
@@ -161,4 +175,5 @@ public class Blood4LifeHandler extends ServerHandler {
 
         return errorsJson;
     }
+
 }
