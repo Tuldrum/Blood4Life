@@ -112,7 +112,8 @@ public class UsuarioClienteImplSockets implements ICustomerAcces {
     }
 
     private String doCreateCustomerRequestJson(UsuarioCliente customer) {
-
+        
+        Gson gson = new Gson();
         Protocol protocol = new Protocol();
         protocol.setResource("customer");
         protocol.setAction("post");
@@ -121,9 +122,8 @@ public class UsuarioClienteImplSockets implements ICustomerAcces {
         protocol.addParameter("lastName", customer.getLastname());
         protocol.addParameter("email", customer.getMail());
         protocol.addParameter("mobile", String.valueOf(customer.getNumeroTelefono()));
-        protocol.addParameter("blood", String.valueOf(customer.getSangre()));
-
-        Gson gson = new Gson();
+        protocol.addParameter("blood", gson.toJson(customer.getSangre()));
+        
         String requestJson = gson.toJson(protocol);
         return requestJson;
     }

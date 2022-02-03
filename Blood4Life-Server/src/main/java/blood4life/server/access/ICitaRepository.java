@@ -20,4 +20,6 @@ public interface ICitaRepository {
     
     public Cita find(int id); 
     
+    public boolean update(Cita cita); 
+    
 }

@@ -5,7 +5,6 @@
  */
 package blood4life.server.domain.services;
 
-
 import blood4life.commons.domain.Cita;
 import blood4life.server.access.ICitaRepository;
 import blood4life.serversocket.serversockettemplate.helpers.JsonError;
@@ -18,37 +17,63 @@ import java.util.List;
  * @author ASUS
  */
 public class CitaService {
-    private ICitaRepository repo; 
-    public CitaService(ICitaRepository repo){
-        this.repo = repo;  
+
+    private ICitaRepository repo;
+
+    public CitaService(ICitaRepository repo) {
+        this.repo = repo;
     }
-    
-    public synchronized Cita find(int cod_cita){
-        return repo.find(cod_cita); 
+
+    public synchronized Cita find(int cod_cita) {
+        return repo.find(cod_cita);
     }
-    
-    public synchronized String save(Cita cita){
+
+    public synchronized String save(Cita cita) {
         List<JsonError> errors = new ArrayList<>();
-  
+
         // Validaciones y reglas de negocio
-        if(cita.getLugar() == null || cita.getCodigo() < 0 || cita.getFecha() == null){
-            errors.add(new JsonError("400", "BAD_REQUEST","cod_id, lugar_id, user_id, fecha son obligatorios."));
+        if (cita.getLugar() == null || cita.getCodigo() < 0 || cita.getFecha() == null) {
+            errors.add(new JsonError("400", "BAD_REQUEST", "cod_id, lugar_id, user_id, fecha son obligatorios."));
         }
-        
-       if (find(cita.getCodigo())!= null){
-            errors.add(new JsonError("400", "BAD_REQUEST","Ya existe una cita asignada. "));
-       }
-       
-       if (!errors.isEmpty()) {
+
+        if (find(cita.getCodigo()) != null) {
+            errors.add(new JsonError("400", "BAD_REQUEST", "Ya existe una cita asignada. "));
+        }
+
+        if (!errors.isEmpty()) {
             Gson gson = new Gson();
             String errorsJson = gson.toJson(errors);
             return errorsJson;
-       }
-       
-       if(repo.save(cita)){
-            return "Guardado con éxito" + cita.toString();  
-       }
-       return "";  
+        }
+
+        if (repo.save(cita)) {
+            return "Guardado con éxito" + cita.toString();
+        }
+        return "";
     }
-    
+
+    public synchronized String update(Cita cita) {
+        List<JsonError> errors = new ArrayList<>();
+
+        // Validaciones y reglas de negocio
+        if (cita.getLugar() == null || cita.getCodigo() < 0 || cita.getFecha() == null || cita.getUsuario() == null) {
+            errors.add(new JsonError("400", "BAD_REQUEST", "cod_id, lugar_id, user_id, fecha son obligatorios."));
+        }
+
+        if (find(cita.getCodigo()) == null) {
+            errors.add(new JsonError("400", "BAD_REQUEST", "No existe una cita asignada."));
+        }
+
+        if (!errors.isEmpty()) {
+            Gson gson = new Gson();
+            String errorsJson = gson.toJson(errors);
+            return errorsJson;
+        }
+
+        if (repo.update(cita)) {
+            return "Actualizado con éxito" + cita.toString();
+        }
+        return "";
+    }
+
 }

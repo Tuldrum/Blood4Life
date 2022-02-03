@@ -34,7 +34,7 @@ public class UsuarioClienteService {
 
         // Validaciones y reglas de negocio
         if (customer.getUser_id() < 0 || customer.getName().isEmpty() || customer.getLastname().isEmpty()
-                || customer.getMail().isEmpty() || customer.getNumeroTelefono() != "" || customer.getSangre() == null) {
+                || customer.getMail().isEmpty() || customer.getNumeroTelefono().isEmpty() || customer.getSangre() == null) {
             errors.add(new JsonError("400", "BAD_REQUEST", "id, nombres, apellidos, email y sangre, telefono son obligatorios. "));
         }
 

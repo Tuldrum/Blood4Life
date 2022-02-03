@@ -14,18 +14,13 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.28</version>
+            <version>8.0.20</version>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
             <version>5.6.0</version>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.twilio.sdk</groupId>
-            <artifactId>twilio</artifactId>
-            <version>8.25.1</version>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -48,6 +43,20 @@
             <groupId>co.unicauca.serversocket</groupId>
             <artifactId>Blood4Life-ServerSocketTemplate</artifactId>
             <version>1.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>co.unicauca.serversocket</groupId>
+                    <artifactId>ServerSocketTemplate</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>co.unicauca.agencia.servidor</groupId>
+                    <artifactId>TravelAgency-Server</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>co.unicauca.travelagency.commons</groupId>
+                    <artifactId>TravelAgency-commons</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
     <properties>
