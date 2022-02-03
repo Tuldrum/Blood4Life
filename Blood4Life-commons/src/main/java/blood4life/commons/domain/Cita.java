@@ -55,5 +55,8 @@ public class Cita {
     public void setCodigo(int codigo) {
         this.codigo = codigo;
     }
-
+    
+    public String infoCita() {
+        return "Información:\nFecha: " + getFecha().toString() + "\nLugar: " + getLugar().getNombre() + " - " + getLugar().getDireccion();
+    }
 }
