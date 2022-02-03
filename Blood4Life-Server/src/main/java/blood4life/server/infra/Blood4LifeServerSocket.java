@@ -8,6 +8,7 @@ import blood4life.commons.infra.JsonError;
 import blood4life.commons.infra.Protocol;
 import blood4life.commons.infra.Utilities;
 import blood4life.server.domain.services.ServiceModel;
+import static blood4life.server.infra.Blood4LifeHandler.getService;
 import blood4life.serversocket.serversockettemplate.infra.ServerSocketTemplate;
 
 import com.google.gson.Gson;
@@ -134,7 +135,8 @@ public class Blood4LifeServerSocket extends ServerSocketTemplate {
     private void processGetCitasDisp(Protocol protocolRequest) {
         Date before = Date.valueOf(protocolRequest.getParameters().get(0).getValue()); 
         Date after = Date.valueOf(protocolRequest.getParameters().get(1).getValue()); 
-        List<Cita> disp = getService().listCitasDisponible(before, after); 
+        int id_lugar = Integer.parseInt(protocolRequest.getParameters().get(2).getValue()); 
+        List<Cita> disp = getService().listCitasDisponible(before, after, id_lugar); 
         if (disp == null) {
             String errorJson = generateNotFoundErrorJson("Sin coincidencias.");
             respond(errorJson);

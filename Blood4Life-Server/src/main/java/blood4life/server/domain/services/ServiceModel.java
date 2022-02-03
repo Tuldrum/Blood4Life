@@ -68,8 +68,8 @@ public class ServiceModel {
         return serCitas.update(cita);  
     }
     
-    public List<Cita> listCitasDisponible(Date dateSqlBefore, Date dateSqlAfter){
-        return serCitas.citas(dateSqlBefore, dateSqlAfter); 
+    public List<Cita> listCitasDisponible(Date dateSqlBefore, Date dateSqlAfter, int lugar_id){
+        return serCitas.citas(dateSqlBefore, dateSqlAfter, lugar_id); 
     }
     
     public List<LugarRecogida> listLugaresDisp(Date before, Date after){

@@ -40,30 +40,33 @@ public class ServiceModel {
     public String createCita(Cita cita) throws Exception {
         return citas.createCita(cita);
     }
-    
-    public String updateCita(Cita cita) throws Exception{
-        return citas.updateCita(cita);  
+
+    public String updateCita(Cita cita) throws Exception {
+        return citas.updateCita(cita);
     }
-    
+
+    public List<Cita> citasDisponibles(Date before, Date after, int id_lugar) throws Exception {
+        return citas.CitasDisponibles(before, after, id_lugar);
+    }
+
     public LugarRecogida findLugares(String id) throws Exception {
         return lugares.findLugares(id);
     }
 
-    public List<LugarRecogida> listLugaresDisponibles(Date before, Date after) throws Exception{
-        return lugares.listLugaresDisponibles(before, after); 
+    public List<LugarRecogida> listLugaresDisponibles(Date before, Date after) throws Exception {
+        return lugares.listLugaresDisponibles(before, after);
     }
-    
+
     public String createLugar(LugarRecogida lugar) throws Exception {
         return lugares.createLugar(lugar);
     }
-    
+
     public UsuarioCliente findCustomer(String id) throws Exception {
-        return client.findCustomer(id); 
+        return client.findCustomer(id);
     }
-    
+
     public String createCustomer(UsuarioCliente customer) throws Exception {
-        return client.createCustomer(customer); 
+        return client.createCustomer(customer);
     }
-    
-    
+
 }

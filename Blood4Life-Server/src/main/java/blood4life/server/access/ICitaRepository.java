@@ -17,7 +17,7 @@ public interface ICitaRepository {
     
     public boolean save(Cita cita); 
 
-    public List<Cita> list(Date dateSqlBefore, Date dateSqlAfter); 
+    public List<Cita> list(Date dateSqlBefore, Date dateSqlAfter, int lugar_id) ; 
     
     public Cita find(int id); 
     

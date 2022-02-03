@@ -29,8 +29,8 @@ public class CitaService {
         return repo.find(cod_cita);
     }
     
-    public synchronized List<Cita> citas(Date dateSqlBefore, Date dateSqlAfter){
-        return repo.list(dateSqlBefore, dateSqlAfter);  
+    public synchronized List<Cita> citas(Date dateSqlBefore, Date dateSqlAfter, int user_id){
+        return repo.list(dateSqlBefore, dateSqlAfter, user_id);  
     }
 
     public synchronized String save(Cita cita) {
