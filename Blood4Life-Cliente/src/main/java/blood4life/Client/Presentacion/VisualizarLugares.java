@@ -5,12 +5,23 @@
  */
 package blood4life.Client.Presentacion;
 
+import blood4life.Client.domain.services.ServiceModel;
+import blood4life.server.access.CitaRepository;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+
 /**
  *
  * @author ASUS
  */
 public class VisualizarLugares extends javax.swing.JFrame {
+    
 
+    ServiceModel service;   
     /**
      * Creates new form VisualizarLugares
      */
@@ -27,21 +38,169 @@ public class VisualizarLugares extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
+        txtFechaI = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        txtFechaF = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        ListaLugares = new javax.swing.JComboBox<>();
+        jLNombre = new javax.swing.JLabel();
+        lblDireccionLugar = new javax.swing.JLabel();
+        txtNombreLugar = new javax.swing.JTextField();
+        txtDirecLugar = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jLabel1.setText("Fecha inicial");
+
+        txtFechaI.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtFechaIActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setText("Fecha final");
+
+        txtFechaF.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtFechaFActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setText("Lugar");
+
+        ListaLugares.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecciona el lugar", "Item 2", "Item 3", "Item 4" }));
+        ListaLugares.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ListaLugaresActionPerformed(evt);
+            }
+        });
+
+        jLNombre.setText("Nombre");
+
+        lblDireccionLugar.setText("Dirección");
+
+        txtNombreLugar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNombreLugarActionPerformed(evt);
+            }
+        });
+
+        txtDirecLugar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtDirecLugarActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("Aceptar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("Cancelar");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(80, 80, 80)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel3)
+                    .addComponent(jLNombre)
+                    .addComponent(lblDireccionLugar))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton2))
+                    .addComponent(txtNombreLugar)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(txtFechaI, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(52, 52, 52)
+                        .addComponent(jLabel2)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtFechaF, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(ListaLugares, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtDirecLugar))
+                .addContainerGap(121, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(68, 68, 68)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(txtFechaI, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2)
+                    .addComponent(txtFechaF, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(59, 59, 59)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(ListaLugares, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(41, 41, 41)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLNombre)
+                    .addComponent(txtNombreLugar, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(44, 44, 44)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblDireccionLugar)
+                    .addComponent(txtDirecLugar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(38, 38, 38)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
+
+        txtFechaI.getAccessibleContext().setAccessibleName("fechaI");
+        txtFechaF.getAccessibleContext().setAccessibleName("fechaf");
+        jButton1.getAccessibleContext().setAccessibleName("btnAceptar");
+        jButton2.getAccessibleContext().setAccessibleName("btnCancelar");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void txtFechaFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFechaFActionPerformed
+        DateFormat formatoFecha = new SimpleDateFormat("yyyy-mm-dd");
+        Date date = new Date();
+        String fecha = formatoFecha.format(date);
+        txtFechaF.setText(fecha);
+    }//GEN-LAST:event_txtFechaFActionPerformed
+
+    private void txtNombreLugarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreLugarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNombreLugarActionPerformed
+
+    private void txtDirecLugarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDirecLugarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtDirecLugarActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void ListaLugaresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ListaLugaresActionPerformed
+        String id = "no se";
+        try {
+            service.findLugares(id).getNombre();
+        } catch (Exception ex) {
+            Logger.getLogger(VisualizarLugares.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_ListaLugaresActionPerformed
+
+    private void txtFechaIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFechaIActionPerformed
+        DateFormat formatoFecha = new SimpleDateFormat("yyyy-mm-dd");
+        Date date = new Date();
+        String fecha = formatoFecha.format(date);
+        txtFechaI.setText(fecha);
+    }//GEN-LAST:event_txtFechaIActionPerformed
 
     /**
      * @param args the command line arguments
@@ -79,5 +238,17 @@ public class VisualizarLugares extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> ListaLugares;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JLabel jLNombre;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel lblDireccionLugar;
+    private javax.swing.JTextField txtDirecLugar;
+    private javax.swing.JTextField txtFechaF;
+    private javax.swing.JTextField txtFechaI;
+    private javax.swing.JTextField txtNombreLugar;
     // End of variables declaration//GEN-END:variables
 }
