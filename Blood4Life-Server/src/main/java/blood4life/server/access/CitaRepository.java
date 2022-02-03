@@ -7,6 +7,7 @@ package blood4life.server.access;
 
 import blood4life.commons.domain.Cita;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,17 +21,18 @@ import java.util.logging.Logger;
  *
  * @author ASUS
  */
-public class CitaRepository implements ICitaRepository{
+public class CitaRepository implements ICitaRepository {
 
     private Connection conn;
-    private IClienteRepository cliente; 
-    private ILugaresRepository lugares; 
-    public CitaRepository(IConnectionRepository connection, IClienteRepository cliente,ILugaresRepository lugares) {
+    private IClienteRepository cliente;
+    private ILugaresRepository lugares;
+
+    public CitaRepository(IConnectionRepository connection, IClienteRepository cliente, ILugaresRepository lugares) {
         conn = connection.getConn();
-        this.cliente = cliente;  
-        this.lugares = lugares;  
+        this.cliente = cliente;
+        this.lugares = lugares;
     }
-    
+
     public boolean save(Cita cita) {
 
         try {
@@ -52,17 +54,20 @@ public class CitaRepository implements ICitaRepository{
             pstmt.executeUpdate();
             //this.disconnect();
             return true;
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(CitaRepository.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
     }
 
-    public List<Cita> list() {
+    public List<Cita> list(Date dateSqlBefore, Date dateSqlAfter) {
         List<Cita> products = new ArrayList<>();
         try {
-            String sql = "SELECT cod_id, lugar_id, user_id, fecha FROM cita";
+            String sql = "SELECT cod_id, lugar_id, user_id, fecha FROM cita"
+                    + "WHERE CAST(fecha AS date) > CAST('" + dateSqlBefore.toString() + "' AS date) AND"
+                    + "CAST(fecha AS date) <= CAST('" + dateSqlAfter.toString() + "' AS date) AND"
+                    + "user_id = null";
 
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
@@ -81,26 +86,26 @@ public class CitaRepository implements ICitaRepository{
         }
         return products;
     }
-    
-     public Cita find(int id) {
-    	Cita cita = null;
+
+    public Cita find(int id) {
+        Cita cita = null;
         try {
-            
+
             String sql = "SELECT cod_id, lugar_id, user_id, fecha FROM cita";
-            
+
             //this.connect();
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
-            
+
             if (rs.next()) {
-                cita = new Cita();  
+                cita = new Cita();
                 cita.setCodigo(rs.getInt("cod_id"));
                 cita.setLugar(lugares.find(rs.getInt("lugar_id")));
                 cita.setUsuario(cliente.find(rs.getInt("user_id")));
                 cita.setFecha(rs.getDate("fecha"));
             }
             //this.disconnect();
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(CitaRepository.class.getName()).log(Level.SEVERE, "Error al buscar el producto en la base de datos", ex);
         }
@@ -109,21 +114,21 @@ public class CitaRepository implements ICitaRepository{
 
     @Override
     public boolean update(Cita cita) {
-         try {
+        try {
             //Validate product
             if (cita == null || cita.getCodigo() < 0 || cita.getFecha() == null
                     || cita.getUsuario() == null || cita.getLugar() == null) {
                 return false;
             }
-            if(find(cita.getCodigo()) == null){
-                return false;  
+            if (find(cita.getCodigo()) == null) {
+                return false;
             }
             //this.connect();
             String sql = "UPDATE cita "
                     + "SET cod_id = ?, "
-                    + "lugar_id = ?," 
-                    + "user_id = ?," 
-                    + "fecha = ?," 
+                    + "lugar_id = ?,"
+                    + "user_id = ?,"
+                    + "fecha = ?,"
                     + "WHERE cod_id = " + cita.getCodigo();
 
             PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -134,7 +139,7 @@ public class CitaRepository implements ICitaRepository{
             pstmt.executeUpdate();
             //this.disconnect();
             return true;
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(CitaRepository.class.getName()).log(Level.SEVERE, null, ex);
         }

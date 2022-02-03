@@ -1,5 +1,6 @@
 package blood4life.server.access;
 
+import blood4life.commons.infra.Utilities;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -21,10 +22,10 @@ public class ConnectionRepository implements IConnectionRepository {
         try {
             this.connect();
             Statement stmt = conn.createStatement();
-            ArrayList<String> tablas = configStrBaseDatos();
-            for (int i = 0; i < tablas.size(); i++) {
-                stmt.execute(tablas.get(i));
-            }
+            //ArrayList<String> tablas = configStrBaseDatos();
+            //for (int i = 0; i < tablas.size(); i++) {
+            //    stmt.execute(tablas.get(i));
+            //}
             // this.disconnect();
 
         } catch (SQLException ex) {
@@ -33,10 +34,10 @@ public class ConnectionRepository implements IConnectionRepository {
     }
 
     public void connect() {
-        String driver = "com.mysql.cj.jdbc.Driver";
-        String cadenaCon = "jdbc:mysql://127.0.0.1/Blood4Life";
-        String usuario = "root";
-        String passwd = "";
+        String driver = Utilities.loadProperty("server.db.driver").toString(); 
+        String cadenaCon = Utilities.loadProperty("server.db.url").toString(); 
+        String usuario = Utilities.loadProperty("server.db.username").toString(); 
+        String passwd = Utilities.loadProperty("server.db.password").toString(); 
         try {
             Class.forName(driver);
             conn = DriverManager.getConnection(cadenaCon, usuario, passwd);
@@ -66,19 +67,9 @@ public class ConnectionRepository implements IConnectionRepository {
         // SQL statement for creating a new table
         ArrayList<String> tablas = new ArrayList<String>();
 
-        tablas.add("CREATE TABLE IF NOT EXISTS UsuarioCliente (\n"
-                + "	user_id integer PRIMARY KEY,\n"
-                + "	nombre text NOT NULL,\n"
-                + "	apellido text NOT NULL,\n"
-                + "	mail text NOT NULL,\n"
-                + "	telefono text NOT NULL,\n"
-                + " sangre_id integer NOT NULL\n" + ");");
-
-        tablas.add("CREATE TABLE IF NOT EXISTS cita (\n"
-                + " cod_id integer PRIMARY KEY,\n"
-                + " lugar_id integer NOT NULL,\n"
-                + " user_id integer NOT NULL,\n"
-                + " fecha Date NOT NULL\n" + ");");
+        tablas.add("CREATE TABLE IF NOT EXISTS UserAccess (\n"
+                + " user integer PRIMARY KEY,\n"
+                + " password integer NOT NULL\n" + ");");
 
         tablas.add("CREATE TABLE IF NOT EXISTS LugarRecogida (\n"
                 + " lugar_id integer PRIMARY KEY,\n"
@@ -97,17 +88,46 @@ public class ConnectionRepository implements IConnectionRepository {
         tablas.add("CREATE TABLE IF NOT EXISTS UsuarioFuncionario (\n"
                 + " user_id integer PRIMARY KEY,\n"
                 + " nombre text NOT NULL,\n"
-                + " apellido text NOT NULL\n" + ");");
+                + " apellido text NOT NULL\n"
+                + ");");
 
-        tablas.add("CREATE TABLE IF NOT EXISTS UserAccess (\n"
-                + " user integer PRIMARY KEY,\n"
-                + " password integer NOT NULL\n" + ");");
+        tablas.add("CREATE TABLE IF NOT EXISTS cita (\n"
+                + " cod_id integer PRIMARY KEY,\n"
+                + " lugar_id integer NOT NULL,\n"
+                + " user_id integer NOT NULL,\n"
+                + " fecha Date NOT NULL,\n"
+                + " CONSTRAINT `fk_lugar_id`FOREIGN KEY (lugar_id) REFERENCES LugarRecogida(lugar_id)"
+                + " ON DELETE CASCADE "
+                + " ON UPDATE RESTRICT"
+                + ");");
 
-        tablas.add("CREATE TABLE IF NOT EXISTS Assignments (\n"
-                + " lugar_id integer PRIMARY KEY,\n"
+        tablas.add(
+                "CREATE TABLE IF NOT EXISTS Assignments (\n"
+                + " id_assis INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,"
+                + " lugar_id integer NOT NULL,\n"
                 + " sangre_id integer NOT NULL,\n"
-                + " fecha Date NOT NULL\n" + ");");
+                + " fecha Date NOT NULL,\n"
+                + " CONSTRAINT `fk_sangre_id_2`FOREIGN KEY (sangre_id) REFERENCES Sangre(sangre_id)"
+                + " ON DELETE CASCADE "
+                + " ON UPDATE RESTRICT,"
+                + " CONSTRAINT `fk_lugar_id_2`FOREIGN KEY (lugar_id) REFERENCES LugarRecogida(lugar_id)"
+                + " ON DELETE CASCADE "
+                + " ON UPDATE RESTRICT"
+                + ");");
 
+        tablas.add(
+                "CREATE TABLE IF NOT EXISTS UsuarioCliente (\n"
+                + " user_id integer PRIMARY KEY,\n"
+                + " nombre text NOT NULL,\n"
+                + " apellido text NOT NULL,\n"
+                + " mail text NOT NULL,\n"
+                + " telefono text NOT NULL,\n"
+                + " sangre_id integer NOT NULL,\n"
+                + " CONSTRAINT `fk_sangre_id_3`FOREIGN KEY (sangre_id) REFERENCES Sangre(sangre_id)"
+                + " ON DELETE CASCADE "
+                + " ON UPDATE RESTRICT"
+                + ");");
+        
         return tablas;
     }
 

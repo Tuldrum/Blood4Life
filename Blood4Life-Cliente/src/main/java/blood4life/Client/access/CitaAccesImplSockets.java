@@ -9,7 +9,12 @@ import blood4life.commons.infra.JsonError;
 import blood4life.commons.infra.Protocol;
 import com.google.gson.Gson;
 import blood4life.Client.infra.Blood4LifeClientSocket;
+import com.google.common.reflect.TypeToken;
 import java.io.IOException;
+import java.lang.reflect.Type;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -54,7 +59,39 @@ public class CitaAccesImplSockets implements ICitaAcces{
         }
 
     }
+    
+    @Override
+    public List<Cita> CitasDisponibles(Date before, Date after) throws Exception {
+        String jsonResponse = null;
+        String requestJson = doCitasDisponiblesRequestJson(before, after);
+        System.out.println(requestJson);
+        try {
+            mySocket.connect();
+            jsonResponse = mySocket.sendRequest(requestJson);
+            mySocket.disconnect();
 
+        } catch (IOException ex) {
+            Logger.getLogger(CitaAccesImplSockets.class.getName()).log(Level.SEVERE, "No hubo conexión con el servidor", ex);
+        }
+        if (jsonResponse == null) {
+            throw new Exception("No se pudo conectar con el servidor. Revise la red o que el servidor esté escuchando. ");
+        } else {
+            if (jsonResponse.contains("error")) {
+                //Devolvió algún error
+                Logger.getLogger(CitaAccesImplSockets.class.getName()).log(Level.INFO, jsonResponse);
+                throw new Exception(extractMessages(jsonResponse));
+            } else if(jsonResponse.toLowerCase().contains("info:")){
+                Logger.getLogger(CitaAccesImplSockets.class.getName()).log(Level.INFO, "Lo que va en el JSon: ("+jsonResponse.toString()+ ")");
+                return null; 
+            } else {
+                //Encontró el customer
+                List<Cita> citas = jsonToList(jsonResponse);  
+                Logger.getLogger(CitaAccesImplSockets.class.getName()).log(Level.INFO, "Lo que va en el JSon: ("+jsonResponse.toString()+ ")");
+                return citas; 
+            }
+        }
+    }
+    
     @Override
     public String createCita(Cita cita) throws Exception {
         String jsonResponse = null;
@@ -139,6 +176,18 @@ public class CitaAccesImplSockets implements ICitaAcces{
 
         return requestJson;
     }
+    
+    private String doCitasDisponiblesRequestJson(Date before, Date after) {
+
+        Protocol protocol = new Protocol();
+        protocol.setResource("cita");
+        protocol.setAction("getlistadisponibles");
+        protocol.addParameter("before", before.toString());
+        protocol.addParameter("after", after.toString());
+        Gson gson = new Gson();
+        String requestJson = gson.toJson(protocol);
+        return requestJson;
+    }
 
     private String doCreateCustomerRequestJson(Cita cita) {
         
@@ -174,6 +223,12 @@ public class CitaAccesImplSockets implements ICitaAcces{
         Gson gson = new Gson();
         Cita cita = gson.fromJson(jsonCita, Cita.class);
         return cita;
-
+    }
+    
+    private List<Cita> jsonToList(String jsonLista){
+        Gson gson = new Gson();
+        Type type2 = new TypeToken<List<Cita>>(){}.getType(); 
+        List<Cita> aux = gson.fromJson(jsonLista, type2);
+        return aux; 
     }
 }

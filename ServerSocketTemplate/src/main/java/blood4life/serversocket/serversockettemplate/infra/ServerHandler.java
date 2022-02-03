@@ -6,11 +6,14 @@
 package blood4life.serversocket.serversockettemplate.infra;
 
 import blood4life.serversocket.serversockettemplate.helpers.JsonError;
+import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.lang.reflect.Type;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,30 +25,28 @@ import java.util.logging.Logger;
  *
  * @author ahurtado
  */
-public abstract class ServerHandler extends Thread implements Cloneable{
-    
+public abstract class ServerHandler extends Thread implements Cloneable {
+
     private Socket s;
     private Scanner input;
     private PrintStream output;
-   
 
     public abstract void processRequest(String request);
-    
-    public ServerHandler(){
+
+    public ServerHandler() {
     }
-    
-    public void setParameters(Socket s, InputStream in, OutputStream out){
-        this.s= s;
+
+    public void setParameters(Socket s, InputStream in, OutputStream out) {
+        this.s = s;
         input = new Scanner(in);
-        output = new PrintStream(out);   
+        output = new PrintStream(out);
     }
-   
-    
+
     /**
      * Cuerpo del hilo
      */
     @Override
-    public void run(){
+    public void run() {
         try {
             //createStreams();
             readStream();
@@ -55,7 +56,7 @@ public abstract class ServerHandler extends Thread implements Cloneable{
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Eror al leer el flujo", ex);
         }
     }
-        
+
     /**
      * Lee el flujo del socket
      */
@@ -71,8 +72,7 @@ public abstract class ServerHandler extends Thread implements Cloneable{
             output.println(errorJson);
         }
     }
-  
-    
+
     /**
      * Cierra los flujos de entrada y salida
      *
@@ -83,13 +83,12 @@ public abstract class ServerHandler extends Thread implements Cloneable{
         input.close();
         s.close();
     }
-    
+
     /**
      * Genera un ErrorJson genérico
      *
      * @return error en formato json
      */
-    
     private String generateErrorJson() {
         List<JsonError> errors = new ArrayList<>();
         JsonError error = new JsonError();
@@ -103,7 +102,7 @@ public abstract class ServerHandler extends Thread implements Cloneable{
 
         return errorJson;
     }
-    
+
     /**
      * Convierte el objeto Customer a json para que el servidor lo envie como
      * respuesta por el socket
@@ -116,9 +115,18 @@ public abstract class ServerHandler extends Thread implements Cloneable{
         String strObject = gson.toJson(customer);
         return strObject;
     }
-    
-    protected void respond(String response){
-         output.println(response);
+
+    protected String listToJson(List results) {
+        Gson gson = new Gson();
+        Type type = new TypeToken<List<Object>>() {
+        }.getType();
+        gson = new GsonBuilder().create();
+        String json = gson.toJson(results, type);
+        return json;
+    }
+
+    protected void respond(String response) {
+        output.println(response);
     }
 
     /**
@@ -134,6 +142,5 @@ public abstract class ServerHandler extends Thread implements Cloneable{
     public void setSocket(Socket s) {
         this.s = s;
     }
-   
+
 }
-   
