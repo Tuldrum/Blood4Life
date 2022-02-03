@@ -80,6 +80,9 @@ public class Blood4LifeHandler extends ServerHandler {
                     // Agregar un customer    
                     proccesPostLugarRecogida(protocolRequest);
                 }
+                if (protocolRequest.getAction().equals("getlistadisponibles")){                    
+                    processGetLugaresDisp(protocolRequest); 
+                }
                 break;
         }
     }
@@ -176,6 +179,22 @@ public class Blood4LifeHandler extends ServerHandler {
         lugar.setNombre(protocolRequest.getParameters().get(2).getValue());
         String response = getService().crearLugarRecogida(lugar);
         respond(response);
+    }
+    
+    private void processGetLugaresDisp(Protocol protocolRequest) {
+        Date before = Date.valueOf(protocolRequest.getParameters().get(0).getValue()); 
+        Date after = Date.valueOf(protocolRequest.getParameters().get(1).getValue()); 
+        List<LugarRecogida> disp = getService().listLugaresDisp(before, after); 
+        if (disp == null) {
+            String errorJson = generateNotFoundErrorJson("Sin coincidencias.");
+            respond(errorJson);
+        } else {
+            if(disp.isEmpty()){
+               respond(new Gson().toJson("Info: Sin coincidencias")); 
+            }else{
+               respond(listToJson(disp)); 
+            }
+        }
     }
 
     private String generateNotFoundErrorJson(String msg) {

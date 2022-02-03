@@ -72,12 +72,6 @@ public class GUIMenuUsuario extends javax.swing.JFrame {
         mnuSalir = new javax.swing.JMenuItem();
         mnuInformes = new javax.swing.JMenu();
         mnuIngresosPorFecha = new javax.swing.JMenuItem();
-        mnuConsultaAbierta = new javax.swing.JMenuItem();
-        mnuConfiguracion = new javax.swing.JMenu();
-        jSeparator2 = new javax.swing.JPopupMenu.Separator();
-        mnuAgentes = new javax.swing.JMenuItem();
-        btnInicializar = new javax.swing.JMenuItem();
-        mnuUsuariosSistema = new javax.swing.JMenuItem();
         mnuAyuda = new javax.swing.JMenu();
         mnuAcercaDe = new javax.swing.JMenuItem();
         mnuEmpleadoLogueado = new javax.swing.JMenu();
@@ -116,44 +110,7 @@ public class GUIMenuUsuario extends javax.swing.JFrame {
         });
         mnuInformes.add(mnuIngresosPorFecha);
 
-        mnuConsultaAbierta.setText("Consulta Abierta");
-        mnuConsultaAbierta.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnuConsultaAbiertaActionPerformed(evt);
-            }
-        });
-        mnuInformes.add(mnuConsultaAbierta);
-
         jMenuBar1.add(mnuInformes);
-
-        mnuConfiguracion.setText("Configuracion");
-        mnuConfiguracion.add(jSeparator2);
-
-        mnuAgentes.setText("Agentes de viaje");
-        mnuAgentes.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnuAgentesActionPerformed(evt);
-            }
-        });
-        mnuConfiguracion.add(mnuAgentes);
-
-        btnInicializar.setText("Inicializar datos");
-        btnInicializar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnInicializarActionPerformed(evt);
-            }
-        });
-        mnuConfiguracion.add(btnInicializar);
-
-        mnuUsuariosSistema.setText("Usuarios del sistema");
-        mnuUsuariosSistema.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnuUsuariosSistemaActionPerformed(evt);
-            }
-        });
-        mnuConfiguracion.add(mnuUsuariosSistema);
-
-        jMenuBar1.add(mnuConfiguracion);
 
         mnuAyuda.setText("Ayuda");
 
@@ -205,18 +162,6 @@ public class GUIMenuUsuario extends javax.swing.JFrame {
 
     }//GEN-LAST:event_mnuIngresosPorFechaActionPerformed
 
-    private void mnuAgentesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuAgentesActionPerformed
-        warningMessage("En construcción....", "Atención");
-    }//GEN-LAST:event_mnuAgentesActionPerformed
-
-    private void mnuConsultaAbiertaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuConsultaAbiertaActionPerformed
-        warningMessage("En construcción....", "Atención");
-    }//GEN-LAST:event_mnuConsultaAbiertaActionPerformed
-
-    private void btnInicializarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInicializarActionPerformed
-        warningMessage("En construcción....", "Atención");
-    }//GEN-LAST:event_btnInicializarActionPerformed
-
     private void mnuSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuSalirActionPerformed
         // TODO add your handling code here:
         System.exit(0);
@@ -227,10 +172,6 @@ public class GUIMenuUsuario extends javax.swing.JFrame {
         VisualizarLugares ins = new VisualizarLugares();
         ins.setVisible(true);
     }//GEN-LAST:event_mnuConsultarClientesActionPerformed
-
-    private void mnuUsuariosSistemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuUsuariosSistemaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_mnuUsuariosSistemaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -271,23 +212,17 @@ public class GUIMenuUsuario extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenuItem btnInicializar;
     private javax.swing.JDesktopPane dskEscritorio;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
-    private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JMenuItem mnuAcercaDe;
-    private javax.swing.JMenuItem mnuAgentes;
     private javax.swing.JMenu mnuAyuda;
-    private javax.swing.JMenu mnuConfiguracion;
-    private javax.swing.JMenuItem mnuConsultaAbierta;
     private javax.swing.JMenuItem mnuConsultarClientes;
     private javax.swing.JMenu mnuEmpleadoLogueado;
     private javax.swing.JMenu mnuInformes;
     private javax.swing.JMenuItem mnuIngresosPorFecha;
     private javax.swing.JMenu mnuPaqueteTodoIncluido;
     private javax.swing.JMenuItem mnuSalir;
-    private javax.swing.JMenuItem mnuUsuariosSistema;
     // End of variables declaration//GEN-END:variables
 
 }

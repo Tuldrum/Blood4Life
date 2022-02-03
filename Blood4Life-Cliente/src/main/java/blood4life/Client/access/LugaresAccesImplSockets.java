@@ -9,7 +9,12 @@ import blood4life.commons.infra.JsonError;
 import blood4life.commons.infra.Protocol;
 import com.google.gson.Gson;
 import blood4life.Client.infra.Blood4LifeClientSocket;
+import blood4life.commons.domain.Cita;
+import com.google.common.reflect.TypeToken;
 import java.io.IOException;
+import java.lang.reflect.Type;
+import java.sql.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -84,6 +89,36 @@ public class LugaresAccesImplSockets implements ILugaresAcces{
 
     }
     
+     @Override
+    public List<LugarRecogida> listLugaresDisponibles(Date before, Date After) throws Exception {
+        String jsonResponse = null;
+        String requestJson = doLugaresDisponiblesRequestJson(before, After);
+        System.out.println(requestJson);
+        try {
+            mySocket.connect();
+            jsonResponse = mySocket.sendRequest(requestJson);
+            mySocket.disconnect();
+
+        } catch (IOException ex) {
+            Logger.getLogger(LugaresAccesImplSockets.class.getName()).log(Level.SEVERE, "No hubo conexión con el servidor", ex);
+        }
+        if (jsonResponse == null) {
+            throw new Exception("No se pudo conectar con el servidor. Revise la red o que el servidor esté escuchando. ");
+        } else {
+            if (jsonResponse.contains("error")) {
+                //Devolvió algún error
+                Logger.getLogger(LugaresAccesImplSockets.class.getName()).log(Level.INFO, jsonResponse);
+                throw new Exception(extractMessages(jsonResponse));
+            } else {
+                //Encontró el lugar
+                List<LugarRecogida> lugares = jsonToList(jsonResponse);
+                Logger.getLogger(LugaresAccesImplSockets.class.getName()).log(Level.INFO, "Lo que va en el JSon: ("+jsonResponse.toString()+ ")");
+                return lugares;
+            }
+        }
+
+    }
+    
     private String extractMessages(String jsonResponse) {
         JsonError[] errors = jsonToErrors(jsonResponse);
         String msjs = "";
@@ -125,12 +160,31 @@ public class LugaresAccesImplSockets implements ILugaresAcces{
         String requestJson = gson.toJson(protocol);
         return requestJson;
     }
+    
+    private String doLugaresDisponiblesRequestJson(Date before, Date after) {
+
+        Protocol protocol = new Protocol();
+        protocol.setResource("lugar");
+        protocol.setAction("getlistadisponibles");
+        protocol.addParameter("before", before.toString());
+        protocol.addParameter("after", after.toString());
+        Gson gson = new Gson();
+        String requestJson = gson.toJson(protocol);
+        return requestJson;
+    }
 
     private LugarRecogida jsonToLugares(String jsonLugar) {
 
         Gson gson = new Gson();
         LugarRecogida lugar = gson.fromJson(jsonLugar, LugarRecogida.class);
         return lugar;
-
+    }
+    
+    private List<LugarRecogida> jsonToList(String jsonLista) {
+        Gson gson = new Gson();
+        Type type2 = new TypeToken<List<LugarRecogida>>() {
+        }.getType();
+        List<LugarRecogida> aux = gson.fromJson(jsonLista, type2);
+        return aux;
     }
 }

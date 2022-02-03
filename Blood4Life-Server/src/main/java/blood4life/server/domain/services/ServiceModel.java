@@ -71,4 +71,9 @@ public class ServiceModel {
     public List<Cita> listCitasDisponible(Date dateSqlBefore, Date dateSqlAfter){
         return serCitas.citas(dateSqlBefore, dateSqlAfter); 
     }
+    
+    public List<LugarRecogida> listLugaresDisp(Date before, Date after){
+        return serLug.listLugaresDisp(before, after);  
+    }
+    
 }
