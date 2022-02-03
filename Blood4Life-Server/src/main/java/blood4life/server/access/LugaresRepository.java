@@ -9,6 +9,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import blood4life.commons.domain.LugarRecogida;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.sql.Date;
+import java.util.List;
 
 public class LugaresRepository implements ILugaresRepository {
 
@@ -66,5 +70,32 @@ public class LugaresRepository implements ILugaresRepository {
             Logger.getLogger(LugaresRepository.class.getName()).log(Level.SEVERE, "Error al buscar el producto en la base de datos", ex);
         }
         return lugar;
+    }
+
+    public List<LugarRecogida> list(Date before, Date after) {
+        List<LugarRecogida> lugares = new ArrayList<>();
+        try {
+            String sql = "SELECT lugar_id, direccion, nombre"
+                    + " FROM LugarRecogida l, Cita c "
+                    + "Where l.lugar_id = c.lugar_id and "
+                    + "c.user_id = null and "
+                    + "CAST(c.fecha AS date) > CAST('" + before.toString() + "' AS date)"
+                    + "CAST(c.fecha AS date) <= CAST('" + after.toString() + "' AS date)";;
+
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                LugarRecogida lugar = new LugarRecogida();
+                lugar.setLugar_id(rs.getInt("lugar_id"));
+                lugar.setDireccion(rs.getString("direccion"));
+                lugar.setNombre(rs.getString("nombre"));;
+                lugares.add(lugar);
+            }
+            //this.disconnect();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(CitaRepository.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return lugares;
     }
 }

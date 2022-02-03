@@ -9,6 +9,7 @@ import blood4life.commons.domain.LugarRecogida;
 import blood4life.commons.infra.JsonError;
 import blood4life.server.access.ILugaresRepository;
 import com.google.gson.Gson;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +26,9 @@ public class LugaresRecogidaService {
     
     public synchronized LugarRecogida find(int id){
         return repo.find(id); 
+    }
+    public List<LugarRecogida> listLugaresDisp(Date before, Date after){
+        return repo.list(before, after);  
     }
     
     public synchronized String crearLugarRecogida(LugarRecogida lugar){
