@@ -6,26 +6,28 @@
 package blood4life.Client.Presentacion;
 
 import blood4life.Client.domain.services.ServiceModel;
-import blood4life.server.access.CitaRepository;
-import java.text.DateFormat;
+import blood4life.commons.domain.LugarRecogida;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author ASUS
  */
 public class VisualizarLugares extends javax.swing.JFrame {
-    
 
-    ServiceModel service;   
+    ServiceModel service;
+
     /**
      * Creates new form VisualizarLugares
      */
     public VisualizarLugares() {
+        service = new ServiceModel();
         initComponents();
     }
 
@@ -50,6 +52,8 @@ public class VisualizarLugares extends javax.swing.JFrame {
         txtDirecLugar = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jDateChooser2 = new com.toedter.calendar.JDateChooser();
+        jDateChooser3 = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -117,6 +121,10 @@ public class VisualizarLugares extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jDateChooser3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(jButton1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton2))
@@ -140,7 +148,11 @@ public class VisualizarLugares extends javax.swing.JFrame {
                     .addComponent(txtFechaI, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
                     .addComponent(txtFechaF, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(59, 59, 59)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jDateChooser3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(ListaLugares, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -156,7 +168,7 @@ public class VisualizarLugares extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
 
         txtFechaI.getAccessibleContext().setAccessibleName("fechaI");
@@ -168,10 +180,10 @@ public class VisualizarLugares extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtFechaFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFechaFActionPerformed
-        DateFormat formatoFecha = new SimpleDateFormat("yyyy-mm-dd");
-        Date date = new Date();
-        String fecha = formatoFecha.format(date);
-        txtFechaF.setText(fecha);
+        //DateFormat formatoFecha = new SimpleDateFormat("yyyy-mm-dd");
+        //Date date = new Date();
+        //String fecha = formatoFecha.format(date);
+        //txtFechaF.setText(fecha);
     }//GEN-LAST:event_txtFechaFActionPerformed
 
     private void txtNombreLugarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreLugarActionPerformed
@@ -183,23 +195,48 @@ public class VisualizarLugares extends javax.swing.JFrame {
     }//GEN-LAST:event_txtDirecLugarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void ListaLugaresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ListaLugaresActionPerformed
-        String id = "no se";
+
         try {
-            service.findLugares(id).getNombre();
+            Date date = new Date();
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String formattedDate = simpleDateFormat.format(date);
+            Calendar c = Calendar.getInstance();
+            String d1 = simpleDateFormat.format(jDateChooser2.getDate()); 
+            String d2 = simpleDateFormat.format(jDateChooser3.getDate()); 
+            java.sql.Date before = java.sql.Date.valueOf(d1);  
+            java.sql.Date after = java.sql.Date.valueOf(d2);  
+            if (before.compareTo(java.sql.Date.valueOf(simpleDateFormat.format(c.getTime()))) < 0
+                    || after.compareTo(c.getTime()) < 0
+                    || after.compareTo(before) <= 0) {
+                JOptionPane.showMessageDialog(null, "Rango de fechas inválido");
+            } else {
+                List<LugarRecogida> rec = service.listLugaresDisponibles(before, after);  
+                if(rec != null){           
+                    int index = ListaLugares.getSelectedIndex();
+                    ListaLugares.removeAllItems();
+                    actualizarJbox(rec);
+                }
+            }
         } catch (Exception ex) {
             Logger.getLogger(VisualizarLugares.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_ListaLugaresActionPerformed
 
+    private void actualizarJbox(List<LugarRecogida> rec){
+        for(int i = 0; i < rec.size(); i++){
+            ListaLugares.addItem(rec.get(i).getNombre() + " | "+ rec.get(i).getDireccion());
+        }
+    }
+    
     private void txtFechaIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFechaIActionPerformed
-        DateFormat formatoFecha = new SimpleDateFormat("yyyy-mm-dd");
-        Date date = new Date();
-        String fecha = formatoFecha.format(date);
-        txtFechaI.setText(fecha);
+        //DateFormat formatoFecha = new SimpleDateFormat("yyyy-mm-dd");
+        //Date date = new Date();
+        //String fecha = formatoFecha.format(date);
+        //txtFechaI.setText(fecha);
     }//GEN-LAST:event_txtFechaIActionPerformed
 
     /**
@@ -241,6 +278,8 @@ public class VisualizarLugares extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> ListaLugares;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private com.toedter.calendar.JDateChooser jDateChooser2;
+    private com.toedter.calendar.JDateChooser jDateChooser3;
     private javax.swing.JLabel jLNombre;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

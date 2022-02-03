@@ -75,12 +75,12 @@ public class LugaresRepository implements ILugaresRepository {
     public List<LugarRecogida> list(Date before, Date after) {
         List<LugarRecogida> lugares = new ArrayList<>();
         try {
-            String sql = "SELECT lugar_id, direccion, nombre"
-                    + " FROM LugarRecogida l, Cita c "
-                    + "Where l.lugar_id = c.lugar_id and "
-                    + "c.user_id = null and "
-                    + "CAST(c.fecha AS date) > CAST('" + before.toString() + "' AS date)"
-                    + "CAST(c.fecha AS date) <= CAST('" + after.toString() + "' AS date)";;
+            
+            String sql = "SELECT l.lugar_id, direccion, nombre FROM LugarRecogida l, cita c \n"
+                    + "where (l.lugar_id = c.lugar_id AND user_id IS null \n"
+                    + "       AND c.fecha > CAST('2" + before.toString() + "' AS date)\n"
+                    + "       AND c.fecha <= CAST('" + after.toString() + "' AS date)) \n"
+                    + "GROUP BY l.lugar_id;";
 
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);

@@ -32,7 +32,7 @@ public class Factory {
     public ICustomerAcces getCustomerAcces(){
         ICustomerAcces result = null;
         try {
-            result = (ICustomerAcces) Class.forName(Utilities.loadProperty("CitaAccesImplSockets"))
+            result = (ICustomerAcces) Class.forName(Utilities.loadProperty("UsuarioClienteImplSockets"))
                     .getConstructor().newInstance();
         } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException
                 | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
