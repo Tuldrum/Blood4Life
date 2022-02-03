@@ -9,6 +9,7 @@ import blood4life.commons.domain.Cita;
 import blood4life.server.access.ICitaRepository;
 import blood4life.serversocket.serversockettemplate.helpers.JsonError;
 import com.google.gson.Gson;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +27,10 @@ public class CitaService {
 
     public synchronized Cita find(int cod_cita) {
         return repo.find(cod_cita);
+    }
+    
+    public synchronized List<Cita> citas(Date dateSqlBefore, Date dateSqlAfter){
+        return repo.list(dateSqlBefore, dateSqlAfter);  
     }
 
     public synchronized String save(Cita cita) {

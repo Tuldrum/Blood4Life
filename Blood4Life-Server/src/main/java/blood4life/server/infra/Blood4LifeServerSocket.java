@@ -85,6 +85,10 @@ public class Blood4LifeServerSocket extends ServerSocketTemplate {
                     // Agregar un customer    
                     processPostCita(protocolRequest);
                 }
+                if (protocolRequest.getAction().equals("getlistadisponibles")){                    
+                    processGetCitasDisp(protocolRequest); 
+                }
+                
                 break;
             case "lugar":
                 if (protocolRequest.getAction().equals("get")) {
@@ -122,6 +126,22 @@ public class Blood4LifeServerSocket extends ServerSocketTemplate {
         cita.setUsuario(gson.fromJson(protocolRequest.getParameters().get(3).getValue(), UsuarioCliente.class));
         String response = getService().saveCita(cita);
         respond(response);
+    }
+    
+    private void processGetCitasDisp(Protocol protocolRequest) {
+        Date before = Date.valueOf(protocolRequest.getParameters().get(0).getValue()); 
+        Date after = Date.valueOf(protocolRequest.getParameters().get(1).getValue()); 
+        List<Cita> disp = getService().listCitasDisponible(before, after); 
+        if (disp == null) {
+            String errorJson = generateNotFoundErrorJson("Sin coincidencias.");
+            respond(errorJson);
+        } else {
+            if(disp.isEmpty()){
+               respond(new Gson().toJson("Info: Sin coincidencias")); 
+            }else{
+               respond(listToJson(disp)); 
+            }
+        }
     }
 
     private void proccesGetUsuarioCliente(Protocol protocolRequest) {

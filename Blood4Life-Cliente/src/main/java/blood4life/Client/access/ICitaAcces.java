@@ -6,6 +6,8 @@
 package blood4life.Client.access;
 
 import blood4life.commons.domain.Cita;
+import java.sql.Date;
+import java.util.List;
 
 /**
  *
@@ -18,5 +20,7 @@ public interface ICitaAcces {
     public Cita findCita(String id) throws Exception;
 
     public String updateCita(Cita cita) throws Exception;
+    
+    public List<Cita> CitasDisponibles(Date before, Date after) throws Exception; 
 
 }

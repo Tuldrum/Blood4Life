@@ -67,4 +67,8 @@ public class ServiceModel {
     public String updateCitaUsuario(Cita cita){
         return serCitas.update(cita);  
     }
+    
+    public List<Cita> listCitasDisponible(Date dateSqlBefore, Date dateSqlAfter){
+        return serCitas.citas(dateSqlBefore, dateSqlAfter); 
+    }
 }

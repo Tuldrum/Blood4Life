@@ -6,9 +6,12 @@
 package blood4life.serversocket.serversockettemplate.infra;
 
 import blood4life.serversocket.serversockettemplate.helpers.JsonError;
+import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.lang.reflect.Type;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -177,6 +180,14 @@ public abstract class ServerSocketTemplate implements Runnable {
         Gson gson = new Gson();
         String strObject = gson.toJson(customer);
         return strObject;
+    }
+    
+    protected String listToJson(List results){
+        Gson gson = new Gson();
+        Type type = new TypeToken<List<Object>>(){}.getType();  
+        gson = new GsonBuilder().create();
+        String json = gson.toJson(results, type);
+        return json; 
     }
     
     protected void respond(String response){

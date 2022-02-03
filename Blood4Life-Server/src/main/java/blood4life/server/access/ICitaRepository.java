@@ -6,6 +6,7 @@
 package blood4life.server.access;
 
 import blood4life.commons.domain.Cita;
+import java.sql.Date;
 import java.util.List;
 
 /**
@@ -16,7 +17,7 @@ public interface ICitaRepository {
     
     public boolean save(Cita cita); 
 
-    public List<Cita> list(); 
+    public List<Cita> list(Date dateSqlBefore, Date dateSqlAfter); 
     
     public Cita find(int id); 
     
