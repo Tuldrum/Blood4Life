@@ -12,6 +12,8 @@ import blood4life.Client.access.ILugaresAcces;
 import blood4life.commons.domain.Cita;
 import blood4life.commons.domain.LugarRecogida;
 import blood4life.commons.domain.UsuarioCliente;
+import java.sql.Date;
+import java.util.List;
 
 /**
  *
@@ -47,6 +49,10 @@ public class ServiceModel {
         return lugares.findLugares(id);
     }
 
+    public List<LugarRecogida> listLugaresDisponibles(Date before, Date after) throws Exception{
+        return lugares.listLugaresDisponibles(before, after); 
+    }
+    
     public String createLugar(LugarRecogida lugar) throws Exception {
         return lugares.createLugar(lugar);
     }
@@ -58,5 +64,6 @@ public class ServiceModel {
     public String createCustomer(UsuarioCliente customer) throws Exception {
         return client.createCustomer(customer); 
     }
+    
     
 }

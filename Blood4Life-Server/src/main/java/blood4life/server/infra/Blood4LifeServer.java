@@ -20,7 +20,7 @@ public class Blood4LifeServer {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        ServerSocketMultiThread myServer = new ServerSocketMultiThread(5000);
+        ServerSocketMultiThread myServer = new ServerSocketMultiThread(3000);
         Blood4LifeHandler myHandler = new Blood4LifeHandler();
         myHandler.setService(new ServiceModel());
         myServer.setServerHandler(myHandler);
