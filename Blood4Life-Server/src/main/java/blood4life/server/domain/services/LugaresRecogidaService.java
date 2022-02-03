@@ -27,7 +27,7 @@ public class LugaresRecogidaService {
     public synchronized LugarRecogida find(int id){
         return repo.find(id); 
     }
-    public List<LugarRecogida> listLugaresDisp(Date before, Date after){
+    public synchronized List<LugarRecogida> listLugaresDisp(Date before, Date after){
         return repo.list(before, after);  
     }
     

@@ -51,12 +51,15 @@ public class ServiceModel {
     }
 
     public String saveCita(Cita cita, UsuarioCliente cliente){
+        String res  = serCitas.update(cita); 
+        if(res.contains("BAD_REQUEST")){
+            return "info: No se pudo asignar la cita"; 
+        }
         String numCel = cliente.getNumeroTelefono();
         String infoCita = cita.infoCita();
         enviarRecordatorio(numCel, infoCita);
-
-        cita.setUsuario(cliente);
-        return saveCita(cita);
+        cita.setUsuario(cliente); 
+        return res; 
     }
 
     // Equis
@@ -84,8 +87,8 @@ public class ServiceModel {
         return serCitas.update(cita);  
     }
     
-    public List<Cita> listCitasDisponible(Date dateSqlBefore, Date dateSqlAfter){
-        return serCitas.citas(dateSqlBefore, dateSqlAfter); 
+    public List<Cita> listCitasDisponible(Date dateSqlBefore, Date dateSqlAfter, int lugar_id){
+        return serCitas.citas(dateSqlBefore, dateSqlAfter, lugar_id); 
     }
     
     public List<LugarRecogida> listLugaresDisp(Date before, Date after){

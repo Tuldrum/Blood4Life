@@ -112,7 +112,8 @@ public class Blood4LifeHandler extends ServerHandler {
     private void processGetCitasDisp(Protocol protocolRequest) {
         Date before = Date.valueOf(protocolRequest.getParameters().get(0).getValue()); 
         Date after = Date.valueOf(protocolRequest.getParameters().get(1).getValue()); 
-        List<Cita> disp = getService().listCitasDisponible(before, after); 
+        int id_lugar = Integer.parseInt(protocolRequest.getParameters().get(2).getValue()); 
+        List<Cita> disp = getService().listCitasDisponible(before, after, id_lugar); 
         if (disp == null) {
             String errorJson = generateNotFoundErrorJson("Sin coincidencias.");
             respond(errorJson);

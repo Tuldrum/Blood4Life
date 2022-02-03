@@ -81,14 +81,14 @@ public class LugaresRepository implements ILugaresRepository {
                     + "       AND c.fecha > CAST('" + before.toString() + "' AS date)\n"
                     + "       AND c.fecha <= CAST('" + after.toString() + "' AS date)) \n"
                     + "GROUP BY l.lugar_id;";
-
+           
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
                 LugarRecogida lugar = new LugarRecogida();
                 lugar.setLugar_id(rs.getInt("lugar_id"));
                 lugar.setDireccion(rs.getString("direccion"));
-                lugar.setNombre(rs.getString("nombre"));;
+                lugar.setNombre(rs.getString("nombre"));
                 lugares.add(lugar);
             }
             //this.disconnect();

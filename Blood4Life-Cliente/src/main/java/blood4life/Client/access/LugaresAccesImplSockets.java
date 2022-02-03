@@ -181,10 +181,14 @@ public class LugaresAccesImplSockets implements ILugaresAcces{
     }
     
     private List<LugarRecogida> jsonToList(String jsonLista) {
-        Gson gson = new Gson();
-        Type type2 = new TypeToken<List<LugarRecogida>>() {
-        }.getType();
-        List<LugarRecogida> aux = gson.fromJson(jsonLista, type2);
-        return aux;
+        if(jsonLista.contains("info:")){
+            return null; 
+        }else{
+            Gson gson = new Gson();
+            Type type2 = new TypeToken<List<LugarRecogida>>() {
+            }.getType();
+            List<LugarRecogida> aux = gson.fromJson(jsonLista, type2);
+            return aux;
+        }
     }
 }

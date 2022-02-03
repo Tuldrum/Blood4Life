@@ -60,9 +60,9 @@ public class CitaAccesImplSockets implements ICitaAcces {
     }
 
     @Override
-    public List<Cita> CitasDisponibles(Date before, Date after) throws Exception {
+    public List<Cita> CitasDisponibles(Date before, Date after, int id_lugar) throws Exception {
         String jsonResponse = null;
-        String requestJson = doCitasDisponiblesRequestJson(before, after);
+        String requestJson = doCitasDisponiblesRequestJson(before, after, id_lugar);
         System.out.println(requestJson);
         try {
             mySocket.connect();
@@ -176,13 +176,14 @@ public class CitaAccesImplSockets implements ICitaAcces {
         return requestJson;
     }
 
-    private String doCitasDisponiblesRequestJson(Date before, Date after) {
+    private String doCitasDisponiblesRequestJson(Date before, Date after, int id_lugar) {
 
         Protocol protocol = new Protocol();
         protocol.setResource("cita");
         protocol.setAction("getlistadisponibles");
         protocol.addParameter("before", before.toString());
         protocol.addParameter("after", after.toString());
+        protocol.addParameter("id_lugar", String.valueOf(id_lugar));
         Gson gson = new Gson();
         String requestJson = gson.toJson(protocol);
         return requestJson;
@@ -225,10 +226,14 @@ public class CitaAccesImplSockets implements ICitaAcces {
     }
 
     private List<Cita> jsonToList(String jsonLista) {
-        Gson gson = new Gson();
-        Type type2 = new TypeToken<List<Cita>>() {
-        }.getType();
-        List<Cita> aux = gson.fromJson(jsonLista, type2);
-        return aux;
+        if(jsonLista.contains("info:")){
+            return null; 
+        }else{
+            Gson gson = new Gson();
+            Type type2 = new TypeToken<List<Cita>>() {
+            }.getType();
+            List<Cita> aux = gson.fromJson(jsonLista, type2);
+            return aux;
+        }
     }
 }
