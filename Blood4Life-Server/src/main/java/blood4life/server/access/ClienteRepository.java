@@ -50,7 +50,7 @@ public class ClienteRepository implements IClienteRepository {
         UsuarioCliente cliente = null;
         try {
 
-            String sql = "SELECT user_id, nombre, apellido, mail, telefono, sangre"
+            String sql = "SELECT user_id, nombre, apellido, mail, telefono, sangre_id"
                     + " FROM UsuarioCliente Where user_id =" + id;
 
             //this.connect();

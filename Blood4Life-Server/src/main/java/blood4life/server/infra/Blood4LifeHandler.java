@@ -69,6 +69,9 @@ public class Blood4LifeHandler extends ServerHandler {
                 if (protocolRequest.getAction().equals("update")){
                     proccesUpdateCita(protocolRequest);  
                 }
+                if (protocolRequest.getAction().equals("getlistadisponibles")){                    
+                    processGetCitasDisp(protocolRequest); 
+                }
                 break;
             case "lugar":
                 if (protocolRequest.getAction().equals("get")) {
