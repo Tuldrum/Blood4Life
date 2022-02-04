@@ -193,7 +193,7 @@ public class VisualizarLugares extends javax.swing.JFrame {
     private java.sql.Date DateToDateSQL(Date dateToConvert) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String sdate = simpleDateFormat.format(dateToConvert);
-        return java.sql.Date.valueOf(sdate);
+        return java.sql.Date.valueOf(sdate); 
     }
     
     private void infoJComboBox(){
