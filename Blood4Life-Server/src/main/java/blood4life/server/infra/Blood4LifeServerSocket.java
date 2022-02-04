@@ -8,12 +8,12 @@ import blood4life.commons.infra.JsonError;
 import blood4life.commons.infra.Protocol;
 import blood4life.commons.infra.Utilities;
 import blood4life.server.domain.services.ServiceModel;
-import static blood4life.server.infra.Blood4LifeHandler.getService;
 import blood4life.serversocket.serversockettemplate.infra.ServerSocketTemplate;
 
 import com.google.gson.Gson;
 
 import java.sql.Date;
+import java.sql.Time;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +30,8 @@ public class Blood4LifeServerSocket extends ServerSocketTemplate {
      * Servicio de clientes
      */
     private ServiceModel service;
-    private Gson gson; 
+    private Gson gson;
+
     /**
      * Constructor
      */
@@ -76,7 +77,7 @@ public class Blood4LifeServerSocket extends ServerSocketTemplate {
                     processPostUsuarioCliente(protocolRequest);
                 }
                 break;
-            case "cita": 
+            case "cita":
                 if (protocolRequest.getAction().equals("get")) {
                     // Consultar un customer
                     proccesGetCita(protocolRequest);
@@ -86,13 +87,13 @@ public class Blood4LifeServerSocket extends ServerSocketTemplate {
                     // Agregar un customer    
                     processPostCita(protocolRequest);
                 }
-                if (protocolRequest.getAction().equals("update")){
-                    proccesUpdateCita(protocolRequest);  
+                if (protocolRequest.getAction().equals("update")) {
+                    proccesUpdateCita(protocolRequest);
                 }
-                if (protocolRequest.getAction().equals("getlistadisponibles")){                    
-                    processGetCitasDisp(protocolRequest); 
+                if (protocolRequest.getAction().equals("getlistadisponibles")) {
+                    processGetCitasDisp(protocolRequest);
                 }
-                
+
                 break;
             case "lugar":
                 if (protocolRequest.getAction().equals("get")) {
@@ -104,8 +105,8 @@ public class Blood4LifeServerSocket extends ServerSocketTemplate {
                     // Agregar un customer    
                     proccesPostLugarRecogida(protocolRequest);
                 }
-                if (protocolRequest.getAction().equals("getlistadisponibles")){                    
-                    processGetLugaresDisp(protocolRequest); 
+                if (protocolRequest.getAction().equals("getlistadisponibles")) {
+                    processGetLugaresDisp(protocolRequest);
                 }
                 break;
         }
@@ -128,13 +129,12 @@ public class Blood4LifeServerSocket extends ServerSocketTemplate {
         // Reconstruir el customer a partid de lo que viene en los parámetros
         cita.setCodigo(Integer.parseInt(protocolRequest.getParameters().get(0).getValue()));
         cita.setFecha(Date.valueOf(protocolRequest.getParameters().get(1).getValue()));
-        //Cómo vrg ahago esto?? xd
         cita.setLugar(gson.fromJson(protocolRequest.getParameters().get(2).getValue(), LugarRecogida.class));
         cita.setUsuario(gson.fromJson(protocolRequest.getParameters().get(3).getValue(), UsuarioCliente.class));
         String response = getService().saveCita(cita);
         respond(response);
     }
-    
+
     private void proccesUpdateCita(Protocol protocolRequest) {
         Cita cita = new Cita();
         // Reconstruir el customer a partid de lo que viene en los parámetros
@@ -142,23 +142,30 @@ public class Blood4LifeServerSocket extends ServerSocketTemplate {
         cita.setFecha(Date.valueOf(protocolRequest.getParameters().get(1).getValue()));
         cita.setLugar(gson.fromJson(protocolRequest.getParameters().get(2).getValue(), LugarRecogida.class));
         cita.setUsuario(gson.fromJson(protocolRequest.getParameters().get(3).getValue(), UsuarioCliente.class));
+        String s = protocolRequest.getParameters().get(4).getValue();
+        cita.setHora(Time.valueOf(simpleformat(s)));
         String response = getService().updateCitaUsuario(cita);
         respond(response);
     }
     
+    private String simpleformat(String param){
+        String aux[] = param.split("\""); 
+        return aux[1]; 
+    }
+
     private void processGetCitasDisp(Protocol protocolRequest) {
-        Date before = Date.valueOf(protocolRequest.getParameters().get(0).getValue()); 
-        Date after = Date.valueOf(protocolRequest.getParameters().get(1).getValue()); 
-        int id_lugar = Integer.parseInt(protocolRequest.getParameters().get(2).getValue()); 
-        List<Cita> disp = getService().listCitasDisponible(before, after, id_lugar); 
+        Date before = Date.valueOf(protocolRequest.getParameters().get(0).getValue());
+        Date after = Date.valueOf(protocolRequest.getParameters().get(1).getValue());
+        int id_lugar = Integer.parseInt(protocolRequest.getParameters().get(2).getValue());
+        List<Cita> disp = getService().listCitasDisponible(before, after, id_lugar);
         if (disp == null) {
             String errorJson = generateNotFoundErrorJson("Sin coincidencias.");
             respond(errorJson);
         } else {
-            if(disp.isEmpty()){
-               respond(new Gson().toJson("Info: Sin coincidencias")); 
-            }else{
-               respond(listToJson(disp)); 
+            if (disp.isEmpty()) {
+                respond(new Gson().toJson("Info: Sin coincidencias"));
+            } else {
+                respond(listToJson(disp));
             }
         }
     }
@@ -182,7 +189,7 @@ public class Blood4LifeServerSocket extends ServerSocketTemplate {
         cliente.setLastname(protocolRequest.getParameters().get(2).getValue());
         cliente.setMail(protocolRequest.getParameters().get(3).getValue());
         cliente.setNumeroTelefono(protocolRequest.getParameters().get(4).getValue());
-        cliente.setSangre(gson.fromJson(protocolRequest.getParameters().get(5).getValue(),Sangre.class));
+        cliente.setSangre(gson.fromJson(protocolRequest.getParameters().get(5).getValue(), Sangre.class));
         String response = getService().createCustomer(cliente);
         respond(response);
     }
@@ -207,19 +214,19 @@ public class Blood4LifeServerSocket extends ServerSocketTemplate {
         String response = getService().crearLugarRecogida(lugar);
         respond(response);
     }
-    
+
     private void processGetLugaresDisp(Protocol protocolRequest) {
-        Date before = Date.valueOf(protocolRequest.getParameters().get(0).getValue()); 
-        Date after = Date.valueOf(protocolRequest.getParameters().get(1).getValue()); 
-        List<LugarRecogida> disp = getService().listLugaresDisp(before, after); 
+        Date before = Date.valueOf(protocolRequest.getParameters().get(0).getValue());
+        Date after = Date.valueOf(protocolRequest.getParameters().get(1).getValue());
+        List<LugarRecogida> disp = getService().listLugaresDisp(before, after);
         if (disp == null) {
             String errorJson = generateNotFoundErrorJson("Sin coincidencias.");
             respond(errorJson);
         } else {
-            if(disp.isEmpty()){
-               respond(new Gson().toJson("Info: Sin coincidencias")); 
-            }else{
-               respond(listToJson(disp)); 
+            if (disp.isEmpty()) {
+                respond(new Gson().toJson("Info: Sin coincidencias"));
+            } else {
+                respond(listToJson(disp));
             }
         }
     }

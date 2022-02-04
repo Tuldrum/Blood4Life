@@ -55,8 +55,10 @@ public class UsuarioClienteService {
             String errorsJson = gson.toJson(errors);
             return errorsJson;
         }
-        repo.save(customer);
-        return "Guardado con exito" + customer.toString();
+        if(repo.save(customer)){
+            return "Guardado con exito" + customer.toString();
+        }
+        return "Error: algo salió mal..consultar con el administrador del sistema";
     }
 
 }

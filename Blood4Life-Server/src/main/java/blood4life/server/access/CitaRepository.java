@@ -92,7 +92,8 @@ public class CitaRepository implements ICitaRepository {
         Cita cita = null;
         try {
 
-            String sql = "SELECT cod_id, lugar_id, user_id, fecha, hora FROM cita";
+            String sql = "SELECT cod_id, lugar_id, user_id, fecha, hora "
+                    + "FROM cita WHERE cod_id = " + String.valueOf(id);
 
             //this.connect();
             Statement stmt = conn.createStatement();
@@ -131,9 +132,11 @@ public class CitaRepository implements ICitaRepository {
                     + "lugar_id = ?,"
                     + "user_id = ?,"
                     + "fecha = ?,"
-                    + "hora = ?"
-                    + "WHERE cod_id = " + cita.getCodigo();
-
+                    + "hora =? "
+                    + "WHERE cod_id = " + String.valueOf(cita.getCodigo());
+            
+            //+ "hora = ?"
+            
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, cita.getCodigo());
             pstmt.setInt(2, cita.getLugar().getLugar_id());
