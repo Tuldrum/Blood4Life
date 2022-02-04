@@ -51,17 +51,17 @@ public class ServiceModel {
     }
 
     public String saveCita(Cita cita, UsuarioCliente cliente){
-        String res  = serCitas.update(cita); 
+        String res  = serCitas.update(cita);
         if(res.contains("BAD_REQUEST")){
-            return "info: No se pudo asignar la cita"; 
+            return "info: No se pudo asignar la cita";
         }
         String numCel = cliente.getNumeroTelefono();
         if (numCel.isEmpty())
             return "Error: Número de teléfono no indicado";
         String infoCita = cita.infoCita();
         enviarRecordatorio(numCel, infoCita);
-        cita.setUsuario(cliente); 
-        return res; 
+        cita.setUsuario(cliente);
+        return res;
     }
 
     // Equis
@@ -86,7 +86,13 @@ public class ServiceModel {
     }
     
     public String updateCitaUsuario(Cita cita){
-        return serCitas.update(cita);  
+        UsuarioCliente user = cita.getUsuario();
+        String numCel = user.getNumeroTelefono();
+        if (numCel.isEmpty())
+            return "Error: Número de teléfono no indicado";
+        String infoCita = cita.infoCita();
+        enviarRecordatorio(numCel, infoCita);
+        return serCitas.update(cita);
     }
     
     public List<Cita> listCitasDisponible(Date dateSqlBefore, Date dateSqlAfter, int lugar_id){

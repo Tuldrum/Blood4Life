@@ -10,7 +10,7 @@ public class WhatsappReminder implements ITwilioWhatsappMessager {
  
     public WhatsappReminder() {
         ACCOUNT_SID = "AC5992ec956e3bb928637fdd9c3e348743"; 
-        AUTH_TOKEN = "d0a75f952a9a7193eac2db60ec7fa260"; 
+        AUTH_TOKEN = "d6f536bab655f696b1dadf5f3c581b51"; 
     }
 
     public boolean sendReminder(String numCel, String reminderMessage) { 
@@ -19,10 +19,10 @@ public class WhatsappReminder implements ITwilioWhatsappMessager {
         Message message = Message.creator(
             new com.twilio.type.PhoneNumber("whatsapp:"+destinataryNumber), 
             new com.twilio.type.PhoneNumber("whatsapp:+14155238886"),  
-            reminderMessage)
+            "Información de su cita: " + reminderMessage)
             .create(); 
  
         System.out.println(message.getSid()); 
         return true;
-    } 
+    }
 }
