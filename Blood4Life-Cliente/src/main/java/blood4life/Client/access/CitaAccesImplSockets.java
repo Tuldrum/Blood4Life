@@ -94,7 +94,7 @@ public class CitaAccesImplSockets implements ICitaAcces {
     @Override
     public String createCita(Cita cita) throws Exception {
         String jsonResponse = null;
-        String requestJson = doCreateCustomerRequestJson(cita);
+        String requestJson = doCreateCitaRequestJson(cita);
         try {
             mySocket.connect();
             jsonResponse = mySocket.sendRequest(requestJson);
@@ -123,7 +123,7 @@ public class CitaAccesImplSockets implements ICitaAcces {
     @Override
     public String updateCita(Cita cita) throws Exception {
         String jsonResponse = null;
-        String requestJson = doUpdateCustomerRequestJson(cita);
+        String requestJson = doUpdateCitaRequestJson(cita);
         try {
             mySocket.connect();
             jsonResponse = mySocket.sendRequest(requestJson);
@@ -189,7 +189,7 @@ public class CitaAccesImplSockets implements ICitaAcces {
         return requestJson;
     }
 
-    private String doCreateCustomerRequestJson(Cita cita) {
+    private String doCreateCitaRequestJson(Cita cita) {
 
         Gson gson = new Gson();
         Protocol protocol = new Protocol();
@@ -199,12 +199,13 @@ public class CitaAccesImplSockets implements ICitaAcces {
         protocol.addParameter("fecha", cita.getFecha().toString());
         protocol.addParameter("lugar", gson.toJson(cita.getLugar()));
         protocol.addParameter("usuario", gson.toJson(cita.getUsuario()));
-
+        protocol.addParameter("hora", gson.toJson(cita.getHora()));
+        
         String requestJson = gson.toJson(protocol);
         return requestJson;
     }
 
-    private String doUpdateCustomerRequestJson(Cita cita) {
+    private String doUpdateCitaRequestJson(Cita cita) {
 
         Gson gson = new Gson();
         Protocol protocol = new Protocol();
@@ -214,6 +215,7 @@ public class CitaAccesImplSockets implements ICitaAcces {
         protocol.addParameter("fecha", cita.getFecha().toString());
         protocol.addParameter("lugar", gson.toJson(cita.getLugar()));
         protocol.addParameter("usuario", gson.toJson(cita.getUsuario()));
+        protocol.addParameter("hora", gson.toJson(cita.getHora()));
 
         String requestJson = gson.toJson(protocol);
         return requestJson;

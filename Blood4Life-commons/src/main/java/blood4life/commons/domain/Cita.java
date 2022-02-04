@@ -1,7 +1,7 @@
 package blood4life.commons.domain;
 
 import java.sql.Date;
-
+import java.sql.Time; 
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -14,12 +14,21 @@ public class Cita {
     private UsuarioCliente usuario;
     private LugarRecogida lugar;
     private Date fecha;
+    private Time hora;  
 
-    public Cita(int codigo, UsuarioCliente usuario_id, LugarRecogida lugar_id, Date fecha) {
+    public Cita(int codigo, UsuarioCliente usuario_id, LugarRecogida lugar_id, Date fecha, Time hora) {
         this.codigo = codigo;
         this.usuario = usuario_id;
         this.lugar = lugar_id;
         this.fecha = fecha;
+    }
+    
+    public Time getHora() {
+        return hora;
+    }
+
+    public void setHora(Time hora) {
+        this.hora = hora;
     }
 
     public Cita() {
