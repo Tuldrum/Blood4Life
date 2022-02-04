@@ -56,6 +56,8 @@ public class ServiceModel {
             return "info: No se pudo asignar la cita"; 
         }
         String numCel = cliente.getNumeroTelefono();
+        if (numCel.isEmpty())
+            return "Error: Número de teléfono no indicado";
         String infoCita = cita.infoCita();
         enviarRecordatorio(numCel, infoCita);
         cita.setUsuario(cliente); 
