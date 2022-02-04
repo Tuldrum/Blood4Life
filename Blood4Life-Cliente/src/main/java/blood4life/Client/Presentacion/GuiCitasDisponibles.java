@@ -3,9 +3,9 @@ package blood4life.Client.Presentacion;
 import blood4life.Client.domain.services.ServiceModel;
 import blood4life.commons.domain.Cita;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -15,7 +15,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author ahurtado
  */
-public class GuiCitasDisponibles extends javax.swing.JFrame implements Observer {
+public class GuiCitasDisponibles extends javax.swing.JFrame {
 
     ServiceModel service;
     JTable table;
@@ -30,15 +30,25 @@ public class GuiCitasDisponibles extends javax.swing.JFrame implements Observer 
      *
      * @param service servicio
      */
+    public GuiCitasDisponibles() {
+    }
+    
     public GuiCitasDisponibles(ServiceModel service) {
         parametrosInicializacion(service);
     }
     
-    public GuiCitasDisponibles(Date before, Date after, int lugarCita) {
+    public GuiCitasDisponibles(ServiceModel service, Date before, Date after, int lugarCita) throws Exception {
         parametrosInicializacion(service);
         this.before = before;
         this.after = after;
         this.lugarCita = lugarCita;
+        this.listaCita = new ArrayList();
+        actualizarInfo(); 
+        update();
+    }
+    
+    private void actualizarInfo() throws Exception{
+        listaCita = service.citasDisponibles(before, after, lugarCita); 
     }
     
     private void parametrosInicializacion(ServiceModel service) {
@@ -102,19 +112,20 @@ public class GuiCitasDisponibles extends javax.swing.JFrame implements Observer 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         
         int index = table.getSelectedRow();
-        try {
-            listaCita = service.citasDisponibles(before, after, lugarCita);
-        } catch (Exception ex) {
-            Logger.getLogger(GuiCitasDisponibles.class.getName()).log(Level.SEVERE, null, ex);
+        if(!listaCita.isEmpty()){
+            new GUISolicitarCita(listaCita.get(index)).setVisible(true);
+            this.setVisible(false);
+        }else{
+            JOptionPane.showMessageDialog(null, "Sin coincidencias para la busqueda");
         }
         
     }//GEN-LAST:event_btnModificarActionPerformed
 
-    public void update(Object o) {
+    public void update() {
         this.setVisible(true);
         model.setRowCount(0);
         for (Cita c : listaCita) {
-            model.addRow(new Object[]{"" + cgetLugar});
+            model.addRow(new Object[]{"" + c.getHora()});
         }
         table.paintImmediately(table.getBounds());
     }

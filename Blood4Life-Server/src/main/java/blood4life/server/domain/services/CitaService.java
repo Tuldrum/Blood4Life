@@ -54,7 +54,7 @@ public class CitaService {
         if (repo.save(cita)) {
             return "Guardado con éxito" + cita.toString();
         }
-        return "";
+        return "Error: algo salió mal..consultar con el administrador del sistema";
     }
 
     public synchronized String update(Cita cita) {
@@ -78,7 +78,7 @@ public class CitaService {
         if (repo.update(cita)) {
             return "Actualizado con éxito" + cita.toString();
         }
-        return "";
+        return "Error: algo salió mal..consultar con el administrador del sistema";
     }
 
 }

@@ -56,7 +56,7 @@ public class SangreRepository implements ISangreRepository{
         try {
 
             String sql = "SELECT sangre_id, tipo, RH"
-                    + " FROM LugarRecogida Where lugar_id =" + id;
+                    + " FROM sangre Where sangre_id =" + String.valueOf(id);
 
             //this.connect();
             Statement stmt = conn.createStatement();

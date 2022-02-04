@@ -1,5 +1,6 @@
 package blood4life.server.access;
 
+import blood4life.commons.domain.Sangre;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,6 +17,7 @@ public class ClienteRepository implements IClienteRepository {
     private ISangreRepository sangre;  
     public ClienteRepository(IConnectionRepository connection, ISangreRepository sangre) {
         this.conn = connection.getConn();
+        this.sangre = sangre;  
     }
 
     public boolean save(UsuarioCliente newCliente) {
@@ -51,7 +53,7 @@ public class ClienteRepository implements IClienteRepository {
         try {
 
             String sql = "SELECT user_id, nombre, apellido, mail, telefono, sangre_id"
-                    + " FROM UsuarioCliente Where user_id =" + id;
+                    + " FROM UsuarioCliente Where user_id =" + String.valueOf(id);
 
             //this.connect();
             Statement stmt = conn.createStatement();
@@ -64,7 +66,8 @@ public class ClienteRepository implements IClienteRepository {
                 cliente.setLastname(rs.getString("apellido"));
                 cliente.setMail(rs.getString("mail"));
                 cliente.setNumeroTelefono(rs.getString("telefono"));
-                cliente.setSangre(sangre.find(rs.getInt("sangre")));
+                Sangre s = sangre.find(rs.getInt("sangre_id")); 
+                cliente.setSangre(s);
             }
             //this.disconnect();
 
