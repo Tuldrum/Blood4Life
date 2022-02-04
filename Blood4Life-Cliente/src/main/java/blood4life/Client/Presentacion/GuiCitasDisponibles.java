@@ -1,21 +1,55 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package blood4life.Client.Presentacion;
 
+import blood4life.Client.domain.services.ServiceModel;
+import blood4life.commons.domain.Cita;
+import java.sql.Date;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
 /**
+ * Es un observador
  *
- * @author ASUS
+ * @author ahurtado
  */
-public class GuiCitasDisponibles extends javax.swing.JFrame {
+public class GuiCitasDisponibles extends javax.swing.JFrame implements Observer {
+
+    ServiceModel service;
+    JTable table;
+    DefaultTableModel model;
+    Date before;
+    Date after;
+    int lugarCita;
+    List<Cita> listaCita;
 
     /**
-     * Creates new form GuiAccesoUsuario
+     * Creates new form GUIListadoProductos
+     *
+     * @param service servicio
      */
-    public GuiCitasDisponibles() {
+    public GuiCitasDisponibles(ServiceModel service) {
+        parametrosInicializacion(service);
+    }
+    
+    public GuiCitasDisponibles(Date before, Date after, int lugarCita) {
+        parametrosInicializacion(service);
+        this.before = before;
+        this.after = after;
+        this.lugarCita = lugarCita;
+    }
+    
+    private void parametrosInicializacion(ServiceModel service) {
         initComponents();
+        this.service = service;
+        this.model = new DefaultTableModel();
+        model.addColumn("Hora");
+        table = new JTable(model);
+        jPanel2.add(new JScrollPane(table));
+        setSize(500, 200);
+        setLocation(10,50);
     }
 
     /**
@@ -28,129 +62,70 @@ public class GuiCitasDisponibles extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        btnModificar = new javax.swing.JButton();
+        btnCerrar = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("Citas disponibles");
+        jLabel1.setText("Listado de Productos");
+        getContentPane().add(jLabel1, java.awt.BorderLayout.PAGE_START);
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "8:00 - 9:00", "9:00 - 10:00", "10:0 - 11:00", "11:00 - 12:0", "14:00 - 15:00", "15:00 - 16:00" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane1.setViewportView(jList1);
-
-        jButton1.setText("Aceptar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnModificar.setText("Modificar");
+        btnModificar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnModificarActionPerformed(evt);
             }
         });
+        jPanel1.add(btnModificar);
 
-        jButton2.setText("Cancelar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnCerrar.setText("Cerrar");
+        btnCerrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnCerrarActionPerformed(evt);
             }
         });
+        jPanel1.add(btnCerrar);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(108, 108, 108)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(123, 123, 123))
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(237, 237, 237)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(132, 132, 132)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(148, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(41, 41, 41)
-                .addComponent(jLabel1)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(31, 31, 31)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(172, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(75, 75, 75))))
-        );
-
-        jButton1.getAccessibleContext().setAccessibleName("btnAceptar");
-        jButton2.getAccessibleContext().setAccessibleName("bntCancelar");
+        getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_END);
+        getContentPane().add(jPanel2, java.awt.BorderLayout.LINE_END);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btnCerrarActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        
+        int index = table.getSelectedRow();
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GuiCitasDisponibles.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GuiCitasDisponibles.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GuiCitasDisponibles.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GuiCitasDisponibles.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            listaCita = service.citasDisponibles(before, after, lugarCita);
+        } catch (Exception ex) {
+            Logger.getLogger(GuiCitasDisponibles.class.getName()).log(Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
+        
+    }//GEN-LAST:event_btnModificarActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new GuiCitasDisponibles().setVisible(true);
-            }
-        });
+    public void update(Object o) {
+        this.setVisible(true);
+        model.setRowCount(0);
+        for (Cita c : listaCita) {
+            model.addRow(new Object[]{"" + cgetLugar});
+        }
+        table.paintImmediately(table.getBounds());
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btnCerrar;
+    private javax.swing.JButton btnModificar;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JList<String> jList1;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables
+
+    
 }

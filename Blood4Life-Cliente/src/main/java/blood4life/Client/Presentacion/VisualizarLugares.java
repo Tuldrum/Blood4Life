@@ -32,6 +32,7 @@ public class VisualizarLugares extends javax.swing.JFrame {
     private Calendar c = null;
     private Date actual; 
     private List<LugarRecogida> rec;  
+    private int lugarID = -1; 
 
     public VisualizarLugares() {
         service = new ServiceModel();
@@ -175,15 +176,27 @@ public class VisualizarLugares extends javax.swing.JFrame {
     }//GEN-LAST:event_txtDirecLugarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
+        
+        if(!rec.isEmpty()) {
+            GuiCitasDisponibles citasD = new GuiCitasDisponibles();
+            try {   
+                service.citasDisponibles(before, after, lugarID);
+            } catch (Exception ex) {
+                Logger.getLogger(VisualizarLugares.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            citasD.setVisible(true);
+            this.setVisible(false);
+        }
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void ListaLugaresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ListaLugaresActionPerformed
+        
         int index = ListaLugares.getSelectedIndex();
         if(!rec.isEmpty()){
-            //Joption jfram -> lista<citas> --> JCombobox --> lista citas 
+            lugarID = rec.get(index).getLugar_id();
         }else{
-            //jOption.print... "Sin coincidencias para la busqueda" 
+            JOptionPane.showMessageDialog(null, "Sin coincidencias para la busqueda"); 
         }
         
         //infoJComboBox(); -> acepta rango 
@@ -193,7 +206,7 @@ public class VisualizarLugares extends javax.swing.JFrame {
     private java.sql.Date DateToDateSQL(Date dateToConvert) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String sdate = simpleDateFormat.format(dateToConvert);
-        return java.sql.Date.valueOf(sdate); 
+        return java.sql.Date.valueOf(sdate);
     }
     
     private void infoJComboBox(){
