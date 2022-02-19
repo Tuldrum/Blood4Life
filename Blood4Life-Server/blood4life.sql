@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 03-02-2022 a las 02:55:36
+-- Tiempo de generación: 19-02-2022 a las 00:46:21
 -- Versión del servidor: 10.4.22-MariaDB
--- Versión de PHP: 7.3.33
+-- Versión de PHP: 8.1.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -43,9 +43,24 @@ CREATE TABLE `assignments` (
 CREATE TABLE `cita` (
   `cod_id` int(11) NOT NULL,
   `lugar_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `fecha` date NOT NULL
+  `user_id` int(11) DEFAULT NULL,
+  `fecha` date NOT NULL,
+  `hora` time NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `cita`
+--
+
+INSERT INTO `cita` (`cod_id`, `lugar_id`, `user_id`, `fecha`, `hora`) VALUES
+(100, 1, NULL, '2022-02-02', '08:00:00'),
+(101, 2, 12345678, '2022-02-03', '13:00:00'),
+(123, 1, 10029564, '2022-02-09', '15:00:00'),
+(13455, 2, NULL, '2022-02-10', '10:00:00'),
+(45678, 1, 10029563, '2022-02-08', '16:13:17'),
+(134553, 1, NULL, '2022-02-16', '17:00:00'),
+(1234554, 1, 12345678, '2022-02-11', '09:10:36'),
+(12345679, 1, 10029564, '2022-02-15', '07:00:00');
 
 -- --------------------------------------------------------
 
@@ -107,7 +122,8 @@ INSERT INTO `sangre` (`sangre_id`, `tipo`, `RH`) VALUES
 
 CREATE TABLE `useraccess` (
   `user` int(11) NOT NULL,
-  `password` int(11) NOT NULL
+  `password` int(11) NOT NULL,
+  `clasificacion` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -122,17 +138,20 @@ CREATE TABLE `usuariocliente` (
   `apellido` text NOT NULL,
   `mail` text NOT NULL,
   `telefono` text NOT NULL,
-  `sangre_id` int(11) NOT NULL
+  `sangre_id` int(11) NOT NULL,
+  `password` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `usuariocliente`
 --
 
-INSERT INTO `usuariocliente` (`user_id`, `nombre`, `apellido`, `mail`, `telefono`, `sangre_id`) VALUES
-(10029563, 'Paco', 'Jimenez', 'paco@gmail.com', '324587997', 1),
-(12345678, 'Maria', 'Gomez', 'gomemza@mail.com', '324587998', 2),
-(12345679, 'Carla', 'Popovich', 'carpo@mail.com', '3245879979', 3);
+INSERT INTO `usuariocliente` (`user_id`, `nombre`, `apellido`, `mail`, `telefono`, `sangre_id`, `password`) VALUES
+(10029563, 'Paco', 'Jimenez', 'paco@gmail.com', '32402167497', 1, NULL),
+(10029564, 'Paco', 'Merte', 'paquito123@mail.com', '3228871674', 3, NULL),
+(12345678, 'Maria', 'Gomez', 'gomemza@mail.com', '324587998', 2, NULL),
+(12345679, 'Carla', 'Popovich', 'carpo@mail.com', '3245879979', 3, NULL),
+(1002805624, 'Lola', 'Mento', 'lolita@mail.com', '3105089540', 1, '1234');
 
 -- --------------------------------------------------------
 
@@ -143,7 +162,11 @@ INSERT INTO `usuariocliente` (`user_id`, `nombre`, `apellido`, `mail`, `telefono
 CREATE TABLE `usuariofuncionario` (
   `user_id` int(11) NOT NULL,
   `nombre` text NOT NULL,
-  `apellido` text NOT NULL
+  `apellido` text NOT NULL,
+  `mail` varchar(50) NOT NULL,
+  `password` text NOT NULL,
+  `telefono` text NOT NULL,
+  `organizacion` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
