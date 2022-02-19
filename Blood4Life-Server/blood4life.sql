@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 19-02-2022 a las 00:46:21
+-- Tiempo de generación: 19-02-2022 a las 22:06:21
 -- Versión del servidor: 10.4.22-MariaDB
--- Versión de PHP: 8.1.0
+-- Versión de PHP: 7.3.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -43,24 +43,35 @@ CREATE TABLE `assignments` (
 CREATE TABLE `cita` (
   `cod_id` int(11) NOT NULL,
   `lugar_id` int(11) NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
   `fecha` date NOT NULL,
-  `hora` time NOT NULL
+  `hora` time NOT NULL,
+  `cupos` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `cita`
 --
 
-INSERT INTO `cita` (`cod_id`, `lugar_id`, `user_id`, `fecha`, `hora`) VALUES
-(100, 1, NULL, '2022-02-02', '08:00:00'),
-(101, 2, 12345678, '2022-02-03', '13:00:00'),
-(123, 1, 10029564, '2022-02-09', '15:00:00'),
-(13455, 2, NULL, '2022-02-10', '10:00:00'),
-(45678, 1, 10029563, '2022-02-08', '16:13:17'),
-(134553, 1, NULL, '2022-02-16', '17:00:00'),
-(1234554, 1, 12345678, '2022-02-11', '09:10:36'),
-(12345679, 1, 10029564, '2022-02-15', '07:00:00');
+INSERT INTO `cita` (`cod_id`, `lugar_id`, `fecha`, `hora`, `cupos`) VALUES
+(100, 1, '2022-02-02', '08:00:00', 4),
+(101, 2, '2022-02-03', '13:00:00', 5),
+(123, 1, '2022-02-09', '15:00:00', 3),
+(13455, 2, '2022-02-10', '10:00:00', 5),
+(45678, 1, '2022-02-08', '16:13:17', 0),
+(134553, 1, '2022-02-16', '17:00:00', 4),
+(1234554, 1, '2022-02-11', '09:10:36', 1),
+(12345679, 1, '2022-02-15', '07:00:00', 3);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `citasasignadas`
+--
+
+CREATE TABLE `citasasignadas` (
+  `user_id` int(11) NOT NULL,
+  `cod_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -189,6 +200,13 @@ ALTER TABLE `cita`
   ADD KEY `fk_lugar_id` (`lugar_id`);
 
 --
+-- Indices de la tabla `citasasignadas`
+--
+ALTER TABLE `citasasignadas`
+  ADD KEY `fk_usuariocliente_id` (`user_id`),
+  ADD KEY `fk_cita_id_2` (`cod_id`);
+
+--
 -- Indices de la tabla `entidad`
 --
 ALTER TABLE `entidad`
@@ -251,6 +269,13 @@ ALTER TABLE `assignments`
 --
 ALTER TABLE `cita`
   ADD CONSTRAINT `fk_lugar_id` FOREIGN KEY (`lugar_id`) REFERENCES `lugarrecogida` (`lugar_id`) ON DELETE CASCADE;
+
+--
+-- Filtros para la tabla `citasasignadas`
+--
+ALTER TABLE `citasasignadas`
+  ADD CONSTRAINT `fk_cita_id_2` FOREIGN KEY (`cod_id`) REFERENCES `cita` (`cod_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_usuariocliente_id` FOREIGN KEY (`user_id`) REFERENCES `usuariocliente` (`user_id`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `usuariocliente`
