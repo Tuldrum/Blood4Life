@@ -11,14 +11,14 @@ import java.sql.Time;
 public class Cita {
 
     private int codigo;
-    private UsuarioCliente usuario;
     private LugarRecogida lugar;
     private Date fecha;
-    private Time hora;  
+    private Time hora; 
+    private int cupos; 
 
-    public Cita(int codigo, UsuarioCliente usuario_id, LugarRecogida lugar_id, Date fecha, Time hora) {
+    public Cita(int codigo, int cupos, LugarRecogida lugar_id, Date fecha, Time hora) {
         this.codigo = codigo;
-        this.usuario = usuario_id;
+        this.cupos = cupos;
         this.lugar = lugar_id;
         this.fecha = fecha;
     }
@@ -34,12 +34,12 @@ public class Cita {
     public Cita() {
     }
 
-    public UsuarioCliente getUsuario() {
-        return usuario;
+    public int getCupos() {
+        return cupos ;
     }
 
-    public void setUsuario(UsuarioCliente usuario) {
-        this.usuario = usuario;
+    public void setCupos(int cupos) {
+        this.cupos = cupos;
     }
 
     public LugarRecogida getLugar() {

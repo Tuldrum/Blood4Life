@@ -198,7 +198,7 @@ public class CitaAccesImplSockets implements ICitaAcces {
         protocol.addParameter("id", String.valueOf(cita.getCodigo()));
         protocol.addParameter("fecha", cita.getFecha().toString());
         protocol.addParameter("lugar", gson.toJson(cita.getLugar()));
-        protocol.addParameter("usuario", gson.toJson(cita.getUsuario()));
+        protocol.addParameter("cupos", gson.toJson(cita.getCupos()));
         protocol.addParameter("hora", gson.toJson(cita.getHora()));
         
         String requestJson = gson.toJson(protocol);
@@ -214,7 +214,7 @@ public class CitaAccesImplSockets implements ICitaAcces {
         protocol.addParameter("id", String.valueOf(cita.getCodigo()));
         protocol.addParameter("fecha", cita.getFecha().toString());
         protocol.addParameter("lugar", gson.toJson(cita.getLugar()));
-        protocol.addParameter("usuario", gson.toJson(cita.getUsuario()));
+        protocol.addParameter("cupos", gson.toJson(cita.getCupos()));
         protocol.addParameter("hora", gson.toJson(cita.getHora().toString()));
 
         String requestJson = gson.toJson(protocol);

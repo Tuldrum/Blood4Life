@@ -61,12 +61,12 @@ public class CitaService {
         List<JsonError> errors = new ArrayList<>();
 
         // Validaciones y reglas de negocio
-        if (cita.getLugar() == null || cita.getCodigo() < 0 || cita.getFecha() == null || cita.getUsuario() == null) {
-            errors.add(new JsonError("400", "BAD_REQUEST", "cod_id, lugar_id, user_id, fecha son obligatorios."));
+        if (cita.getLugar() == null || cita.getCodigo() < 0 || cita.getFecha() == null ) {
+            errors.add(new JsonError("400", "BAD_REQUEST", "cod_id, lugar_id, fecha son obligatorios."));
         }
 
         if (find(cita.getCodigo()) == null) {
-            errors.add(new JsonError("400", "BAD_REQUEST", "No existe una cita asignada."));
+            errors.add(new JsonError("400", "BAD_REQUEST", "No existe una cita con ese código."));
         }
 
         if (!errors.isEmpty()) {

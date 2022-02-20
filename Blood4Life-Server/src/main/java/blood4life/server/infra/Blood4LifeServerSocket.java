@@ -8,6 +8,7 @@ import blood4life.commons.infra.JsonError;
 import blood4life.commons.infra.Protocol;
 import blood4life.commons.infra.Utilities;
 import blood4life.server.domain.services.ServiceModel;
+import static blood4life.server.infra.Blood4LifeHandler.getService;
 import blood4life.serversocket.serversockettemplate.infra.ServerSocketTemplate;
 
 import com.google.gson.Gson;
@@ -124,27 +125,27 @@ public class Blood4LifeServerSocket extends ServerSocketTemplate {
         }
     }
 
-    private void processPostCita(Protocol protocolRequest) {
+private void processPostCita(Protocol protocolRequest) {
         Cita cita = new Cita();
         // Reconstruir el customer a partid de lo que viene en los parámetros
         cita.setCodigo(Integer.parseInt(protocolRequest.getParameters().get(0).getValue()));
         cita.setFecha(Date.valueOf(protocolRequest.getParameters().get(1).getValue()));
         cita.setLugar(gson.fromJson(protocolRequest.getParameters().get(2).getValue(), LugarRecogida.class));
-        cita.setUsuario(gson.fromJson(protocolRequest.getParameters().get(3).getValue(), UsuarioCliente.class));
+        cita.setCupos(Integer.parseInt(protocolRequest.getParameters().get(3).getValue()));
         String response = getService().saveCita(cita);
         respond(response);
     }
 
-    private void proccesUpdateCita(Protocol protocolRequest) {
+ private void proccesUpdateCita(Protocol protocolRequest) {
         Cita cita = new Cita();
         // Reconstruir el customer a partid de lo que viene en los parámetros
         cita.setCodigo(Integer.parseInt(protocolRequest.getParameters().get(0).getValue()));
         cita.setFecha(Date.valueOf(protocolRequest.getParameters().get(1).getValue()));
         cita.setLugar(gson.fromJson(protocolRequest.getParameters().get(2).getValue(), LugarRecogida.class));
-        cita.setUsuario(gson.fromJson(protocolRequest.getParameters().get(3).getValue(), UsuarioCliente.class));
+        cita.setCupos(Integer.parseInt(protocolRequest.getParameters().get(3).getValue()));
         String s = protocolRequest.getParameters().get(4).getValue();
         cita.setHora(Time.valueOf(simpleformat(s)));
-        String response = getService().updateCitaUsuario(cita);
+        String response = getService().updatecita(cita);
         respond(response);
     }
     

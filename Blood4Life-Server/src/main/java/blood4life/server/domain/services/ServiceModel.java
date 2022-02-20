@@ -50,7 +50,7 @@ public class ServiceModel {
         return serCitas.save(cita);  
     }
 
-    public String saveCita(Cita cita, UsuarioCliente cliente){
+    /*public String saveCita(Cita cita, UsuarioCliente cliente){
         String res  = serCitas.update(cita);
         if(res.contains("BAD_REQUEST")){
             return "info: No se pudo asignar la cita";
@@ -62,7 +62,7 @@ public class ServiceModel {
         enviarRecordatorio(numCel, infoCita);
         cita.setUsuario(cliente);
         return res;
-    }
+    }*/
 
     // Equis
     public void enviarRecordatorio (String numCel, String infoCita) {
@@ -85,7 +85,7 @@ public class ServiceModel {
         return serUsuCli.find(id);  
     }
     
-    public String updateCitaUsuario(Cita cita){
+   /* public String updateCitaUsuario(Cita cita){
         UsuarioCliente user = cita.getUsuario();
         String numCel = user.getNumeroTelefono();
         if (numCel.isEmpty())
@@ -93,7 +93,7 @@ public class ServiceModel {
         String infoCita = cita.infoCita();
         enviarRecordatorio(numCel, infoCita);
         return serCitas.update(cita);
-    }
+    }*/
     
     public List<Cita> listCitasDisponible(Date dateSqlBefore, Date dateSqlAfter, int lugar_id){
         return serCitas.citas(dateSqlBefore, dateSqlAfter, lugar_id); 
@@ -103,4 +103,7 @@ public class ServiceModel {
         return serLug.listLugaresDisp(before, after);  
     }
     
+    public String updatecita(Cita cita){
+       return serCitas.update(cita);  
+    }    
 }

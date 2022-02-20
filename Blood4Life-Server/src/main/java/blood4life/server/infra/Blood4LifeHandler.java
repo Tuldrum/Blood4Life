@@ -108,7 +108,7 @@ public class Blood4LifeHandler extends ServerHandler {
         cita.setCodigo(Integer.parseInt(protocolRequest.getParameters().get(0).getValue()));
         cita.setFecha(Date.valueOf(protocolRequest.getParameters().get(1).getValue()));
         cita.setLugar(gson.fromJson(protocolRequest.getParameters().get(2).getValue(), LugarRecogida.class));
-        cita.setUsuario(gson.fromJson(protocolRequest.getParameters().get(3).getValue(), UsuarioCliente.class));
+        cita.setCupos(Integer.parseInt(protocolRequest.getParameters().get(3).getValue()));
         String response = getService().saveCita(cita);
         respond(response);
     }
@@ -136,10 +136,10 @@ public class Blood4LifeHandler extends ServerHandler {
         cita.setCodigo(Integer.parseInt(protocolRequest.getParameters().get(0).getValue()));
         cita.setFecha(Date.valueOf(protocolRequest.getParameters().get(1).getValue()));
         cita.setLugar(gson.fromJson(protocolRequest.getParameters().get(2).getValue(), LugarRecogida.class));
-        cita.setUsuario(gson.fromJson(protocolRequest.getParameters().get(3).getValue(), UsuarioCliente.class));
+        cita.setCupos(Integer.parseInt(protocolRequest.getParameters().get(3).getValue()));
         String s = protocolRequest.getParameters().get(4).getValue();
         cita.setHora(Time.valueOf(simpleformat(s)));
-        String response = getService().updateCitaUsuario(cita);
+        String response = getService().updatecita(cita);
         respond(response);
     }
 

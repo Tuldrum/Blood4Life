@@ -111,7 +111,7 @@ public class Factory {
                 Logger.getLogger(Factory.class.getName()).log(Level.SEVERE, null, ex);
             }
             if (citaRepo == null) {
-                citaRepo = new CitaRepository(getConn(), getClienteRepository(), getLugaresRepository());
+                citaRepo = new CitaRepository(getConn(), getLugaresRepository());
             }
         }
         return citaRepo;

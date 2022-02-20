@@ -23,32 +23,30 @@ import java.util.logging.Logger;
 public class CitaRepository implements ICitaRepository {
 
     private Connection conn;
-    private IClienteRepository cliente;
     private ILugaresRepository lugares;
 
-    public CitaRepository(IConnectionRepository connection, IClienteRepository cliente, ILugaresRepository lugares) {
+    public CitaRepository(IConnectionRepository connection, ILugaresRepository lugares) {
         conn = connection.getConn();
-        this.cliente = cliente;
         this.lugares = lugares;
     }
 
+    @Override
     public boolean save(Cita cita) {
 
         try {
             //Validate product
-            if (cita == null || cita.getCodigo() < 0 || cita.getFecha() == null
-                    || cita.getUsuario() == null || cita.getLugar() == null) {
+            if (cita == null || cita.getCodigo() < 0 || cita.getFecha() == null || cita.getLugar() == null) {
                 return false;
             }
             //this.connect();
 
-            String sql = "INSERT INTO cita ( cod_id, lugar_id, user_id, fecha, hora)"
+            String sql = "INSERT INTO cita ( cod_id, lugar_id, cupos, fecha, hora)"
                     + "VALUES ( ?, ?, ?, ? )";
 
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, cita.getCodigo());
             pstmt.setInt(2, cita.getLugar().getLugar_id());
-            pstmt.setInt(3, cita.getUsuario().getUser_id());
+            pstmt.setInt(3, cita.getCupos());
             pstmt.setDate(4, cita.getFecha());
             pstmt.setTime(5, cita.getHora());
             pstmt.executeUpdate();
@@ -61,11 +59,12 @@ public class CitaRepository implements ICitaRepository {
         return false;
     }
 
+    @Override
     public List<Cita> list(Date dateSqlBefore, Date dateSqlAfter, int lugar_id) {
         List<Cita> products = new ArrayList<>();
         try {
-            String sql = "SELECT cod_id, lugar_id, user_id, fecha, hora FROM cita c\n"
-                    + "WHERE c.user_id IS null AND c.lugar_id = "+ String.valueOf(lugar_id) +" \n"
+            String sql = "SELECT cod_id, lugar_id, cupos, fecha, hora FROM cita c\n"
+                    + "WHERE c.cupos != 0 AND c.lugar_id = "+ String.valueOf(lugar_id) +" \n"
                     + "AND c.fecha > CAST('" + dateSqlBefore.toString() + "' AS date)\n"
                     + "AND c.fecha <= CAST('" + dateSqlAfter.toString() + "' AS date)";
 
@@ -75,7 +74,7 @@ public class CitaRepository implements ICitaRepository {
                 Cita cita = new Cita();
                 cita.setCodigo(rs.getInt("cod_id"));
                 cita.setLugar(lugares.find(rs.getInt("lugar_id")));
-                cita.setUsuario(cliente.find(rs.getInt("user_id")));
+                cita.setCupos(rs.getInt("cupos"));
                 cita.setFecha(rs.getDate("fecha"));
                 cita.setHora(rs.getTime("hora"));   
                 products.add(cita);
@@ -88,11 +87,12 @@ public class CitaRepository implements ICitaRepository {
         return products;
     }
 
+    @Override
     public Cita find(int id) {
         Cita cita = null;
         try {
 
-            String sql = "SELECT cod_id, lugar_id, user_id, fecha, hora "
+            String sql = "SELECT cod_id, lugar_id, cupos, fecha, hora "
                     + "FROM cita WHERE cod_id = " + String.valueOf(id);
 
             //this.connect();
@@ -103,7 +103,7 @@ public class CitaRepository implements ICitaRepository {
                 cita = new Cita();
                 cita.setCodigo(rs.getInt("cod_id"));
                 cita.setLugar(lugares.find(rs.getInt("lugar_id")));
-                cita.setUsuario(cliente.find(rs.getInt("user_id")));
+                cita.setCupos(rs.getInt("cupos"));
                 cita.setFecha(rs.getDate("fecha"));
                 cita.setHora(rs.getTime("hora"));
             }
@@ -120,7 +120,7 @@ public class CitaRepository implements ICitaRepository {
         try {
             //Validate product
             if (cita == null || cita.getCodigo() < 0 || cita.getFecha() == null
-                    || cita.getUsuario() == null || cita.getLugar() == null) {
+                    || cita.getCodigo() < 0 || cita.getLugar() == null) {
                 return false;
             }
             if (find(cita.getCodigo()) == null) {
@@ -130,7 +130,7 @@ public class CitaRepository implements ICitaRepository {
             String sql = "UPDATE cita "
                     + "SET cod_id = ?, "
                     + "lugar_id = ?,"
-                    + "user_id = ?,"
+                    + "cupos = ?,"
                     + "fecha = ?,"
                     + "hora =? "
                     + "WHERE cod_id = " + String.valueOf(cita.getCodigo());
@@ -140,7 +140,7 @@ public class CitaRepository implements ICitaRepository {
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, cita.getCodigo());
             pstmt.setInt(2, cita.getLugar().getLugar_id());
-            pstmt.setInt(3, cita.getUsuario().getUser_id());
+            pstmt.setInt(3, cita.getCupos());
             pstmt.setDate(4, cita.getFecha());
             pstmt.setTime(5, cita.getHora());
             pstmt.executeUpdate();
