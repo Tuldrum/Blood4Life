@@ -15,10 +15,10 @@ public class Factory {
     private ILugaresRepository LugarRepo = null;
     private ICitaRepository citaRepo = null;
     private ISangreRepository SangreRepo = null;
+    private ICitaAsignadaRepository citAsigRepo = null;
 
     private Factory() {
         conn = getConnectionRepository();
-
     }
 
     public static Factory getInstance() {
@@ -69,7 +69,7 @@ public class Factory {
     }
 
     public IClienteRepository getClienteRepository() {
-        if(ClienteRepo == null){
+        if (ClienteRepo == null) {
             try {
                 ClienteRepo = (IClienteRepository) Class.forName(Utilities.loadProperty("ClienteRepository"))
                         .getConstructor(IConnectionRepository.class, ISangreRepository.class).newInstance(getConn(), getSangreRepository());
@@ -81,11 +81,11 @@ public class Factory {
                 ClienteRepo = new ClienteRepository(getConn(), getSangreRepository());
             }
         }
-        return ClienteRepo;  
+        return ClienteRepo;
     }
 
     public ILugaresRepository getLugaresRepository() {
-        if(LugarRepo == null){
+        if (LugarRepo == null) {
             try {
                 LugarRepo = (ILugaresRepository) Class.forName(Utilities.loadProperty("LugaresRepository"))
                         .getConstructor(IConnectionRepository.class).newInstance(getConn());
@@ -97,11 +97,11 @@ public class Factory {
                 LugarRepo = new LugaresRepository(getConn());
             }
         }
-        return LugarRepo;  
+        return LugarRepo;
     }
 
     public ICitaRepository getCitaRepository() {
-        if(citaRepo == null){
+        if (citaRepo == null) {
             try {
                 citaRepo = (ICitaRepository) Class.forName(Utilities.loadProperty("CitaRepository"))
                         .getConstructor(IConnectionRepository.class, IClienteRepository.class, ILugaresRepository.class)
@@ -118,7 +118,7 @@ public class Factory {
     }
 
     public ISangreRepository getSangreRepository() {
-        if(SangreRepo == null){
+        if (SangreRepo == null) {
             try {
                 SangreRepo = (ISangreRepository) Class.forName(Utilities.loadProperty("SangreRepository"))
                         .getConstructor(IConnectionRepository.class).newInstance(getConn());
@@ -131,6 +131,30 @@ public class Factory {
             }
         }
         return SangreRepo;
+    }
+
+    public ICitaAsignadaRepository getCitaAsignadaRepository() {
+        if (citAsigRepo == null) {
+            try {
+                citAsigRepo = (ICitaAsignadaRepository) Class.forName(Utilities.loadProperty("CitaAsignadaRepository"))
+                        .getConstructor(
+                                ICitaRepository.class,
+                                IClienteRepository.class,
+                                IConnectionRepository.class)
+                        .newInstance(getCitaRepository(),
+                                getClienteRepository(),
+                                getConn());
+            } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException
+                    | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+                Logger.getLogger(Factory.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            if (citAsigRepo == null) {
+                citAsigRepo = new CitaAsignadaRepository(getCitaRepository(),
+                        getClienteRepository(),
+                        getConn());
+            }
+        }
+        return citAsigRepo;
     }
 
 }

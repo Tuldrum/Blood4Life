@@ -1,4 +1,4 @@
-/*
+    /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -7,6 +7,7 @@ package blood4life.server.domain.services;
 
 import blood4life.commons.domain.Assignments;
 import blood4life.commons.domain.Cita;
+import blood4life.commons.domain.CitaAsignada;
 import blood4life.commons.domain.LugarRecogida;
 import blood4life.commons.domain.UsuarioCliente;
 import blood4life.server.access.Factory;
@@ -23,6 +24,7 @@ public class ServiceModel {
     private LugaresRecogidaService serLug; 
     private UsuarioClienteService serUsuCli; 
     private CitaService serCitas;
+    private CitaAsignadaService sercitasAsi;  
     private static ITwilioWhatsappMessager serWhatsAppReminder;
     
     public ServiceModel() {
@@ -31,6 +33,7 @@ public class ServiceModel {
         serLug = new LugaresRecogidaService(factory.getLugaresRepository()); 
         serUsuCli = new UsuarioClienteService(factory.getClienteRepository());
         serCitas = new CitaService(factory.getCitaRepository());
+        
         serWhatsAppReminder = new WhatsappReminder();
     }
     
@@ -106,4 +109,16 @@ public class ServiceModel {
     public String updatecita(Cita cita){
        return serCitas.update(cita);  
     }    
+    
+    public CitaAsignada findCitaAsignada(UsuarioCliente cliente){
+       return sercitasAsi.find(cliente); 
+    }
+   
+    public String deleteCitaAsignada(CitaAsignada citaAsi){
+        return sercitasAsi.delete(citaAsi);  
+    }
+    
+    public String saveCitaAsignada(CitaAsignada cita) {
+        return sercitasAsi.save(cita); 
+    }
 }
