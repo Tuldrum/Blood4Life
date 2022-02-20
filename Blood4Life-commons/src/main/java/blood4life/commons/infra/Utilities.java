@@ -3,6 +3,9 @@ package blood4life.commons.infra;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Properties;
 
 public class Utilities {
@@ -34,4 +37,18 @@ public class Utilities {
 
         return resultado;
     }
+    
+    public static java.sql.Date DateToDateSQL(Date dateToConvert) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String sdate = simpleDateFormat.format(dateToConvert);
+        return java.sql.Date.valueOf(sdate);
+    }
+    
+    
+    public static java.sql.Date ActualDateToDateSQL() {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String sdate = simpleDateFormat.format(Calendar.getInstance().getTime());
+        return java.sql.Date.valueOf(sdate);
+    }
+    
 }

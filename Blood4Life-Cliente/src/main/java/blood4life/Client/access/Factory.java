@@ -19,17 +19,17 @@ public class Factory {
     private static Factory instance;
 
     private Factory() {
-        
+
     }
-    
+
     public static Factory getInstance() {
-	if (instance == null) {
-		instance = new Factory();
+        if (instance == null) {
+            instance = new Factory();
         }
-	return instance;
+        return instance;
     }
-    
-    public ICustomerAcces getCustomerAcces(){
+
+    public ICustomerAcces getCustomerAcces() {
         ICustomerAcces result = null;
         try {
             result = (ICustomerAcces) Class.forName(Utilities.loadProperty("UsuarioClienteImplSockets"))
@@ -43,8 +43,8 @@ public class Factory {
         }
         return result;
     }
-    
-    public ILugaresAcces getLugaresAcces()  {
+
+    public ILugaresAcces getLugaresAcces() {
         ILugaresAcces result = null;
         try {
             result = (ILugaresAcces) Class.forName(Utilities.loadProperty("LugaresAccesImplSockets"))
@@ -58,7 +58,7 @@ public class Factory {
         }
         return result;
     }
-    
+
     public ICitaAcces getCitaAcces() {
         ICitaAcces result = null;
         try {
@@ -73,5 +73,20 @@ public class Factory {
         }
         return result;
     }
-     
+
+    public ICitaAsignadaAcces getCitaAsignadaAcces() {
+        ICitaAsignadaAcces result = null;
+        try {
+            result = (ICitaAsignadaAcces) Class.forName(Utilities.loadProperty("CitaAsignadaAccessImpSockets"))
+                    .getConstructor().newInstance();
+        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException
+                | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+            Logger.getLogger(Factory.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (result == null) {
+            result = new CitaAsignadaAccessImpSockets();
+        }
+        return result;
+    }
+
 }

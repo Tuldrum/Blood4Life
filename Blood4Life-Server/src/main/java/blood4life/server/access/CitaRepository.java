@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 /**
  *
  * @author ASUS
@@ -64,7 +65,7 @@ public class CitaRepository implements ICitaRepository {
         List<Cita> products = new ArrayList<>();
         try {
             String sql = "SELECT cod_id, lugar_id, cupos, fecha, hora FROM cita c\n"
-                    + "WHERE c.cupos != 0 AND c.lugar_id = "+ String.valueOf(lugar_id) +" \n"
+                    + "WHERE c.cupos != 0 AND c.lugar_id = " + String.valueOf(lugar_id) + " \n"
                     + "AND c.fecha > CAST('" + dateSqlBefore.toString() + "' AS date)\n"
                     + "AND c.fecha <= CAST('" + dateSqlAfter.toString() + "' AS date)";
 
@@ -76,7 +77,7 @@ public class CitaRepository implements ICitaRepository {
                 cita.setLugar(lugares.find(rs.getInt("lugar_id")));
                 cita.setCupos(rs.getInt("cupos"));
                 cita.setFecha(rs.getDate("fecha"));
-                cita.setHora(rs.getTime("hora"));   
+                cita.setHora(rs.getTime("hora"));
                 products.add(cita);
             }
             //this.disconnect();
@@ -134,9 +135,7 @@ public class CitaRepository implements ICitaRepository {
                     + "fecha = ?,"
                     + "hora =? "
                     + "WHERE cod_id = " + String.valueOf(cita.getCodigo());
-            
-            //+ "hora = ?"
-            
+
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, cita.getCodigo());
             pstmt.setInt(2, cita.getLugar().getLugar_id());

@@ -113,7 +113,7 @@ public class CitaAccesImplSockets implements ICitaAcces {
                 throw new Exception(extractMessages(jsonResponse));
             } else {
                 //Agregó correctamente, devuelve la cedula del cita 
-                return "Cita " + cita.getCodigo() + " agendada";
+                return "Cita " + cita.getCodigo() + " creada";
             }
 
         }

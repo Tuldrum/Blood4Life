@@ -1,6 +1,7 @@
 package blood4life.server.infra;
 
 import blood4life.commons.domain.Cita;
+import blood4life.commons.domain.CitaAsignada;
 import blood4life.commons.domain.LugarRecogida;
 import blood4life.commons.domain.Sangre;
 import blood4life.commons.domain.UsuarioCliente;
@@ -8,7 +9,6 @@ import blood4life.commons.infra.JsonError;
 import blood4life.commons.infra.Protocol;
 import blood4life.commons.infra.Utilities;
 import blood4life.server.domain.services.ServiceModel;
-import static blood4life.server.infra.Blood4LifeHandler.getService;
 import blood4life.serversocket.serversockettemplate.infra.ServerSocketTemplate;
 
 import com.google.gson.Gson;
@@ -110,8 +110,61 @@ public class Blood4LifeServerSocket extends ServerSocketTemplate {
                     processGetLugaresDisp(protocolRequest);
                 }
                 break;
+            case "citaAsignada":
+                procesarCitaAsignada(protocolRequest);
+                break;
         }
 
+    }
+
+    private void procesarCitaAsignada(Protocol protocolRequest) {
+        if (protocolRequest.getAction().equals("get")) {
+            proccesGetCitaAsiganda(protocolRequest);
+        }
+
+        if (protocolRequest.getAction().equals("post")) {
+            // Agregar una citaAsignada 
+            proccesPostCitaAsignada(protocolRequest);
+        }
+        if (protocolRequest.getAction().equals("delete")) {
+            proccesDeleteCitaAsignada(protocolRequest);
+        }
+    }
+    
+    private void proccesGetCitaAsiganda(Protocol protocolRequest){
+        String id = protocolRequest.getParameters().get(0).getValue();
+        UsuarioCliente cliente = getService().findCustomer(Integer.parseInt(id));
+        if (cliente == null) {
+            String errorJson = generateNotFoundErrorJson("Usuario no encontrado. ");
+            respond(errorJson);
+        } else {
+            CitaAsignada cita = getService().findCitaAsignada(cliente);  
+            if(cita == null){
+               String errorJson = "info: sin citas proximas";
+               respond(errorJson); 
+            }
+            respond(objectToJSON(cita));
+        }
+    }
+    
+    private void proccesPostCitaAsignada(Protocol protocolRequest){
+        int cod_user = Integer.parseInt(protocolRequest.getParameters().get(0).getValue()); 
+        int cod_cit = Integer.parseInt(protocolRequest.getParameters().get(1).getValue());
+        CitaAsignada cita = new CitaAsignada();  
+        cita.setCita(getService().findCita(cod_cit));
+        cita.setCliente(getService().findCustomer(cod_user));
+        String saveCitaAsignada = getService().saveCitaAsignada(cita);
+        respond(saveCitaAsignada);  
+    }
+    
+    private void proccesDeleteCitaAsignada(Protocol protocolRequest){
+        int cod_user = Integer.parseInt(protocolRequest.getParameters().get(0).getValue()); 
+        int cod_cit = Integer.parseInt(protocolRequest.getParameters().get(1).getValue());
+        CitaAsignada cita = new CitaAsignada();  
+        cita.setCita(getService().findCita(cod_cit));
+        cita.setCliente(getService().findCustomer(cod_user));
+        String deleteCitaAsignada = getService().deleteCitaAsignada(cita);
+        respond(deleteCitaAsignada); 
     }
 
     private void proccesGetCita(Protocol protocolRequest) {
@@ -125,7 +178,7 @@ public class Blood4LifeServerSocket extends ServerSocketTemplate {
         }
     }
 
-private void processPostCita(Protocol protocolRequest) {
+    private void processPostCita(Protocol protocolRequest) {
         Cita cita = new Cita();
         // Reconstruir el customer a partid de lo que viene en los parámetros
         cita.setCodigo(Integer.parseInt(protocolRequest.getParameters().get(0).getValue()));
@@ -136,7 +189,7 @@ private void processPostCita(Protocol protocolRequest) {
         respond(response);
     }
 
- private void proccesUpdateCita(Protocol protocolRequest) {
+    private void proccesUpdateCita(Protocol protocolRequest) {
         Cita cita = new Cita();
         // Reconstruir el customer a partid de lo que viene en los parámetros
         cita.setCodigo(Integer.parseInt(protocolRequest.getParameters().get(0).getValue()));
@@ -148,10 +201,10 @@ private void processPostCita(Protocol protocolRequest) {
         String response = getService().updatecita(cita);
         respond(response);
     }
-    
-    private String simpleformat(String param){
-        String aux[] = param.split("\""); 
-        return aux[1]; 
+
+    private String simpleformat(String param) {
+        String aux[] = param.split("\"");
+        return aux[1];
     }
 
     private void processGetCitasDisp(Protocol protocolRequest) {
