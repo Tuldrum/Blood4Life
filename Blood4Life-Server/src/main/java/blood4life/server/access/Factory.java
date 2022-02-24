@@ -5,6 +5,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import blood4life.commons.infra.Utilities;
+import blood4life.server.access.users.ClienteRepository;
+import blood4life.server.access.users.IClienteRepository;
 
 public class Factory {
 

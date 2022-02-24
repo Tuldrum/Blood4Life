@@ -9,6 +9,8 @@ import blood4life.commons.domain.Cita;
 import blood4life.commons.domain.CitaAsignada;
 import blood4life.commons.domain.UsuarioCliente;
 import blood4life.commons.infra.Utilities;
+import blood4life.server.access.users.IClienteRepository;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

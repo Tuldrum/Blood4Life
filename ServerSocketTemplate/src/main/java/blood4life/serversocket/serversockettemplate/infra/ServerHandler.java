@@ -116,6 +116,7 @@ public abstract class ServerHandler extends Thread implements Cloneable {
         return strObject;
     }
 
+    @SuppressWarnings("rawtypes")
     protected String listToJson(List results) {
         Gson gson = new Gson();
         Type type = new TypeToken<List<Object>>() {

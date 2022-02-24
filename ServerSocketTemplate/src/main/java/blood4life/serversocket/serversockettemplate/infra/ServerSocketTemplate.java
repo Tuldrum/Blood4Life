@@ -182,6 +182,7 @@ public abstract class ServerSocketTemplate implements Runnable {
         return strObject;
     }
     
+    @SuppressWarnings("rawtypes")
     protected String listToJson(List results){
         Gson gson = new Gson();
         Type type = new TypeToken<List<Object>>(){}.getType();  
