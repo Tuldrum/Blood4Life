@@ -106,8 +106,8 @@ public class Factory {
         if (citaRepo == null) {
             try {
                 citaRepo = (ICitaRepository) Class.forName(Utilities.loadProperty("CitaRepository"))
-                        .getConstructor(IConnectionRepository.class, IClienteRepository.class, ILugaresRepository.class)
-                        .newInstance(getConn(), getClienteRepository(), getLugaresRepository());
+                        .getConstructor(IConnectionRepository.class, ILugaresRepository.class)
+                        .newInstance(getConn(), getLugaresRepository());
             } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException
                     | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
                 Logger.getLogger(Factory.class.getName()).log(Level.SEVERE, null, ex);
