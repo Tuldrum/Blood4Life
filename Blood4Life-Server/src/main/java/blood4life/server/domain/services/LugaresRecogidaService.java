@@ -27,11 +27,12 @@ public class LugaresRecogidaService {
     public synchronized LugarRecogida find(int id){
         return repo.find(id); 
     }
-    public synchronized List<LugarRecogida> listLugaresDisp(Date before, Date after){
+    
+    public synchronized List<LugarRecogida> list(Date before, Date after){
         return repo.list(before, after);  
     }
     
-    public synchronized String crearLugarRecogida(LugarRecogida lugar){
+    public synchronized String create(LugarRecogida lugar){
         
         List<JsonError> errors = new ArrayList<>();
   

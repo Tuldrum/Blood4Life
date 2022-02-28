@@ -29,11 +29,11 @@ public class CitaService {
         return repo.find(cod_cita);
     }
     
-    public synchronized List<Cita> citas(Date dateSqlBefore, Date dateSqlAfter, int user_id){
+    public synchronized List<Cita> list(Date dateSqlBefore, Date dateSqlAfter, int user_id){
         return repo.list(dateSqlBefore, dateSqlAfter, user_id);  
     }
 
-    public synchronized String save(Cita cita) {
+    public synchronized String create(Cita cita) {
         List<JsonError> errors = new ArrayList<>();
 
         // Validaciones y reglas de negocio
