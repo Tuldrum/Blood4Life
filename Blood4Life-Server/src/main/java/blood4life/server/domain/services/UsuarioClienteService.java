@@ -26,11 +26,11 @@ public class UsuarioClienteService {
         this.repo = repo;
     }
 
-    public synchronized UsuarioCliente find(int id) {
+   public synchronized UsuarioCliente find(int id) {
         return repo.find(id);
     }
 
-    public synchronized String createCustomer(UsuarioCliente customer) {
+    public synchronized String create(UsuarioCliente customer) {
         List<JsonError> errors = new ArrayList<>();
 
         // Validaciones y reglas de negocio
@@ -61,5 +61,5 @@ public class UsuarioClienteService {
         }
         return "Error: algo salió mal..consultar con el administrador del sistema";
     }
-
+    
 }

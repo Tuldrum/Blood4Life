@@ -15,7 +15,12 @@ import com.google.gson.Gson;
 
 import blood4life.commons.infra.JsonError;
 import blood4life.commons.infra.Protocol;
-import blood4life.server.domain.services.ServiceModel;
+import blood4life.server.domain.services.CitaAsignadaService;
+import blood4life.server.domain.services.CitaService;
+import blood4life.server.domain.services.GestorServicios;
+import blood4life.server.domain.services.LugaresRecogidaService;
+import blood4life.server.domain.services.Services;
+import blood4life.server.domain.services.UsuarioClienteService;
 import blood4life.serversocket.serversockettemplate.infra.ServerHandler;
 import java.sql.Date;
 import java.sql.Time;
@@ -31,14 +36,14 @@ public class Blood4LifeHandler extends ServerHandler {
 
     private Gson gson = new Gson();
 
-    private static ServiceModel service;
+    private static GestorServicios services;
 
-    public static ServiceModel getService() {
-        return service;
+    public static GestorServicios getService() {
+        return services;
     }
 
-    public static void setService(ServiceModel service) {
-        Blood4LifeHandler.service = service;
+    public static void setService(GestorServicios services) {
+        Blood4LifeHandler.services = services;
     }
 
     @Override
@@ -101,7 +106,6 @@ public class Blood4LifeHandler extends ServerHandler {
         }
 
         if (protocolRequest.getAction().equals("post")) {
-            // Agregar una citaAsignada 
             proccesPostCitaAsignada(protocolRequest);
         }
         if (protocolRequest.getAction().equals("delete")) {
@@ -111,12 +115,12 @@ public class Blood4LifeHandler extends ServerHandler {
 
     private void proccesGetCitaAsiganda(Protocol protocolRequest) {
         String id = protocolRequest.getParameters().get(0).getValue();
-        UsuarioCliente cliente = getService().findCustomer(Integer.parseInt(id));
+        UsuarioCliente cliente = ((UsuarioClienteService) getService(Services.UsuarioClienteService)).find(Integer.parseInt(id));
         if (cliente == null) {
             String errorJson = generateNotFoundErrorJson("Usuario no encontrado. ");
             respond(errorJson);
         } else {
-            CitaAsignada cita = getService().findCitaAsignada(cliente);
+            CitaAsignada cita = ((CitaAsignadaService) getService(Services.CitaAsignadaService)).find(cliente);
             if (cita == null) {
                 String errorJson = "info: sin citas proximas";
                 respond(errorJson);
@@ -129,9 +133,9 @@ public class Blood4LifeHandler extends ServerHandler {
         int cod_user = Integer.parseInt(protocolRequest.getParameters().get(0).getValue());
         int cod_cit = Integer.parseInt(protocolRequest.getParameters().get(1).getValue());
         CitaAsignada cita = new CitaAsignada();
-        cita.setCita(getService().findCita(cod_cit));
-        cita.setCliente(getService().findCustomer(cod_user));
-        String saveCitaAsignada = getService().saveCitaAsignada(cita);
+        cita.setCita(((CitaService) getService(Services.CitaService)).find(cod_cit));
+        cita.setCliente(((UsuarioClienteService) getService(Services.UsuarioClienteService)).find(cod_user));
+        String saveCitaAsignada = ((CitaAsignadaService) getService(Services.CitaAsignadaService)).create(cita);
         respond(saveCitaAsignada);
     }
 
@@ -139,15 +143,15 @@ public class Blood4LifeHandler extends ServerHandler {
         int cod_user = Integer.parseInt(protocolRequest.getParameters().get(0).getValue());
         int cod_cit = Integer.parseInt(protocolRequest.getParameters().get(1).getValue());
         CitaAsignada cita = new CitaAsignada();
-        cita.setCita(getService().findCita(cod_cit));
-        cita.setCliente(getService().findCustomer(cod_user));
-        String deleteCitaAsignada = getService().deleteCitaAsignada(cita);
+        cita.setCita(((CitaService) getService(Services.CitaService)).find(cod_cit));
+        cita.setCliente(((UsuarioClienteService) getService(Services.UsuarioClienteService)).find(cod_user));
+        String deleteCitaAsignada = ((CitaAsignadaService) getService(Services.CitaAsignadaService)).delete(cita);
         respond(deleteCitaAsignada);
     }
 
     private void proccesGetCita(Protocol protocolRequest) {
         String id = protocolRequest.getParameters().get(0).getValue();
-        Cita cita = getService().findCita(Integer.parseInt(id));
+        Cita cita = ((CitaService)getService(Services.CitaService)).find(Integer.parseInt(id));
         if (cita == null) {
             String errorJson = generateNotFoundErrorJson("Cita no encontrada. ");
             respond(errorJson);
@@ -163,15 +167,33 @@ public class Blood4LifeHandler extends ServerHandler {
         cita.setFecha(Date.valueOf(protocolRequest.getParameters().get(1).getValue()));
         cita.setLugar(gson.fromJson(protocolRequest.getParameters().get(2).getValue(), LugarRecogida.class));
         cita.setCupos(Integer.parseInt(protocolRequest.getParameters().get(3).getValue()));
-        String response = getService().saveCita(cita);
+        String response = ((CitaService)getService(Services.CitaService)).create(cita);
         respond(response);
+    }
+
+    private void proccesUpdateCita(Protocol protocolRequest) {
+        Cita cita = new Cita();
+        // Reconstruir el customer a partid de lo que viene en los parámetros
+        cita.setCodigo(Integer.parseInt(protocolRequest.getParameters().get(0).getValue()));
+        cita.setFecha(Date.valueOf(protocolRequest.getParameters().get(1).getValue()));
+        cita.setLugar(gson.fromJson(protocolRequest.getParameters().get(2).getValue(), LugarRecogida.class));
+        cita.setCupos(Integer.parseInt(protocolRequest.getParameters().get(3).getValue()));
+        String s = protocolRequest.getParameters().get(4).getValue();
+        cita.setHora(Time.valueOf(simpleformat(s)));
+        String response = ((CitaService)getService(Services.CitaService)).update(cita);
+        respond(response);
+    }
+
+    private String simpleformat(String param) {
+        String aux[] = param.split("\"");
+        return aux[1];
     }
 
     private void processGetCitasDisp(Protocol protocolRequest) {
         Date before = Date.valueOf(protocolRequest.getParameters().get(0).getValue());
         Date after = Date.valueOf(protocolRequest.getParameters().get(1).getValue());
         int id_lugar = Integer.parseInt(protocolRequest.getParameters().get(2).getValue());
-        List<Cita> disp = getService().listCitasDisponible(before, after, id_lugar);
+        List<Cita> disp = ((CitaService)getService(Services.CitaService)).list(before, after, id_lugar);
         if (disp == null) {
             String errorJson = generateNotFoundErrorJson("Sin coincidencias.");
             respond(errorJson);
@@ -184,27 +206,9 @@ public class Blood4LifeHandler extends ServerHandler {
         }
     }
 
-    private void proccesUpdateCita(Protocol protocolRequest) {
-        Cita cita = new Cita();
-        // Reconstruir el customer a partid de lo que viene en los parámetros
-        cita.setCodigo(Integer.parseInt(protocolRequest.getParameters().get(0).getValue()));
-        cita.setFecha(Date.valueOf(protocolRequest.getParameters().get(1).getValue()));
-        cita.setLugar(gson.fromJson(protocolRequest.getParameters().get(2).getValue(), LugarRecogida.class));
-        cita.setCupos(Integer.parseInt(protocolRequest.getParameters().get(3).getValue()));
-        String s = protocolRequest.getParameters().get(4).getValue();
-        cita.setHora(Time.valueOf(simpleformat(s)));
-        String response = getService().updatecita(cita);
-        respond(response);
-    }
-
-    private String simpleformat(String param) {
-        String aux[] = param.split("\"");
-        return aux[1];
-    }
-
     private void proccesGetUsuarioCliente(Protocol protocolRequest) {
         String id = protocolRequest.getParameters().get(0).getValue();
-        UsuarioCliente cliente = getService().findCustomer(Integer.parseInt(id));
+        UsuarioCliente cliente = ((UsuarioClienteService) getService(Services.UsuarioClienteService)).find(Integer.parseInt(id));
         if (cliente == null) {
             String errorJson = generateNotFoundErrorJson("Cita no encontrada. ");
             respond(errorJson);
@@ -222,13 +226,13 @@ public class Blood4LifeHandler extends ServerHandler {
         cliente.setMail(protocolRequest.getParameters().get(3).getValue());
         cliente.setNumeroTelefono(protocolRequest.getParameters().get(4).getValue());
         cliente.setSangre(gson.fromJson(protocolRequest.getParameters().get(5).getValue(), Sangre.class));
-        String response = getService().createCustomer(cliente);
+        String response = ((UsuarioClienteService) getService(Services.UsuarioClienteService)).create(cliente);
         respond(response);
     }
 
     private void proccesGetLugarRecogida(Protocol protocolRequest) {
         String id = protocolRequest.getParameters().get(0).getValue();
-        LugarRecogida lugar = getService().findLugar(Integer.parseInt(id));
+        LugarRecogida lugar = ((LugaresRecogidaService) getService(Services.LugaresRecogidaService)).find(Integer.parseInt(id));
         if (lugar == null) {
             String errorJson = generateNotFoundErrorJson("Información del lugar no encontrada.");
             respond(errorJson);
@@ -243,14 +247,14 @@ public class Blood4LifeHandler extends ServerHandler {
         lugar.setLugar_id(Integer.parseInt(protocolRequest.getParameters().get(0).getValue()));
         lugar.setDireccion(protocolRequest.getParameters().get(1).getValue());
         lugar.setNombre(protocolRequest.getParameters().get(2).getValue());
-        String response = getService().crearLugarRecogida(lugar);
+        String response = ((LugaresRecogidaService) getService(Services.LugaresRecogidaService)).create(lugar);
         respond(response);
     }
 
     private void processGetLugaresDisp(Protocol protocolRequest) {
         Date before = Date.valueOf(protocolRequest.getParameters().get(0).getValue());
         Date after = Date.valueOf(protocolRequest.getParameters().get(1).getValue());
-        List<LugarRecogida> disp = getService().listLugaresDisp(before, after);
+        List<LugarRecogida> disp = ((LugaresRecogidaService) getService(Services.LugaresRecogidaService)).list(before, after);
         if (disp == null) {
             String errorJson = generateNotFoundErrorJson("Sin coincidencias.");
             respond(errorJson);
@@ -270,10 +274,15 @@ public class Blood4LifeHandler extends ServerHandler {
         error.setError("NOT_FOUND");
         error.setMessage(msg);
         errors.add(error);
+
         Gson gson = new Gson();
         String errorsJson = gson.toJson(errors);
 
         return errorsJson;
+    }
+
+    public Object getService(Services s_enum) {
+        return services.getService(s_enum);
     }
 
 }

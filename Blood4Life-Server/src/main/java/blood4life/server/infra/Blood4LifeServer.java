@@ -5,7 +5,7 @@
  */
 package blood4life.server.infra;
 
-import blood4life.server.domain.services.ServiceModel;
+import blood4life.server.domain.services.GestorServicios;
 import blood4life.serversocket.serversockettemplate.infra.ServerSocketMultiThread;
 
 
@@ -22,7 +22,7 @@ public class Blood4LifeServer {
         // TODO code application logic here
         ServerSocketMultiThread myServer = new ServerSocketMultiThread(3000);
         Blood4LifeHandler myHandler = new Blood4LifeHandler();
-        myHandler.setService(new ServiceModel());
+        myHandler.setService(new GestorServicios());
         myServer.setServerHandler(myHandler);
         myServer.startServer();
     }

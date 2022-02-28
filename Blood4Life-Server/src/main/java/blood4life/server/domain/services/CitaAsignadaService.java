@@ -17,7 +17,7 @@ import java.util.List;
  *
  * @author ASUS
  */
-public class CitaAsignadaService {
+public class CitaAsignadaService  {
 
     private ICitaAsignadaRepository repo;
 
@@ -52,7 +52,7 @@ public class CitaAsignadaService {
         return "error: Algo salió mal, consulte con el administrador del sistema";
     }
 
-    public synchronized String save(CitaAsignada cita) {
+    public synchronized String create(CitaAsignada cita) {
         List<JsonError> errors = new ArrayList<>();
 
         // Validaciones y reglas de negocio

@@ -18,18 +18,20 @@ import java.util.logging.Logger;
  *
  * @author ASUS
  */
-public class SangreRepository implements ISangreRepository{
-      private Connection conn;
+public class SangreRepository implements ISangreRepository {
+
+    private Connection conn;
 
     public SangreRepository(IConnectionRepository connection) {
         this.conn = connection.getConn();
     }
 
+    @Override
     public boolean save(Sangre sangre) {
 
         try {
             //Validate product
-            if (sangre == null || sangre.getSangre_id()< 0 || sangre.getTipo()
+            if (sangre == null || sangre.getSangre_id() < 0 || sangre.getTipo()
                     .isEmpty() || sangre.getRH().isEmpty()) {
                 return false;
             }
@@ -51,6 +53,7 @@ public class SangreRepository implements ISangreRepository{
         return false;
     }
 
+    @Override
     public Sangre find(int id) {
         Sangre sangre = null;
         try {
