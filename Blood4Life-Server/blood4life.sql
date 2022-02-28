@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 20-02-2022 a las 00:59:42
+-- Tiempo de generación: 28-02-2022 a las 20:27:32
 -- Versión del servidor: 10.4.22-MariaDB
--- Versión de PHP: 7.3.33
+-- Versión de PHP: 8.1.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -133,9 +133,16 @@ INSERT INTO `sangre` (`sangre_id`, `tipo`, `RH`) VALUES
 
 CREATE TABLE `useraccess` (
   `user` int(11) NOT NULL,
-  `password` int(11) NOT NULL,
-  `clasificacion` int(11) NOT NULL
+  `password` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `useraccess`
+--
+
+INSERT INTO `useraccess` (`user`, `password`) VALUES
+(10, 'pw1'),
+(20, 'pw2');
 
 -- --------------------------------------------------------
 
@@ -149,20 +156,21 @@ CREATE TABLE `usuariocliente` (
   `apellido` text NOT NULL,
   `mail` text NOT NULL,
   `telefono` text NOT NULL,
-  `sangre_id` int(11) NOT NULL,
-  `password` text DEFAULT NULL
+  `sangre_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `usuariocliente`
 --
 
-INSERT INTO `usuariocliente` (`user_id`, `nombre`, `apellido`, `mail`, `telefono`, `sangre_id`, `password`) VALUES
-(10029563, 'Paco', 'Jimenez', 'paco@gmail.com', '32402167497', 1, NULL),
-(10029564, 'Paco', 'Merte', 'paquito123@mail.com', '3228871674', 3, NULL),
-(12345678, 'Maria', 'Gomez', 'gomemza@mail.com', '324587998', 2, NULL),
-(12345679, 'Carla', 'Popovich', 'carpo@mail.com', '3245879979', 3, NULL),
-(1002805624, 'Lola', 'Mento', 'lolita@mail.com', '3105089540', 1, '1234');
+INSERT INTO `usuariocliente` (`user_id`, `nombre`, `apellido`, `mail`, `telefono`, `sangre_id`) VALUES
+(10, 'Sujeto1', 'Prueba1', 'sujPru1@correo.com', '3133133133', 2),
+(20, 'Sujeto2', 'Prueba2', 'sujPru2@correo.com', '3123123122', 2),
+(10029563, 'Paco', 'Jimenez', 'paco@gmail.com', '32402167497', 1),
+(10029564, 'Paco', 'Merte', 'paquito123@mail.com', '3228871674', 3),
+(12345678, 'Maria', 'Gomez', 'gomemza@mail.com', '324587998', 2),
+(12345679, 'Carla', 'Popovich', 'carpo@mail.com', '3245879979', 3),
+(1002805624, 'Lola', 'Mento', 'lolita@mail.com', '3105089540', 1);
 
 -- --------------------------------------------------------
 
@@ -175,7 +183,6 @@ CREATE TABLE `usuariofuncionario` (
   `nombre` text NOT NULL,
   `apellido` text NOT NULL,
   `mail` varchar(50) NOT NULL,
-  `password` text NOT NULL,
   `telefono` text NOT NULL,
   `organizacion` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
