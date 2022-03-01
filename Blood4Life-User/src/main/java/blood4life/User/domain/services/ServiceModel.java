@@ -5,7 +5,7 @@
  */
 package blood4life.User.domain.services;
 
-import blood4life.User.access.Factory;
+import blood4life.User.access.FactoryImpl;
 import blood4life.User.access.ICitaAcces;
 import blood4life.User.access.ICitaAsignadaAcces;
 import blood4life.User.access.ILugaresAcces;
@@ -25,7 +25,7 @@ import java.util.List;
  */
 public class ServiceModel {
 
-    private Factory instance;
+    private FactoryImpl instance;
     private IClienteAcces client;
     private ILugaresAcces lugares;
     private ICitaAcces citas;
@@ -33,7 +33,7 @@ public class ServiceModel {
     private IUserAccess usuarios;
 
     public ServiceModel() {
-        instance = Factory.getInstance();
+        instance = FactoryImpl.getInstance();
         client = instance.getCustomerAcces();
         lugares = instance.getLugaresAcces();
         citas = instance.getCitaAcces();
