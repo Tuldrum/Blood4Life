@@ -5,9 +5,6 @@
  */
 package blood4life.User.domain.services;
 
-import java.util.List;
-
-
 /**
  *
  * @author ASUS
