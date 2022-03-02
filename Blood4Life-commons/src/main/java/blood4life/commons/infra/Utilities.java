@@ -51,4 +51,10 @@ public class Utilities {
         return java.sql.Date.valueOf(sdate);
     }
     
+    public static boolean fun(Object obj, String c)
+                    throws ClassNotFoundException
+    {
+        return Class.forName(c).isInstance(obj);
+    }
+
 }
