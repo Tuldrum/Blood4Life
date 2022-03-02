@@ -16,19 +16,25 @@ import java.util.Map;
 public class GestorServicios {
     
     private Factory factory;  
-    private Map<Services,Object> servicios;  
+    private Map<ServicesEnum,Object> servicios;  
     
     public GestorServicios(){
         factory = Factory.getInstance();
-        servicios = new EnumMap<>(Services.class);  
-        servicios.put(Services.AssignmentsService, new AssignmentsService(factory.getAssigmentRepository()));  
-        servicios.put(Services.CitaAsignadaService, new CitaAsignadaService(factory.getCitaAsignadaRepository()));    
-        servicios.put(Services.CitaService, new CitaService(factory.getCitaRepository()));  
-        servicios.put(Services.LugaresRecogidaService, new LugaresRecogidaService(factory.getLugaresRepository()));    
-        servicios.put(Services.UsuarioClienteService, new UsuarioClienteService(factory.getClienteRepository()));  
+        servicios = new EnumMap<>(ServicesEnum.class);  
+        AssignmentsService s1 = new AssignmentsService(factory.getAssigmentRepository());  
+        CitaAsignadaService s2 = new CitaAsignadaService(factory.getCitaAsignadaRepository());
+        CitaService s3 =  new CitaService(factory.getCitaRepository());  
+        LugaresRecogidaService s4 = new LugaresRecogidaService(factory.getLugaresRepository());    
+        UsuarioClienteService s5 = new UsuarioClienteService(factory.getClienteRepository());
+        
+        servicios.put(ServicesEnum.AssignmentsService, s1);  
+        servicios.put(ServicesEnum.CitaAsignadaService, s2 );    
+        servicios.put(ServicesEnum.CitaService, s3);  
+        servicios.put(ServicesEnum.LugaresRecogidaService, s4);    
+        servicios.put(ServicesEnum.UsuarioClienteService, s5);  
     }
     
-    public Object getService(Services s_enum){
+    public Object getService(ServicesEnum s_enum){
         return servicios.get(s_enum);
     }
     

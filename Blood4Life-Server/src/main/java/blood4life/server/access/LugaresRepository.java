@@ -76,7 +76,7 @@ public class LugaresRepository implements ILugaresRepository {
         try {
             
             String sql = "SELECT l.lugar_id, direccion, nombre FROM LugarRecogida l, cita c \n"
-                    + "where (l.lugar_id = c.lugar_id AND user_id IS null \n"
+                    + "where (l.lugar_id = c.lugar_id \n"
                     + "       AND c.fecha > CAST('" + before.toString() + "' AS date)\n"
                     + "       AND c.fecha <= CAST('" + after.toString() + "' AS date)) \n"
                     + "GROUP BY l.lugar_id;";

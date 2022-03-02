@@ -16,6 +16,8 @@ import org.slf4j.LoggerFactory;
 public class CreateCommand extends Command {
 
     private Object element; 
+    private String response;  
+    private String responseundo;  
     
     public CreateCommand(Object element, ServiceImpl service){
         super(service); 
@@ -27,14 +29,21 @@ public class CreateCommand extends Command {
     public void execute() {
         Logger logger= LoggerFactory.getLogger(CreateCommand.class); 
         logger.info("Comando de creación ejecutado. Se creo el elemento " + element.toString());
-        service.create(element);
+        response = service.create(element);
     }
 
     @Override
     public void undo() {
         Logger logger= LoggerFactory.getLogger(CreateCommand.class); 
         logger.info("Comando de creación ejecutado. Se canceló la creación del elemento " + element.toString());
-        service.delete(element);  
+        responseundo = service.delete(element);  
     }
-    
+
+    public String getResponse() {
+        return response;
+    }
+
+    public String getResponseundo() {
+        return responseundo;
+    }
 }

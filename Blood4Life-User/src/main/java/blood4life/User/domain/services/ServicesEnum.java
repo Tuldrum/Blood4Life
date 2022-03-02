@@ -12,5 +12,6 @@ package blood4life.User.domain.services;
 public enum ServicesEnum {
     CitaAsignadaService,
     CitaService,
-    LugaresServices
+    LugaresServices,
+    CustomerClientService
 }

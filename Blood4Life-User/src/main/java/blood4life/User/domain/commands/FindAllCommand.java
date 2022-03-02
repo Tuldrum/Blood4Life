@@ -27,7 +27,7 @@ public class FindAllCommand extends Command {
     @Override
     public void execute() {
         Logger logger= LoggerFactory.getLogger(FindAllCommand.class); 
-        logger.info("Comando de buscar todas las comidas ejecutado." );            
+        logger.info("Comando de buscar todos los elementos ejecutado." );            
         list = service.list(args);
     }
 
