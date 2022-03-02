@@ -1,12 +1,12 @@
-C:\Users\ASUS\Documents\GitHub\Blood4Life\Blood4Life-commons\src\main\java\blood4life\commons\infra\Protocol.java
-C:\Users\ASUS\Documents\GitHub\Blood4Life\Blood4Life-commons\src\main\java\blood4life\commons\domain\CitaAsignada.java
-C:\Users\ASUS\Documents\GitHub\Blood4Life\Blood4Life-commons\src\main\java\blood4life\commons\domain\UsuarioFuncionario.java
-C:\Users\ASUS\Documents\GitHub\Blood4Life\Blood4Life-commons\src\main\java\blood4life\commons\domain\User.java
-C:\Users\ASUS\Documents\GitHub\Blood4Life\Blood4Life-commons\src\main\java\blood4life\commons\domain\LugarRecogida.java
-C:\Users\ASUS\Documents\GitHub\Blood4Life\Blood4Life-commons\src\main\java\blood4life\commons\domain\Sangre.java
-C:\Users\ASUS\Documents\GitHub\Blood4Life\Blood4Life-commons\src\main\java\blood4life\commons\domain\UsuarioCliente.java
-C:\Users\ASUS\Documents\GitHub\Blood4Life\Blood4Life-commons\src\main\java\blood4life\commons\infra\Parameter.java
-C:\Users\ASUS\Documents\GitHub\Blood4Life\Blood4Life-commons\src\main\java\blood4life\commons\infra\JsonError.java
-C:\Users\ASUS\Documents\GitHub\Blood4Life\Blood4Life-commons\src\main\java\blood4life\commons\domain\Cita.java
-C:\Users\ASUS\Documents\GitHub\Blood4Life\Blood4Life-commons\src\main\java\blood4life\commons\domain\Assignments.java
-C:\Users\ASUS\Documents\GitHub\Blood4Life\Blood4Life-commons\src\main\java\blood4life\commons\infra\Utilities.java
+D:\Systems Engineering\Semestre VI\Laboratorio Ingeniería del Software II\PROYECTO_DONAR_SANGRE\Blood4Life\Blood4Life-commons\src\main\java\blood4life\commons\domain\User.java
+D:\Systems Engineering\Semestre VI\Laboratorio Ingeniería del Software II\PROYECTO_DONAR_SANGRE\Blood4Life\Blood4Life-commons\src\main\java\blood4life\commons\infra\Utilities.java
+D:\Systems Engineering\Semestre VI\Laboratorio Ingeniería del Software II\PROYECTO_DONAR_SANGRE\Blood4Life\Blood4Life-commons\src\main\java\blood4life\commons\domain\Sangre.java
+D:\Systems Engineering\Semestre VI\Laboratorio Ingeniería del Software II\PROYECTO_DONAR_SANGRE\Blood4Life\Blood4Life-commons\src\main\java\blood4life\commons\domain\LugarRecogida.java
+D:\Systems Engineering\Semestre VI\Laboratorio Ingeniería del Software II\PROYECTO_DONAR_SANGRE\Blood4Life\Blood4Life-commons\src\main\java\blood4life\commons\domain\Assignments.java
+D:\Systems Engineering\Semestre VI\Laboratorio Ingeniería del Software II\PROYECTO_DONAR_SANGRE\Blood4Life\Blood4Life-commons\src\main\java\blood4life\commons\domain\Cita.java
+D:\Systems Engineering\Semestre VI\Laboratorio Ingeniería del Software II\PROYECTO_DONAR_SANGRE\Blood4Life\Blood4Life-commons\src\main\java\blood4life\commons\infra\Parameter.java
+D:\Systems Engineering\Semestre VI\Laboratorio Ingeniería del Software II\PROYECTO_DONAR_SANGRE\Blood4Life\Blood4Life-commons\src\main\java\blood4life\commons\infra\JsonError.java
+D:\Systems Engineering\Semestre VI\Laboratorio Ingeniería del Software II\PROYECTO_DONAR_SANGRE\Blood4Life\Blood4Life-commons\src\main\java\blood4life\commons\domain\CitaAsignada.java
+D:\Systems Engineering\Semestre VI\Laboratorio Ingeniería del Software II\PROYECTO_DONAR_SANGRE\Blood4Life\Blood4Life-commons\src\main\java\blood4life\commons\domain\UsuarioCliente.java
+D:\Systems Engineering\Semestre VI\Laboratorio Ingeniería del Software II\PROYECTO_DONAR_SANGRE\Blood4Life\Blood4Life-commons\src\main\java\blood4life\commons\domain\UsuarioFuncionario.java
+D:\Systems Engineering\Semestre VI\Laboratorio Ingeniería del Software II\PROYECTO_DONAR_SANGRE\Blood4Life\Blood4Life-commons\src\main\java\blood4life\commons\infra\Protocol.java
