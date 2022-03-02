@@ -1,12 +1,12 @@
 package blood4life.User.presentacion.interfaceStrategy;
 
-import blood4life.User.presentacion.Cliente.VisualizarLugares;
+import blood4life.User.presentacion.Cliente.GUICliente;  
 
 public class ClienteStrategy implements IStrategy {
 
     @Override
     public void desplegarInterfaz() {
-        VisualizarLugares ventanaClientes = new VisualizarLugares();
+        GUICliente ventanaClientes = new GUICliente();
         ventanaClientes.setVisible(true);
     }
 }
