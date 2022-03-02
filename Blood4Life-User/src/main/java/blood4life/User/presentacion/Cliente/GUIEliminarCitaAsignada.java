@@ -41,6 +41,7 @@ public class GUIEliminarCitaAsignada extends javax.swing.JFrame {
         inv = new Invoker(); 
         initComponents();
         camposNoEditables();  
+        jButton2.setEnabled(true);
         jButton3.setEnabled(false);
     }
     
@@ -205,13 +206,12 @@ public class GUIEliminarCitaAsignada extends javax.swing.JFrame {
                 FindCommand fcmd = (FindCommand) inv.getCommand(); 
                 UsuarioCliente user = (UsuarioCliente) fcmd.getElement();  
                 if(user != null){
-                    cmd = new FindCommand(user, ser.getImpl(ServicesEnum.CitaAsignadaService));  
+                    cmd = new FindCommand(String.valueOf(user.getUser_id()), ser.getImpl(ServicesEnum.CitaAsignadaService));  
                     inv.setCommand(cmd);
                     inv.execute(); 
                     fcmd = (FindCommand) inv.getCommand(); 
                     CitaAsignada citAsg = (CitaAsignada) fcmd.getElement();  
                     if(citAsg != null){
-                        jButton2.setEnabled(false);
                         cita = citAsg.getCita();  
                         jTextField1.setText(String.valueOf(id));
                         jTextField2.setText(user.getName() + " " + user.getLastname());

@@ -6,7 +6,7 @@ package blood4life.User.presentacion;
 
 import javax.swing.JOptionPane;
 
-import blood4life.User.domain.services.ServiceModel;
+import blood4life.User.domain.services.ServiceLogin;
 import blood4life.commons.domain.User;
 import blood4life.commons.domain.UsuarioCliente;
 
@@ -17,7 +17,7 @@ import blood4life.commons.domain.UsuarioCliente;
 public class GUILogin extends javax.swing.JFrame {
 
     private boolean mostrar = false;
-    ServiceModel service;
+    ServiceLogin service;
     /**
      * Creates new form GUILogin
      */
@@ -109,7 +109,7 @@ public class GUILogin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
-        service = new ServiceModel();
+        service = new ServiceLogin();
         if (mostrar) {
             try {
                 User newUser = service.logear(txtID.getText(), txtPasswordVisible.getText());

@@ -124,9 +124,8 @@ public class CitaAsignadaRepository implements ICitaAsignadaRepository {
         try {
 
             String sql = "SELECT user_id, cod_id FROM citasasignadas"
-                    + " WHERE (user_id = " + String.valueOf(cita.getCliente().getUser_id())
-                    + " cod_id = " + String.valueOf(cita.getCita().getCodigo()) + ")"
-                    + "\n";
+                    + " WHERE (user_id = " + String.valueOf(cita.getCliente().getUser_id()) 
+                    + " and cod_id = " + String.valueOf(cita.getCita().getCodigo()) + ");"; 
 
             //this.connect();
             Statement stmt = conn.createStatement();
@@ -156,10 +155,9 @@ public class CitaAsignadaRepository implements ICitaAsignadaRepository {
         }
         try {
 
-            String sql = "DELETE cod_id FROM citasasignadas"
+            String sql = "DELETE FROM citasasignadas"
                     + " WHERE (user_id = " + String.valueOf(citaAsi.getCliente().getUser_id())
-                    + " cos_id = " + String.valueOf(citaAsi.getCita().getCodigo()) + ")"
-                    + "\n";
+                    + " AND cod_id = " + String.valueOf(citaAsi.getCita().getCodigo()) + ");";
 
             Statement stmt = conn.createStatement();
             stmt.executeUpdate(sql);
