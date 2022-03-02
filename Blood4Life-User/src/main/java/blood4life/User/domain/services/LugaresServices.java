@@ -47,6 +47,7 @@ public class LugaresServices implements ServiceImpl {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public Object list(Object elements) {
         try {
             ArrayList<Object> objects = (ArrayList<Object>) elements;

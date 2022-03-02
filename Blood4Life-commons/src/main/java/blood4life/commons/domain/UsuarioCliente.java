@@ -11,11 +11,26 @@ package blood4life.commons.domain;
  */
 public class UsuarioCliente extends User {
     
+    protected static UsuarioCliente instance;
+    
     private Sangre sangre;
 
-    public UsuarioCliente() {}
-    
-    public UsuarioCliente(int user_id, String name, String lastname, String mail, String numeroTelefono, Sangre sangre) {
+    public static UsuarioCliente getInstance() {
+        if (instance == null) {
+            instance = new UsuarioCliente();
+        }
+        return instance;
+    }
+    public static UsuarioCliente getInstance(int user_id, String name, String lastname, String mail, String numeroTelefono, Sangre sangre) {
+        if (instance == null) {
+            instance = new UsuarioCliente(user_id, name, lastname, mail, numeroTelefono, sangre);
+        }
+        return instance;
+    }
+
+    private UsuarioCliente() {}
+
+    private UsuarioCliente(int user_id, String name, String lastname, String mail, String numeroTelefono, Sangre sangre) {
         super(user_id, name, lastname, mail, numeroTelefono);
         this.sangre = sangre;  
     }
