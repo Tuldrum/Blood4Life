@@ -65,7 +65,7 @@ public class CitaRepository implements ICitaRepository {
         List<Cita> products = new ArrayList<>();
         try {
             String sql = "SELECT cod_id, lugar_id, cupos, fecha, hora FROM cita c\n"
-                    + "WHERE c.cupos != 0 AND c.lugar_id = " + String.valueOf(lugar_id) + " \n"
+                    + "WHERE c.cupos > 0 AND c.lugar_id = " + String.valueOf(lugar_id) + " \n"
                     + "AND c.fecha > CAST('" + dateSqlBefore.toString() + "' AS date)\n"
                     + "AND c.fecha <= CAST('" + dateSqlAfter.toString() + "' AS date)";
 

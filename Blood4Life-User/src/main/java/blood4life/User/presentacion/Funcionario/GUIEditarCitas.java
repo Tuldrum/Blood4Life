@@ -1,7 +1,7 @@
 package blood4life.User.presentacion.Funcionario;
 
 import blood4life.User.presentacion.Cliente.GUISolicitarCita;
-import blood4life.User.domain.services.ServiceModel;
+import blood4life.User.domain.services.ServiceLogin;
 import blood4life.commons.domain.Cita;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -18,7 +18,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class GUIEditarCitas extends javax.swing.JFrame {
 
-    ServiceModel service;
+    ServiceLogin service;
     JTable table;
     DefaultTableModel model;
     Date before;
@@ -34,11 +34,11 @@ public class GUIEditarCitas extends javax.swing.JFrame {
     public GUIEditarCitas() {
     }
     
-    public GUIEditarCitas(ServiceModel service) {
+    public GUIEditarCitas(ServiceLogin service) {
         parametrosInicializacion(service);
     }
     
-    public GUIEditarCitas(ServiceModel service, Date before, Date after, int lugarCita) throws Exception {
+    public GUIEditarCitas(ServiceLogin service, Date before, Date after, int lugarCita) throws Exception {
         parametrosInicializacion(service);
         this.before = before;
         this.after = after;
@@ -52,7 +52,7 @@ public class GUIEditarCitas extends javax.swing.JFrame {
         listaCita = service.citasDisponibles(before, after, lugarCita); 
     }
     
-    private void parametrosInicializacion(ServiceModel service) {
+    private void parametrosInicializacion(ServiceLogin service) {
         initComponents();
         this.service = service;
         this.model = new DefaultTableModel();

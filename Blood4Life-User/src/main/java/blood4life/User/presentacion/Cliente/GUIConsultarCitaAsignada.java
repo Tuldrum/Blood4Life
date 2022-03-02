@@ -188,7 +188,7 @@ public class GUIConsultarCitaAsignada extends javax.swing.JFrame {
                 FindCommand fcmd = (FindCommand) inv.getCommand(); 
                 UsuarioCliente user = (UsuarioCliente) fcmd.getElement();  
                 if(user != null){
-                    cmd = new FindCommand(user, ser.getImpl(ServicesEnum.CitaAsignadaService));  
+                    cmd = new FindCommand(String.valueOf(user.getUser_id()), ser.getImpl(ServicesEnum.CitaAsignadaService));  
                     inv.setCommand(cmd);
                     inv.execute(); 
                     fcmd = (FindCommand) inv.getCommand(); 

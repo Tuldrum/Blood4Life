@@ -44,16 +44,22 @@ public class CitaAsignadaService implements ServiceImpl{
         return null;  
     }
     
-    
-    @Deprecated
     @Override
-    public String update(Object elements) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public String delete(Object elements) {
+        try {
+            ArrayList<Object> args = (ArrayList<Object>) elements;
+            String cita_cod = (String) args.get(0);
+            String cod_user = (String) args.get(1);   
+            return impl.deleteCitaAsiganada(cita_cod, cod_user);
+        } catch (Exception ex) {
+            Logger.getLogger(CitaAsignadaService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;  
     }
     
     @Deprecated
     @Override
-    public String delete(Object elements) {
+    public String update(Object elements) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

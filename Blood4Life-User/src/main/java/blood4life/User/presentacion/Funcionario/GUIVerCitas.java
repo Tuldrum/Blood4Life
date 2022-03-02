@@ -5,7 +5,7 @@
  */
 package blood4life.User.presentacion.Funcionario;
 
-import blood4life.User.domain.services.ServiceModel;
+import blood4life.User.domain.services.ServiceLogin;
 import blood4life.commons.domain.LugarRecogida;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class GUIVerCitas extends javax.swing.JFrame {
 
-    ServiceModel service;
+    ServiceLogin service;
 
     /**
      * Creates new form VisualizarLugares
@@ -32,7 +32,7 @@ public class GUIVerCitas extends javax.swing.JFrame {
     private int lugarID = -1;
 
     public GUIVerCitas() {
-        service = new ServiceModel();
+        service = new ServiceLogin();
         initComponents();
         rec = new ArrayList();
         //infoJComboBox();
