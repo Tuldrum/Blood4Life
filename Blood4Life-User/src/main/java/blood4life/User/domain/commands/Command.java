@@ -13,7 +13,7 @@ import blood4life.User.domain.services.ServiceImpl;
 public abstract class Command {
     protected ServiceImpl service;  
     public Command(ServiceImpl service){
-        service = service;  
+        this.service = service;  
     }
     
     /**
