@@ -4,17 +4,22 @@
  */
 package blood4life.User.presentacion.Cliente;
 
+import blood4life.User.domain.services.GestorServicesImpl;
+
 /**
  *
  * @author cerqu
  */
 public class GUICliente extends javax.swing.JFrame {
-
+    
+    private GestorServicesImpl serv; 
+    
     /**
      * Creates new form GUICliente
      */
     public GUICliente() {
         initComponents();
+        serv = new GestorServicesImpl(); 
     }
 
     /**
@@ -147,17 +152,17 @@ public class GUICliente extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        GUIConsultarCitaAsignada guiConsultarCita = new GUIConsultarCitaAsignada();
+        GUIConsultarCitaAsignada guiConsultarCita = new GUIConsultarCitaAsignada(serv);
         guiConsultarCita.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        VisualizarLugares lugares = new VisualizarLugares();
+        VisualizarLugares lugares = new VisualizarLugares(serv);
         lugares.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        GUIEliminarCitaAsignada eliminarCita = new GUIEliminarCitaAsignada();
+        GUIEliminarCitaAsignada eliminarCita = new GUIEliminarCitaAsignada(serv);
         eliminarCita.setVisible(true);
     }//GEN-LAST:event_jButton5ActionPerformed
 
