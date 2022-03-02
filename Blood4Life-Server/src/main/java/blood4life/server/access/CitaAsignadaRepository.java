@@ -85,10 +85,11 @@ public class CitaAsignadaRepository implements ICitaAsignadaRepository {
         }
         try {
 
-            String sql = "SELECT cod_id FROM citasasignadas"
-                    + " WHERE (user_id = " + String.valueOf(cliente.getUser_id())
-                    + "AND c.fecha >= CAST('" + Utilities.ActualDateToDateSQL().toString() + "' AS date))"
-                    + "order by c.fecha ASC limit 1\n";
+            String sql = "SELECT c.cod_id FROM citasasignadas ca, cita c "
+                    + "WHERE (ca.cod_id = c.cod_id "
+                    + "AND c.fecha >= CAST('"
+                    + Utilities.ActualDateToDateSQL().toString() +"' AS date) "
+                    + "AND ca.user_id = "+ String.valueOf(cliente.getUser_id()) +" );";
 
             //this.connect();
             Statement stmt = conn.createStatement();
@@ -96,7 +97,7 @@ public class CitaAsignadaRepository implements ICitaAsignadaRepository {
 
             if (rs.next()) {
                 cod_cita = rs.getInt("cod_id");
-                banNull = (rs.wasNull()) ? true : false;
+                banNull = (rs.wasNull());
             }
 
             if (banNull || cod_cita == -1) {

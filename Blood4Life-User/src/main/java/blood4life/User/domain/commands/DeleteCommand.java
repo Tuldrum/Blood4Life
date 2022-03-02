@@ -18,6 +18,7 @@ public class DeleteCommand extends Command {
      * id de la comida a eliminar 
      */
     private Object object; 
+    private String result;  
     
     /**
      * Comida previa, que permitirá deshacer la operación de modificar
@@ -35,14 +36,14 @@ public class DeleteCommand extends Command {
     public void execute() {
         Logger logger= LoggerFactory.getLogger(DeleteCommand.class); 
         logger.info("Comando de eliminación ejecutado. Se borró la comida " + object.toString());
-        service.delete(object);
+        result = service.delete(object);
     }
 
     @Override
     public void undo() {
         Logger logger= LoggerFactory.getLogger(DeleteCommand.class); 
         logger.info("Comando de eliminación deshecho. Se restauró la comida " + this.getPrevious().toString());        
-        service.create(this.getPrevious());
+        result = service.create(this.getPrevious());
     }
     
     public Object getPrevious() {
@@ -51,5 +52,9 @@ public class DeleteCommand extends Command {
 
     public void setPrevious(Object previous) {
         this.previous = previous;
+    }
+    
+    public String getResult(){
+        return result;  
     }
 }
