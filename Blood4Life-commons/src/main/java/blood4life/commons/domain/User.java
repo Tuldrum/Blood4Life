@@ -15,7 +15,7 @@ public abstract class User {
      * @param mail
      * @param numeroTelefono
      */
-    public User(int user_id, String name, String lastname, String mail, String numeroTelefono) {
+    protected User(int user_id, String name, String lastname, String mail, String numeroTelefono) {
         this.user_id = user_id;
         this.name = name;
         this.lastname = lastname;
@@ -23,7 +23,7 @@ public abstract class User {
         this.numeroTelefono = numeroTelefono;
     }
 
-    public User() {
+    protected User() {
     }
 
     public int getUser_id() {
