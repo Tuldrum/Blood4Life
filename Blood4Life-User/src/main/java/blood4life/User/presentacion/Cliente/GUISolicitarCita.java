@@ -208,6 +208,8 @@ public class GUISolicitarCita extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
             ArrayList<Object> args = new ArrayList();
+            args.add(String.valueOf(cita.getCodigo()));  
+            args.add(id_user);  
             Command upd = new CreateCommand(args, ser.getImpl(ServicesEnum.CitaAsignadaService));
             inv.setCommand(upd);
             inv.execute();
@@ -226,7 +228,6 @@ public class GUISolicitarCita extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void actualizarCampos(String id, UsuarioCliente user) {
-        JOptionPane.showMessageDialog(null, "Ya existe una cita asiganda en el sistema");
         jTextField1.setText(String.valueOf(id));
         jTextField2.setText(user.getName() + " " + user.getLastname());
         jTextField3.setText(cita.getLugar().getNombre());
@@ -245,7 +246,7 @@ public class GUISolicitarCita extends javax.swing.JFrame {
                 FindCommand fcmd = (FindCommand) inv.getCommand();
                 UsuarioCliente user = (UsuarioCliente) fcmd.getElement();
                 if (user != null) {
-                    cmd = new FindCommand(user, ser.getImpl(ServicesEnum.CitaAsignadaService));
+                    cmd = new FindCommand(String.valueOf(user.getUser_id()), ser.getImpl(ServicesEnum.CitaAsignadaService));
                     inv.setCommand(cmd);
                     inv.execute();
                     fcmd = (FindCommand) inv.getCommand();

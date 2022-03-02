@@ -119,7 +119,7 @@ public class GUIEditarCitas extends javax.swing.JFrame {
         
         int index = table.getSelectedRow();
         if(!listaCita.isEmpty()){
-            new GUISolicitarCita(listaCita.get(index)).setVisible(true);
+           // new GUISolicitarCita(listaCita.get(index)).setVisible(true);
             this.setVisible(false);
         }else{
             JOptionPane.showMessageDialog(null, "Sin coincidencias para la busqueda");

@@ -147,8 +147,9 @@ public class Blood4LifeServerSocket extends ServerSocketTemplate {
             if (cita == null) {
                 String errorJson = "info: sin citas proximas";
                 respond(errorJson);
+            }else{
+                respond(objectToJSON(cita));
             }
-            respond(objectToJSON(cita));
         }
     }
 
