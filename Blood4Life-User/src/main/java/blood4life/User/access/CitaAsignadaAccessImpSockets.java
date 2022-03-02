@@ -40,13 +40,16 @@ public class CitaAsignadaAccessImpSockets implements ICitaAsignadaAcces{
                 Logger.getLogger(CitaAccesImplSockets.class.getName()).log(Level.INFO, jsonResponse);
                 throw new Exception(extractMessages(jsonResponse));
             } else {
-                //Encontró el customer
-                cita = jsonToCitaAsignada(jsonResponse);
-                Logger.getLogger(CitaAccesImplSockets.class.getName()).log(Level.INFO, "Lo que va en el JSon: (" + jsonResponse.toString() + ")");
-                return cita;
+                if(jsonResponse.contains("info: ")){
+                    return null;  
+                }else{
+                    //Encontró el customer
+                    cita = jsonToCitaAsignada(jsonResponse);
+                    Logger.getLogger(CitaAccesImplSockets.class.getName()).log(Level.INFO, "Lo que va en el JSon: (" + jsonResponse.toString() + ")");
+                    return cita;
+                }
             }
         }
-
     }
 
     @Override

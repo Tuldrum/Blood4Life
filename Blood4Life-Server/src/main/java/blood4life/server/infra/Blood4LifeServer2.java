@@ -19,6 +19,7 @@ public class Blood4LifeServer2 {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        // TODO code application logic here
         ServerSocketMultiThread myServer = new ServerSocketMultiThread(3000);
         Blood4LifeHandler myHandler = new Blood4LifeHandler();
         myHandler.setService(new GestorServicios());

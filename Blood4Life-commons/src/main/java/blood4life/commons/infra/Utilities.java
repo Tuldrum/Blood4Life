@@ -41,20 +41,12 @@ public class Utilities {
     public static java.sql.Date DateToDateSQL(Date dateToConvert) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String sdate = simpleDateFormat.format(dateToConvert);
-        return java.sql.Date.valueOf(sdate);
+        java.sql.Date date = java.sql.Date.valueOf(sdate);
+        return date; 
     }
-    
-    
+   
     public static java.sql.Date ActualDateToDateSQL() {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        String sdate = simpleDateFormat.format(Calendar.getInstance().getTime());
-        return java.sql.Date.valueOf(sdate);
+        return DateToDateSQL(Calendar.getInstance().getTime()); 
     }
     
-    public static boolean fun(Object obj, String c)
-                    throws ClassNotFoundException
-    {
-        return Class.forName(c).isInstance(obj);
-    }
-
 }

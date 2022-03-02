@@ -4,7 +4,6 @@ import blood4life.User.domain.commands.Command;
 import blood4life.User.domain.commands.FindAllCommand;
 import blood4life.User.domain.commands.Invoker;
 import blood4life.User.domain.services.GestorServicesImpl;
-import blood4life.User.domain.services.ServiceModel;
 import blood4life.User.domain.services.ServicesEnum;
 import blood4life.commons.domain.Cita;
 import java.sql.Date;
@@ -21,9 +20,9 @@ import javax.swing.table.DefaultTableModel;
  * @author ahurtado
  */
 public class GuiCitasDisponibles extends javax.swing.JFrame {
-    
-    Invoker inv;  
-    GestorServicesImpl ser;  
+
+    Invoker inv;
+    GestorServicesImpl ser;
     JTable table;
     DefaultTableModel model;
     Date before;
@@ -38,34 +37,34 @@ public class GuiCitasDisponibles extends javax.swing.JFrame {
      */
     public GuiCitasDisponibles() {
     }
-    
+
     public GuiCitasDisponibles(GestorServicesImpl ser) {
         parametrosInicializacion(ser);
     }
-    
+
     public GuiCitasDisponibles(GestorServicesImpl ser, Date before, Date after, int lugarCita) throws Exception {
-        inv = new Invoker();  
+        inv = new Invoker();
         parametrosInicializacion(ser);
         this.before = before;
         this.after = after;
         this.lugarCita = lugarCita;
         this.listaCita = new ArrayList();
-        actualizarInfo(); 
+        actualizarInfo();
         update();
     }
-    
-    private void actualizarInfo() throws Exception{
+
+    private void actualizarInfo() throws Exception {
         ArrayList<Object> args = new ArrayList();
-        args.add(before);  
-        args.add(after);  
-        args.add(lugarCita); 
-        Command cmd = new FindAllCommand(args, ser.getImpl(ServicesEnum.CitaService)); 
+        args.add(before);
+        args.add(after);
+        args.add(lugarCita);
+        Command cmd = new FindAllCommand(args, ser.getImpl(ServicesEnum.CitaService));
         inv.setCommand(cmd);
         inv.execute();
-        FindAllCommand cmdfa = (FindAllCommand) inv.getCommand();  
-        listaCita = (List<Cita>) cmdfa.getList();  
+        FindAllCommand cmdfa = (FindAllCommand) inv.getCommand();
+        listaCita = (List<Cita>) cmdfa.getList();
     }
-    
+
     private void parametrosInicializacion(GestorServicesImpl ser) {
         initComponents();
         this.ser = ser;
@@ -74,7 +73,7 @@ public class GuiCitasDisponibles extends javax.swing.JFrame {
         table = new JTable(model);
         jPanel2.add(new JScrollPane(table));
         setSize(500, 200);
-        setLocation(10,50);
+        setLocation(10, 50);
     }
 
     /**
@@ -125,15 +124,20 @@ public class GuiCitasDisponibles extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCerrarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-        
+
         int index = table.getSelectedRow();
-        if(!listaCita.isEmpty()){
-            new GUISolicitarCita(listaCita.get(index),ser).setVisible(true);
+        if (!listaCita.isEmpty() && index != -1) {
+            new GUISolicitarCita(listaCita.get(index), ser).setVisible(true);
             this.setVisible(false);
-        }else{
-            JOptionPane.showMessageDialog(null, "Sin coincidencias para la busqueda");
+        } else {
+            if (index < 0) {
+                JOptionPane.showMessageDialog(null, "Debe seleccionar una cita para continuar");
+            }else
+            {
+                JOptionPane.showMessageDialog(null, "Sin coincidencias para la busqueda");
+            }
         }
-        
+
     }//GEN-LAST:event_btnModificarActionPerformed
 
     public void update() {
@@ -153,5 +157,4 @@ public class GuiCitasDisponibles extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables
 
-    
 }
