@@ -1,20 +1,66 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
-package blood4life.user.presentacion.PresentacionFuncionario;
+package blood4life.User.presentacion.PresentacionFuncionario;
+
+import blood4life.User.presentacion.PresentacionCliente.*;
+import blood4life.User.domain.services.ServiceModel;
+import blood4life.commons.domain.Cita;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 /**
+ * Es un observador
  *
- * @author cerqu
+ * @author ahurtado
  */
 public class GUIEditarCitas extends javax.swing.JFrame {
 
+    ServiceModel service;
+    JTable table;
+    DefaultTableModel model;
+    Date before;
+    Date after;
+    int lugarCita;
+    List<Cita> listaCita;
+
     /**
-     * Creates new form GUIEditarCitas
+     * Creates new form GUIListadoProductos
+     *
+     * @param service servicio
      */
     public GUIEditarCitas() {
+    }
+    
+    public GUIEditarCitas(ServiceModel service) {
+        parametrosInicializacion(service);
+    }
+    
+    public GUIEditarCitas(ServiceModel service, Date before, Date after, int lugarCita) throws Exception {
+        parametrosInicializacion(service);
+        this.before = before;
+        this.after = after;
+        this.lugarCita = lugarCita;
+        this.listaCita = new ArrayList();
+        actualizarInfo(); 
+        update();
+    }
+    
+    private void actualizarInfo() throws Exception{
+        listaCita = service.citasDisponibles(before, after, lugarCita); 
+    }
+    
+    private void parametrosInicializacion(ServiceModel service) {
         initComponents();
+        this.service = service;
+        this.model = new DefaultTableModel();
+        model.addColumn("Hora");
+        table = new JTable(model);
+        jPanel2.add(new JScrollPane(table));
+        setSize(500, 200);
+        setLocation(10,50);
     }
 
     /**
@@ -27,104 +73,77 @@ public class GUIEditarCitas extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        btnModificar = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnCerrar = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel1.setText("Citas agendadas");
+        jLabel1.setText("Listado de Citas");
+        getContentPane().add(jLabel1, java.awt.BorderLayout.PAGE_START);
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jButton1.setText("Editar");
+        btnModificar.setText("Modificar");
+        btnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnModificar);
 
-        jButton2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jButton2.setText("Cancelar");
+        jButton1.setText("Eliminar");
+        jPanel1.add(jButton1);
+        jButton1.getAccessibleContext().setAccessibleName("bntEliminar");
 
-        jButton3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jButton3.setText("Eliminar");
+        btnCerrar.setText("Cerrar");
+        btnCerrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCerrarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnCerrar);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(141, 141, 141)
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(43, 43, 43)
-                .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
-                .addComponent(jButton3)
-                .addGap(40, 40, 40)
-                .addComponent(jButton2)
-                .addGap(38, 38, 38))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 212, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
-                .addGap(26, 26, 26))
-        );
-
-        jLabel1.getAccessibleContext().setAccessibleName("lblCitasAgen");
-        jButton1.getAccessibleContext().setAccessibleName("lblEditarCita");
-        jButton2.getAccessibleContext().setAccessibleName("lblCancelar");
-        jButton3.getAccessibleContext().setAccessibleName("lblEliminarCita");
+        getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_END);
+        getContentPane().add(jPanel2, java.awt.BorderLayout.LINE_END);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GUIEditarCitas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GUIEditarCitas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GUIEditarCitas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GUIEditarCitas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
+    private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_btnCerrarActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new GUIEditarCitas().setVisible(true);
-            }
-        });
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        
+        int index = table.getSelectedRow();
+        if(!listaCita.isEmpty()){
+            new GUISolicitarCita(listaCita.get(index)).setVisible(true);
+            this.setVisible(false);
+        }else{
+            JOptionPane.showMessageDialog(null, "Sin coincidencias para la busqueda");
+        }
+        
+    }//GEN-LAST:event_btnModificarActionPerformed
+
+    public void update() {
+        this.setVisible(true);
+        model.setRowCount(0);
+        for (Cita c : listaCita) {
+            model.addRow(new Object[]{"" + c.getHora()});
+        }
+        table.paintImmediately(table.getBounds());
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCerrar;
+    private javax.swing.JButton btnModificar;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables
+
+    
 }
