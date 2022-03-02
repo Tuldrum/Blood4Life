@@ -79,9 +79,12 @@ public class GuiCitasDisponibles extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("Listado de Productos");
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel1.setText("Listado de Citas");
         getContentPane().add(jLabel1, java.awt.BorderLayout.PAGE_START);
+        jLabel1.getAccessibleContext().setAccessibleName("lblListadoCitas");
 
+        btnModificar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnModificar.setText("Modificar");
         btnModificar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -90,6 +93,7 @@ public class GuiCitasDisponibles extends javax.swing.JFrame {
         });
         jPanel1.add(btnModificar);
 
+        btnCerrar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnCerrar.setText("Cerrar");
         btnCerrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
