@@ -173,11 +173,8 @@ public class GUIFuncionario extends javax.swing.JFrame {
         guiCitas.setVisible(true);
     }//GEN-LAST:event_bntVerCitasAgendadasActionPerformed
 
-<<<<<<< HEAD
-<<<<<<< HEAD
     @SuppressWarnings({"unchecked"})
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        System.out.println("hola");
+    private void btnExportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportarActionPerformed
         try {
             Command cmd = new FindAllCommand("",ser.getImpl(ServicesEnum.CitaAsignadaService));  
             inv.setCommand(cmd);
@@ -200,18 +197,7 @@ public class GUIFuncionario extends javax.swing.JFrame {
         } catch (Exception ex) {
             Logger.getLogger(GUIFuncionario.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_jButton7ActionPerformed
-=======
-    private void btnExportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportarActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_btnExportarActionPerformed
->>>>>>> 812f4b15f6c4cfd7e0f2ebf15bb4669a49ef9a8d
-=======
-    private void btnExportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnExportarActionPerformed
->>>>>>> 812f4b15f6c4cfd7e0f2ebf15bb4669a49ef9a8d
-
     /**
      * @param args the command line arguments
      */
