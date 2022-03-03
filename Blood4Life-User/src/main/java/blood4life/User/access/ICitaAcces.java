@@ -22,5 +22,6 @@ public interface ICitaAcces {
     public String updateCita(Cita cita) throws Exception;
     
     public List<Cita> CitasDisponibles(Date before, Date after, int id_lugar) throws Exception; 
-
+    
+    public List<Cita> CitasDisponibles(Date date, int id_lugar) throws Exception; 
 }

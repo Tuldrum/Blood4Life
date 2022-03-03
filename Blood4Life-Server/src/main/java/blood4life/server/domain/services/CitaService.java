@@ -32,6 +32,11 @@ public class CitaService {
     public synchronized List<Cita> list(Date dateSqlBefore, Date dateSqlAfter, int user_id){
         return repo.list(dateSqlBefore, dateSqlAfter, user_id);  
     }
+    
+    public synchronized List<Cita> list(Date dateSql, int user_id){
+        return repo.list(dateSql, user_id);  
+    }
+
 
     public synchronized String create(Cita cita) {
         List<JsonError> errors = new ArrayList<>();

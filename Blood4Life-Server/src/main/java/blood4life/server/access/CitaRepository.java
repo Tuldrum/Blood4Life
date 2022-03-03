@@ -151,4 +151,31 @@ public class CitaRepository implements ICitaRepository {
         }
         return false;
     } 
+    
+    @Override
+    public List<Cita> list(Date sqlDate, int lugar_id) {
+        List<Cita> products = new ArrayList<>();
+        try {
+            String sql = "SELECT cod_id, lugar_id, cupos, fecha, hora FROM cita c\n"
+                    + "WHERE c.lugar_id = " + String.valueOf(lugar_id) + " \n"
+                    + "AND c.fecha >= CAST('" + sqlDate.toString() + "' AS date);";
+
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                Cita cita = new Cita();
+                cita.setCodigo(rs.getInt("cod_id"));
+                cita.setLugar(lugares.find(rs.getInt("lugar_id")));
+                cita.setCupos(rs.getInt("cupos"));
+                cita.setFecha(rs.getDate("fecha"));
+                cita.setHora(rs.getTime("hora"));
+                products.add(cita);
+            }
+            //this.disconnect();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(CitaRepository.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return products;
+    }
 }
