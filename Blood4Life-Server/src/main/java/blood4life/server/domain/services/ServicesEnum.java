@@ -14,5 +14,6 @@ public enum ServicesEnum {
     CitaAsignadaService, 
     CitaService,
     LugaresRecogidaService,
-    UsuarioClienteService
+    UsuarioClienteService, 
+    EntidadService
 }

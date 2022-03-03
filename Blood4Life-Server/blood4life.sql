@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 28-02-2022 a las 20:27:32
+-- Tiempo de generación: 03-03-2022 a las 03:50:14
 -- Versión del servidor: 10.4.22-MariaDB
--- Versión de PHP: 8.1.0
+-- Versión de PHP: 7.3.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -30,7 +30,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `assignments` (
   `id_assis` int(10) UNSIGNED NOT NULL,
   `lugar_id` int(11) NOT NULL,
-  `sangre_id` int(11) NOT NULL,
+  `entidad_id` int(11) NOT NULL,
   `fecha` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -81,7 +81,9 @@ CREATE TABLE `citasasignadas` (
 
 CREATE TABLE `entidad` (
   `entidad_id` int(11) NOT NULL,
-  `nombre` text NOT NULL
+  `nombre` text NOT NULL,
+  `direccion` text NOT NULL,
+  `telefono` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -196,7 +198,7 @@ CREATE TABLE `usuariofuncionario` (
 --
 ALTER TABLE `assignments`
   ADD PRIMARY KEY (`id_assis`),
-  ADD KEY `fk_sangre_id_2` (`sangre_id`),
+  ADD KEY `fk_entidad_id_2` (`entidad_id`),
   ADD KEY `fk_lugar_id_2` (`lugar_id`);
 
 --
@@ -268,8 +270,8 @@ ALTER TABLE `assignments`
 -- Filtros para la tabla `assignments`
 --
 ALTER TABLE `assignments`
-  ADD CONSTRAINT `fk_lugar_id_2` FOREIGN KEY (`lugar_id`) REFERENCES `lugarrecogida` (`lugar_id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `fk_sangre_id_2` FOREIGN KEY (`sangre_id`) REFERENCES `sangre` (`sangre_id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `fk_entidad_id_2` FOREIGN KEY (`entidad_id`) REFERENCES `entidad` (`entidad_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_lugar_id_2` FOREIGN KEY (`lugar_id`) REFERENCES `lugarrecogida` (`lugar_id`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `cita`
