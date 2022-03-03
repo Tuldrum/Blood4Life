@@ -173,46 +173,7 @@ public class CitaAsignadaRepository implements ICitaAsignadaRepository {
         }
         return true;
     }
-    @Override
-    public List<String> getAll() {
-        List<String> list = new ArrayList<String>();
-        try {
-            String sql = 
-            "SELECT " +
-                "lu.nombre as nombreLugar, lu.direccion as direccionLugar, " +
-                "ci.fecha as fecha, ci.hora as hora, " +
-                "uc.user_id as user_id, uc.nombre as nombre, uc.apellido as apellido, uc.mail as mail, uc.telefono as telefono, " +
-                "sa.tipo as tipo, sa.RH as rh " +
-            "FROM lugarrecogida as lu, cita as ci, citasasignadas as ca, usuariocliente as uc, sangre as sa " +
-            "WHERE " +
-                "ca.user_id = uc.user_id AND " +
-                "uc.sangre_id = sa.sangre_id AND " +
-                "ca.cod_id = ci.cod_id AND " +
-                "ci.lugar_id = lu.lugar_id";
-
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);
-
-            while (rs.next()) {
-                list.add(
-                    rs.getString(0)+","+
-                    rs.getString(1)+","+
-                    rs.getString(2)+","+
-                    rs.getString(3)+","+
-                    rs.getString(4)+","+
-                    rs.getString(5)+","+
-                    rs.getString(6)+","+
-                    rs.getString(7)+","+
-                    rs.getString(8)+","+
-                    rs.getString(9)+","+
-                    rs.getString(10)
-                );
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(CitaRepository.class.getName()).log(Level.SEVERE, "Error al buscar el producto en la base de datos", ex);
-        }
-        return list;
-    }
+    
     
     //To do list (lugar id, fecha) 
     

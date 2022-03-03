@@ -173,31 +173,10 @@ public class GUIFuncionario extends javax.swing.JFrame {
         guiCitas.setVisible(true);
     }//GEN-LAST:event_bntVerCitasAgendadasActionPerformed
 
-    @SuppressWarnings({"unchecked"})
     private void btnExportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportarActionPerformed
-        try {
-            Command cmd = new FindAllCommand("",ser.getImpl(ServicesEnum.CitaAsignadaService));  
-            inv.setCommand(cmd);
-            inv.execute(); 
-            FindAllCommand fcmd = (FindAllCommand) inv.getCommand(); 
-            List<String> infoCitasAsignadas = (List<String>) fcmd.getList();
-            if (infoCitasAsignadas.size() == 0) {
-                JOptionPane.showMessageDialog(null, "No se encontraron datos para citas asignadas");
-                return;
-            }
-            BufferedWriter writer = Files.newBufferedWriter(Paths.get("datos_citas_asignadas.csv"));
-            CSVPrinter csvPrinter = new CSVPrinter(writer,
-                CSVFormat.DEFAULT.withHeader("lugar","direccion","fecha","hora","documentoPaciente","nombrePaciente",
-                                            "apellidoPaciente","mailPaciente","telPaciente","tipoSangre","rh").withDelimiter(';'));
-            for (String each : infoCitasAsignadas) {
-                csvPrinter.printRecord(each);
-            }
-            csvPrinter.flush();
-            csvPrinter.close();
-        } catch (Exception ex) {
-            Logger.getLogger(GUIFuncionario.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        // TODO add your handling code here:
     }//GEN-LAST:event_btnExportarActionPerformed
+
     /**
      * @param args the command line arguments
      */
