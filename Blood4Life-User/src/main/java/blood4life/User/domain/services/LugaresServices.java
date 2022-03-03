@@ -63,8 +63,7 @@ public class LugaresServices implements ServiceImpl {
         }
         return null;
     }
-    
-    @Deprecated
+
     @Override
     public String update(Object elements) {
         try {
@@ -76,7 +75,6 @@ public class LugaresServices implements ServiceImpl {
         return "Error: desconocido";
     }
 
-    @Deprecated
     @Override
     public String delete(Object elements) {
         try {
