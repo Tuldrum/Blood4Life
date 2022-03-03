@@ -58,6 +58,7 @@ public class CitaService implements ServiceImpl {
     }
     
     @Override
+    @SuppressWarnings("unchecked")
     public Object list(Object elements) {
         try {
             ArrayList<Object> list = (ArrayList<Object>) elements;

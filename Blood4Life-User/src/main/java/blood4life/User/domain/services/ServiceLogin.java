@@ -6,18 +6,8 @@
 package blood4life.User.domain.services;
 
 import blood4life.User.access.FactoryImpl;
-import blood4life.User.access.ICitaAcces;
-import blood4life.User.access.ICitaAsignadaAcces;
-import blood4life.User.access.ILugaresAcces;
-import blood4life.User.access.Users.IClienteAcces;
 import blood4life.User.access.Users.IUserAccess;
-import blood4life.commons.domain.Cita;
-import blood4life.commons.domain.CitaAsignada;
-import blood4life.commons.domain.LugarRecogida;
 import blood4life.commons.domain.User;
-import blood4life.commons.domain.UsuarioCliente;
-import java.sql.Date;
-import java.util.List;
 
 /**
  *

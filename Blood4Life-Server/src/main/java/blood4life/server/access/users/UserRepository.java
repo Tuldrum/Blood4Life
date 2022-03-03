@@ -60,22 +60,22 @@ public class UserRepository implements IUserRepository {
     private User construirTipoUsuario (ResultSet rs, String tipo) throws SQLException {
         switch (tipo) {
             case "usuariocliente": // Nombres de la tabla de la base de datos
-                return new UsuarioCliente(
-                    (rs.getInt("user_id")),
-                    (rs.getString("nombre")),
-                    (rs.getString("apellido")),
-                    (rs.getString("mail")),
-                    (rs.getString("telefono")),
-                    (sangre.find(rs.getInt("sangre_id"))) 
+            return UsuarioCliente.getInstance(
+                rs.getInt("user_id"),
+                rs.getString("nombre"),
+                rs.getString("apellido"),
+                rs.getString("mail"),
+                rs.getString("telefono"),
+                sangre.find(rs.getInt("sangre_id"))
                 );
             case "usuariofuncionario":
-                return new UsuarioFuncionario(
-                    (rs.getInt("user_id")),
-                    (rs.getString("nombre")),
-                    (rs.getString("apellido")),
-                    (rs.getString("mail")),
-                    (rs.getString("telefono")),
-                    (rs.getString("organizacion")) 
+            return UsuarioFuncionario.getInstance(
+                rs.getInt("user_id"),
+                rs.getString("nombre"),
+                rs.getString("apellido"),
+                rs.getString("mail"),
+                rs.getString("telefono"),
+                rs.getString("organizacion")
                 );
             default:
                 return null;

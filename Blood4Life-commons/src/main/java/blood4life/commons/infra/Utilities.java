@@ -49,4 +49,10 @@ public class Utilities {
         return DateToDateSQL(Calendar.getInstance().getTime()); 
     }
     
+    public static boolean fun(Object obj, String c)
+                    throws ClassNotFoundException
+    {
+        return Class.forName(c).isInstance(obj);
+    }
+
 }

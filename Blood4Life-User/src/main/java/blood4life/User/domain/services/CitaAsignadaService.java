@@ -21,6 +21,7 @@ public class CitaAsignadaService implements ServiceImpl{
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public String create(Object elements) {
         try {
             ArrayList<Object> objects = (ArrayList<Object>) elements;
@@ -45,6 +46,7 @@ public class CitaAsignadaService implements ServiceImpl{
     }
     
     @Override
+    @SuppressWarnings("unchecked")
     public String delete(Object elements) {
         try {
             ArrayList<Object> args = (ArrayList<Object>) elements;
