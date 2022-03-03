@@ -35,14 +35,14 @@ public class DeleteCommand extends Command {
     @Override
     public void execute() {
         Logger logger= LoggerFactory.getLogger(DeleteCommand.class); 
-        logger.info("Comando de eliminación ejecutado. Se borró la comida " + object.toString());
+        logger.info("Comando de eliminación ejecutado. Se borró el objeto " + object.toString());
         result = service.delete(object);
     }
 
     @Override
     public void undo() {
         Logger logger= LoggerFactory.getLogger(DeleteCommand.class); 
-        logger.info("Comando de eliminación deshecho. Se restauró la comida " + this.getPrevious().toString());        
+        logger.info("Comando de eliminación deshecho. Se restauró el objeto " + this.getPrevious().toString());        
         result = service.create(this.getPrevious());
     }
     

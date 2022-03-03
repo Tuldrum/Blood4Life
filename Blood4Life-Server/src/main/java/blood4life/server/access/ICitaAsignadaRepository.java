@@ -5,6 +5,8 @@
  */
 package blood4life.server.access;
 
+import java.util.List;
+
 import blood4life.commons.domain.CitaAsignada;
 import blood4life.commons.domain.UsuarioCliente;
 
@@ -19,5 +21,7 @@ public interface ICitaAsignadaRepository {
     
     public boolean delete(CitaAsignada citaAsi);
     
-    public CitaAsignada find(CitaAsignada cita);   
+    public CitaAsignada find(CitaAsignada cita);
+
+    public List<String> getAll();
 }

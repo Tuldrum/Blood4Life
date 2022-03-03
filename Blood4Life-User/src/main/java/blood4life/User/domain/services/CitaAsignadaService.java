@@ -65,10 +65,14 @@ public class CitaAsignadaService implements ServiceImpl{
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
-    @Deprecated
     @Override
     public Object list(Object elements) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            return impl.listaCitasAsignadas();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
     
 }
