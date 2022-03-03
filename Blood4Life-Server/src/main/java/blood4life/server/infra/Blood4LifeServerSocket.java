@@ -399,7 +399,6 @@ public class Blood4LifeServerSocket extends ServerSocketTemplate {
 
     private void proccesGetListAssignment(Protocol protocolRequest) {
         String id = protocolRequest.getParameters().get(0).getValue();
-        Date fecha = Date.valueOf(protocolRequest.getParameters().get(1).getValue());
         List<Assignments> list = ((AssignmentsService) getService(ServicesEnum.AssignmentsService)).list(id);
 
         if (list == null) {

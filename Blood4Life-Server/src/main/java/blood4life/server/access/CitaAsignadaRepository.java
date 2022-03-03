@@ -173,6 +173,4 @@ public class CitaAsignadaRepository implements ICitaAsignadaRepository {
     }
     
     
-    //To do list (lugar id, fecha) 
-    
 }
