@@ -24,6 +24,7 @@ public class AssignmentsService implements ServiceImpl {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public String create(Object elements) {
         try {
             ArrayList<Object> args = (ArrayList<Object>) elements;
@@ -38,6 +39,7 @@ public class AssignmentsService implements ServiceImpl {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public String delete(Object elements) {
         try {
             ArrayList<Object> args = (ArrayList<Object>) elements;
@@ -52,6 +54,7 @@ public class AssignmentsService implements ServiceImpl {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public Object find(Object elements) {
         try {
             ArrayList<Object> args = (ArrayList<Object>) elements;
