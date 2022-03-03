@@ -10,6 +10,10 @@ public interface ILugaresRepository {
 
     public LugarRecogida find(int id);
 
+    public boolean update(LugarRecogida lugar);
+
+    public boolean delete(LugarRecogida newLugar);
+
     public List<LugarRecogida> list(Date before, Date after);
     
     public List<LugarRecogida> list(); 
