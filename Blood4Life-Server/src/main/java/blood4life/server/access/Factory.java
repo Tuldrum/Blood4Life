@@ -18,6 +18,7 @@ public class Factory {
     private ICitaRepository citaRepo = null;
     private ISangreRepository SangreRepo = null;
     private ICitaAsignadaRepository citAsigRepo = null;
+    private IEntidadRepository entidadrepo = null; 
 
     private Factory() {
         conn = getConnectionRepository();
@@ -57,14 +58,14 @@ public class Factory {
         if (assisRepo == null) {
             try {
                 assisRepo = (IAssignmentsRepository) Class.forName(Utilities.loadProperty("AssignmentsRepository"))
-                        .getConstructor(IConnectionRepository.class, ILugaresRepository.class, ISangreRepository.class)
-                        .newInstance(getConn(), getLugaresRepository(), getSangreRepository());
+                        .getConstructor(IConnectionRepository.class, ILugaresRepository.class, IEntidadRepository.class)
+                        .newInstance(getConn(), getLugaresRepository(), getEntidadRepository());
             } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException
                     | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
                 Logger.getLogger(Factory.class.getName()).log(Level.SEVERE, null, ex);
             }
             if (assisRepo == null) {
-                assisRepo = new AssignmentsRepository(getConn(), getLugaresRepository(), getSangreRepository());
+                assisRepo = new AssignmentsRepository(getConn(), getLugaresRepository(), getEntidadRepository());
             }
         }
         return assisRepo;
@@ -157,6 +158,22 @@ public class Factory {
             }
         }
         return citAsigRepo;
+    }
+    
+     public IEntidadRepository getEntidadRepository () {
+        if (entidadrepo == null) {
+            try {
+                entidadrepo = (IEntidadRepository) Class.forName(Utilities.loadProperty("EntidadRepository"))
+                        .getConstructor(IConnectionRepository.class).newInstance(getConn());
+            } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException
+                    | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+                Logger.getLogger(Factory.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            if (entidadrepo == null) {
+                entidadrepo = new EntidadRepository(getConn());
+            }
+        }
+        return entidadrepo;
     }
 
 }

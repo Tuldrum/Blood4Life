@@ -4,18 +4,24 @@ import java.sql.Date;
 
 public class Assignments {
 
-    private LugarRecogida lugar_id;
-    private Sangre sangre_id;
+    private LugarRecogida lugar; 
     private Date fecha;
+    private Entidad entidad;  
 
-   
-
-    public Assignments(LugarRecogida lugar_id, Sangre sangre_id, Date fecha) {
-        this.lugar_id = lugar_id;
-        this.sangre_id = sangre_id;
+    public Assignments(LugarRecogida lugar_id, Date fecha, Entidad entidad) {
+        this.lugar = lugar_id;
         this.fecha = fecha;
+        this.entidad = entidad;
     }
 
+    public Entidad getEntidad() {
+        return entidad;
+    }
+
+    public void setEntidad(Entidad entidad) {
+        this.entidad = entidad;
+    }
+    
     public Assignments() {
     }
 
@@ -27,21 +33,11 @@ public class Assignments {
         this.fecha = fecha;
     }
 
-    public LugarRecogida getLugar_id() {
-        return lugar_id;
+    public LugarRecogida getLugar() {
+        return lugar;
     }
 
-    public void setLugar_id(LugarRecogida lugar_id) {
-        this.lugar_id = lugar_id;
-    }
-
-    public Sangre getSangre_id() {
-        return sangre_id;
-    }
-
-    public void setSangre_id(Sangre sangre_id) {
-        this.sangre_id = sangre_id;
-    }
-    
-
+    public void setLugar(LugarRecogida lugar) {
+        this.lugar = lugar;
+    }    
 }
