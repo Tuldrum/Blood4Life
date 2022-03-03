@@ -37,7 +37,7 @@ public class LugaresRecogidaService {
             errors.add(new JsonError("400", "BAD_REQUEST", "Lugar_id, direccion son obligatorios."));
         }
 
-        if (find(lugar.getLugar_id()) != null) {
+        if (find(lugar.getLugar_id()) == null) {
             errors.add(new JsonError("400", "BAD_REQUEST", "El lugar ya existe. "));
         }
 
@@ -50,8 +50,25 @@ public class LugaresRecogidaService {
         return "actualizado con éxito" + lugar.toString();
     }
 
-    public synchronized boolean delete(LugarRecogida newlugar) {
-        return repo.update(newlugar);
+    public synchronized String delete(LugarRecogida lugar) {
+        List<JsonError> errors = new ArrayList<>();
+
+        // Validaciones y reglas de negocio
+        if (lugar.getLugar_id() < 0 || lugar.getDireccion().isEmpty()) {
+            errors.add(new JsonError("400", "BAD_REQUEST", "Lugar_id, direccion son obligatorios."));
+        }
+
+        if (find(lugar.getLugar_id()) == null) {
+            errors.add(new JsonError("400", "BAD_REQUEST", "El lugar no existe. "));
+        }
+
+        if (!errors.isEmpty()) {
+            Gson gson = new Gson();
+            String errorsJson = gson.toJson(errors);
+            return errorsJson;
+        }
+        repo.delete(lugar);
+        return "actualizado con éxito" + lugar.toString();
     }
 
     public synchronized List<LugarRecogida> list(Date before, Date after) {
@@ -67,7 +84,7 @@ public class LugaresRecogidaService {
         List<JsonError> errors = new ArrayList<>();
 
         // Validaciones y reglas de negocio
-        if (lugar.getLugar_id() < 0 || lugar.getDireccion().isEmpty()) {
+        if (lugar.getLugar_id() < 0 || lugar.getDireccion().isEmpty() || lugar.getNombre().isEmpty()) {
             errors.add(new JsonError("400", "BAD_REQUEST", "Lugar_id, direccion son obligatorios."));
         }
 
