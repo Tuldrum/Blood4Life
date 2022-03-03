@@ -26,12 +26,15 @@ public class GestorServicios {
         CitaService s3 =  new CitaService(factory.getCitaRepository());  
         LugaresRecogidaService s4 = new LugaresRecogidaService(factory.getLugaresRepository());    
         UsuarioClienteService s5 = new UsuarioClienteService(factory.getClienteRepository());
+        EntidadService s6 = new EntidadService(factory.getEntidadRepository()); 
+        
         
         servicios.put(ServicesEnum.AssignmentsService, s1);  
         servicios.put(ServicesEnum.CitaAsignadaService, s2 );    
         servicios.put(ServicesEnum.CitaService, s3);  
         servicios.put(ServicesEnum.LugaresRecogidaService, s4);    
         servicios.put(ServicesEnum.UsuarioClienteService, s5);  
+        servicios.put(ServicesEnum.EntidadService, s6);  
     }
     
     public Object getService(ServicesEnum s_enum){

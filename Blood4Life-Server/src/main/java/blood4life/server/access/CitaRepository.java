@@ -150,5 +150,5 @@ public class CitaRepository implements ICitaRepository {
             Logger.getLogger(CitaRepository.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
-    }
+    } 
 }

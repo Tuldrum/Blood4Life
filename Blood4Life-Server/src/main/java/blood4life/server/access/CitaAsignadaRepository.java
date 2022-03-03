@@ -173,6 +173,7 @@ public class CitaAsignadaRepository implements ICitaAsignadaRepository {
         }
         return true;
     }
+<<<<<<< HEAD
 
     @Override
     public List<String> getAll() {
@@ -215,4 +216,10 @@ public class CitaAsignadaRepository implements ICitaAsignadaRepository {
         return list;
     }
 
+=======
+    
+    
+    //To do list (lugar id, fecha) 
+    
+>>>>>>> 812f4b15f6c4cfd7e0f2ebf15bb4669a49ef9a8d
 }
