@@ -347,7 +347,7 @@ public class Blood4LifeServerSocket extends ServerSocketTemplate {
         newlugar.setLugar_id(Integer.parseInt(protocolRequest.getParameters().get(0).getValue()));
         newlugar.setDireccion(protocolRequest.getParameters().get(1).getValue());
         newlugar.setNombre(protocolRequest.getParameters().get(2).getValue());
-        String response = ((LugaresRecogidaService) getService(ServicesEnum.LugaresRecogidaService)).update(newlugar);
+        String response = ((LugaresRecogidaService) getService(ServicesEnum.LugaresRecogidaService)).delete(newlugar);
         respond(response);
     }
 

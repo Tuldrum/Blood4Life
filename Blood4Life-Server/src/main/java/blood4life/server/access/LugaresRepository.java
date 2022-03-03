@@ -83,16 +83,18 @@ public class LugaresRepository implements ILugaresRepository {
                 return false;
             }
             //this.connect();
-            String sql = "UPDATE lugaresrecogida "
-                    + "SET lugar_id = ?, "
+            String sql = 
+                   
+                    "UPDATE LugarRecogida "
+                    + "SET lugar_id = ?,"
                     + "direccion = ?,"
-                    + "nombre = ?,"
-                    + "WHERE lugar_id = " + String.valueOf(lugar.getLugar_id());
+                    + "nombre =  ?"
+                    + "WHERE lugar_id = " + String.valueOf(lugar.getLugar_id())+ ";";
 
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, lugar.getLugar_id());
-            pstmt.setString(2, lugar.getNombre());
-            pstmt.setString(3, lugar.getDireccion());
+            pstmt.setString(2, lugar.getDireccion());
+            pstmt.setString(3, lugar.getNombre());
             pstmt.executeUpdate();
             //this.disconnect();
             return true;
@@ -110,7 +112,7 @@ public class LugaresRepository implements ILugaresRepository {
         try {
 
             String sql = "DELETE FROM lugarrecogida"
-                    + " WHERE (user_id = " + String.valueOf(lugar.getLugar_id()) + ");";
+                    + " WHERE (lugar_id = " + String.valueOf(lugar.getLugar_id()) + ");";
 
             Statement stmt = conn.createStatement();
             stmt.executeUpdate(sql);
