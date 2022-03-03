@@ -18,43 +18,69 @@ import java.util.List;
  * @author ASUS
  */
 public class LugaresRecogidaService {
-    private ILugaresRepository repo;  
+
+    private ILugaresRepository repo;
 
     public LugaresRecogidaService(ILugaresRepository repo) {
         this.repo = repo;
     }
-    
-    public synchronized LugarRecogida find(int id){
-        return repo.find(id); 
+
+    public synchronized LugarRecogida find(int id) {
+        return repo.find(id);
     }
-    
-    public synchronized List<LugarRecogida> list(Date before, Date after){
-        return repo.list(before, after);  
-    }
-    
-    public synchronized List<LugarRecogida> list(){
-        return repo.list();  
-    }
-    
-    public synchronized String create(LugarRecogida lugar){
-        
+
+    public synchronized String update(LugarRecogida lugar) {
         List<JsonError> errors = new ArrayList<>();
-  
+
         // Validaciones y reglas de negocio
-        if(lugar.getLugar_id()<0 || lugar.getDireccion().isEmpty()){
-            errors.add(new JsonError("400", "BAD_REQUEST","Lugar_id, direccion son obligatorios."));
+        if (lugar.getLugar_id() < 0 || lugar.getDireccion().isEmpty()) {
+            errors.add(new JsonError("400", "BAD_REQUEST", "Lugar_id, direccion son obligatorios."));
         }
-        
-        if (find(lugar.getLugar_id())!= null){
-            errors.add(new JsonError("400", "BAD_REQUEST","El lugar ya existe. "));
+
+        if (find(lugar.getLugar_id()) != null) {
+            errors.add(new JsonError("400", "BAD_REQUEST", "El lugar ya existe. "));
         }
-        
-       if (!errors.isEmpty()) {
+
+        if (!errors.isEmpty()) {
             Gson gson = new Gson();
             String errorsJson = gson.toJson(errors);
             return errorsJson;
-       }
-       repo.save(lugar);  
-        return "Guardado con éxito" + lugar.toString();  
+        }
+        repo.update(lugar);
+        return "actualizado con éxito" + lugar.toString();
+    }
+
+    public synchronized boolean delete(LugarRecogida newlugar) {
+        return repo.update(newlugar);
+    }
+
+    public synchronized List<LugarRecogida> list(Date before, Date after) {
+        return repo.list(before, after);
+    }
+
+    public synchronized List<LugarRecogida> list() {
+        return repo.list();
+    }
+
+    public synchronized String create(LugarRecogida lugar) {
+
+        List<JsonError> errors = new ArrayList<>();
+
+        // Validaciones y reglas de negocio
+        if (lugar.getLugar_id() < 0 || lugar.getDireccion().isEmpty()) {
+            errors.add(new JsonError("400", "BAD_REQUEST", "Lugar_id, direccion son obligatorios."));
+        }
+
+        if (find(lugar.getLugar_id()) != null) {
+            errors.add(new JsonError("400", "BAD_REQUEST", "El lugar ya existe. "));
+        }
+
+        if (!errors.isEmpty()) {
+            Gson gson = new Gson();
+            String errorsJson = gson.toJson(errors);
+            return errorsJson;
+        }
+        repo.save(lugar);
+        return "Guardado con éxito" + lugar.toString();
     }
 }
