@@ -312,8 +312,8 @@ public class Blood4LifeServerSocket extends ServerSocketTemplate {
         String id = protocolRequest.getParameters().get(0).getValue();
         LugarRecogida lugar = ((LugaresRecogidaService) getService(ServicesEnum.LugaresRecogidaService)).find(Integer.parseInt(id));
         if (lugar == null) {
-            String errorJson = generateNotFoundErrorJson("Información del lugar no encontrada.");
-            respond(errorJson);
+            //generateNotFoundErrorJson("Información del lugar no encontrada.");   
+            respond(new Gson().toJson("info: Información del lugar no encontrada"));
         } else {
             respond(objectToJSON(lugar));
         }

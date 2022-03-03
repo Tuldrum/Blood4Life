@@ -50,6 +50,10 @@ public class LugaresAccesImplSockets implements ILugaresAcces {
                 Logger.getLogger(LugaresAccesImplSockets.class.getName()).log(Level.INFO, jsonResponse);
                 throw new Exception(extractMessages(jsonResponse));
             } else {
+                if(jsonResponse.contains("info:")){
+                    Logger.getLogger(LugaresAccesImplSockets.class.getName()).log(Level.INFO, jsonResponse);
+                    return null; 
+                }
                 //Encontró el lugar
                 LugarRecogida lugares = jsonToLugares(jsonResponse);
                 Logger.getLogger(LugaresAccesImplSockets.class.getName()).log(Level.INFO, "Lo que va en el JSon: (" + jsonResponse.toString() + ")");

@@ -46,7 +46,7 @@ public class LugaresRecogidaService {
         }
         
         if (find(lugar.getLugar_id())!= null){
-            errors.add(new JsonError("400", "BAD_REQUEST","La cédula ya existe. "));
+            errors.add(new JsonError("400", "BAD_REQUEST","El lugar ya existe. "));
         }
         
        if (!errors.isEmpty()) {
