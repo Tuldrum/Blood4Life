@@ -10,7 +10,14 @@ import blood4life.commons.domain.CitaAsignada;
 import blood4life.commons.infra.JsonError;
 import blood4life.commons.infra.Protocol;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -93,6 +100,64 @@ public class CitaAsignadaAccessImpSockets implements ICitaAsignadaAcces{
             }
 
         }
+    }
+
+    @Override
+    public List<String> listaCitasAsignadas() throws Exception {
+        String jsonResponse = null;
+        String requestJson = doGetTableCitaAsignadaJson();
+        List<String> citas = new ArrayList<String>(); 
+        jsonResponse = peticionSocket(requestJson);
+        if (jsonResponse == null) {
+            throw new Exception("No se pudo conectar con el servidor. Revise la red o que el servidor esté escuchando. ");
+        } else {
+            if (jsonResponse.contains("error")) {
+                //Devolvió algún error
+                Logger.getLogger(CitaAccesImplSockets.class.getName()).log(Level.INFO, jsonResponse);
+                throw new Exception(extractMessages(jsonResponse));
+            } else {
+                if(jsonResponse.contains("info: ")){
+                    return null;  
+                }else{
+                    //Encontró el customer
+                    citas = jsonToListaCitasAsignadas(jsonResponse);
+                    Logger.getLogger(CitaAccesImplSockets.class.getName()).log(Level.INFO, "Lo que va en el JSon: (" + jsonResponse.toString() + ")");
+                    return citas;
+                }
+            }
+        }
+    }
+
+    private String doGetTableCitaAsignadaJson() {
+        Protocol protocol = new Protocol();
+        protocol.setResource("citaAsignada");
+        protocol.setAction("getAll");
+
+        Gson gson = new Gson();
+        String requestJson = gson.toJson(protocol);
+        return requestJson;
+    }
+
+    private List<String> jsonToListaCitasAsignadas (String jsonResponse) {
+        JsonArray jsonObject = JsonParser.parseString(jsonResponse).getAsJsonArray();
+        List<String> listaCitasAsignadas = new ArrayList<String>();
+        for (JsonElement citaAsignada : jsonObject) {
+            JsonObject jsonInfo = citaAsignada.getAsJsonObject();
+            listaCitasAsignadas.add(
+              jsonInfo.get("nombreLugar").getAsString() + "," +
+              jsonInfo.get("direccionLugar").getAsString() + "," +
+              jsonInfo.get("fecha").getAsString() + "," +
+              jsonInfo.get("hora").getAsString() + "," +
+              jsonInfo.get("user_id").getAsString() + "," +
+              jsonInfo.get("nombre").getAsString() + "," +
+              jsonInfo.get("apellido").getAsString() + "," +
+              jsonInfo.get("mail").getAsString() + "," +
+              jsonInfo.get("telefono").getAsString() + "," +
+              jsonInfo.get("tipo").getAsString() + "," +
+              jsonInfo.get("rh").getAsString()
+            );
+        }
+        return listaCitasAsignadas;
     }
    
     private String doFindCitaRequestJson(String user_id) {

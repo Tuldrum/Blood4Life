@@ -25,7 +25,7 @@ import javax.swing.JOptionPane;
 public class GUIConsultarCitaAsignada extends javax.swing.JFrame { 
     private Cita cita;  
     private String id_user;  
-    private GestorServicesImpl ser;  
+    private GestorServicesImpl ser;
     private Invoker inv;  
     /**
      * Creates new form GUISolicitarCita

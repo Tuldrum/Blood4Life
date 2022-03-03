@@ -29,6 +29,10 @@ public class CitaAsignadaService  {
         return repo.find(cliente);
     }
 
+    public synchronized List<String> getRepo () {
+        return repo.getAll();
+    }
+
     public synchronized String delete(CitaAsignada citaAsi) {
         List<JsonError> errors = new ArrayList<>();
         // Validaciones y reglas de negocio
