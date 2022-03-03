@@ -7,9 +7,7 @@ package blood4life.User.presentacion.Funcionario;
 
 import blood4life.User.domain.services.ServiceLogin;
 import blood4life.commons.domain.LugarRecogida;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**

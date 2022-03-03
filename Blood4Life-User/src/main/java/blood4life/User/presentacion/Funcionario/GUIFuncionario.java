@@ -34,6 +34,8 @@ public class GUIFuncionario extends javax.swing.JFrame {
      */
     public GUIFuncionario() {
         initComponents();
+        ser = new GestorServicesImpl(); 
+        inv = new Invoker(); 
     }
 
     /**
