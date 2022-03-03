@@ -245,6 +245,8 @@ public class LugaresAccesImplSockets implements ILugaresAcces {
         protocol.setResource("lugar");
         protocol.setAction("delete");
         protocol.addParameter("id", String.valueOf(lugar.getLugar_id()));
+        protocol.addParameter("dirección", lugar.getDireccion());
+        protocol.addParameter("nombre", lugar.getNombre());
 
         Gson gson = new Gson();
         String requestJson = gson.toJson(protocol);
