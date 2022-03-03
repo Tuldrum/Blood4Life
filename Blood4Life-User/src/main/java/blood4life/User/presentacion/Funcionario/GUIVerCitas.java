@@ -150,8 +150,7 @@ public class GUIVerCitas extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        GUIEditarCitas cita = new GUIEditarCitas();
-        cita.setVisible(true);
+        //TODO
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void formComponentHidden(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentHidden

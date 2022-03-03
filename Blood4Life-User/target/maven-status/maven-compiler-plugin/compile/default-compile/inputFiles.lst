@@ -1,3 +1,59 @@
+<<<<<<< HEAD
+D:\Systems Engineering\Semestre VI\Laboratorio Ingeniería del Software II\PROYECTO_BLOOD\Blood4Life\Blood4Life-User\src\main\java\blood4life\User\domain\services\EntidadesService.java
+D:\Systems Engineering\Semestre VI\Laboratorio Ingeniería del Software II\PROYECTO_BLOOD\Blood4Life\Blood4Life-User\src\main\java\blood4life\User\domain\commands\UpdateCommand.java
+D:\Systems Engineering\Semestre VI\Laboratorio Ingeniería del Software II\PROYECTO_BLOOD\Blood4Life\Blood4Life-User\src\main\java\blood4life\User\domain\services\CustomerClientService.java
+D:\Systems Engineering\Semestre VI\Laboratorio Ingeniería del Software II\PROYECTO_BLOOD\Blood4Life\Blood4Life-User\src\main\java\blood4life\User\presentacion\Funcionario\GUICitas.java
+D:\Systems Engineering\Semestre VI\Laboratorio Ingeniería del Software II\PROYECTO_BLOOD\Blood4Life\Blood4Life-User\src\main\java\blood4life\User\access\Users\IUserAccess.java
+D:\Systems Engineering\Semestre VI\Laboratorio Ingeniería del Software II\PROYECTO_BLOOD\Blood4Life\Blood4Life-User\src\main\java\blood4life\User\access\CitaAsignadaAccessImpSockets.java
+D:\Systems Engineering\Semestre VI\Laboratorio Ingeniería del Software II\PROYECTO_BLOOD\Blood4Life\Blood4Life-User\src\main\java\blood4life\User\domain\services\CitaService.java
+D:\Systems Engineering\Semestre VI\Laboratorio Ingeniería del Software II\PROYECTO_BLOOD\Blood4Life\Blood4Life-User\src\main\java\blood4life\User\presentacion\Cliente\GUIConsultarCitaAsignada.java
+D:\Systems Engineering\Semestre VI\Laboratorio Ingeniería del Software II\PROYECTO_BLOOD\Blood4Life\Blood4Life-User\src\main\java\blood4life\User\presentacion\Funcionario\GUIFuncionario.java
+D:\Systems Engineering\Semestre VI\Laboratorio Ingeniería del Software II\PROYECTO_BLOOD\Blood4Life\Blood4Life-User\src\main\java\blood4life\User\access\AssignmentsImplSockets.java
+D:\Systems Engineering\Semestre VI\Laboratorio Ingeniería del Software II\PROYECTO_BLOOD\Blood4Life\Blood4Life-User\src\main\java\blood4life\User\access\IAssignmentsAccess.java
+D:\Systems Engineering\Semestre VI\Laboratorio Ingeniería del Software II\PROYECTO_BLOOD\Blood4Life\Blood4Life-User\src\main\java\blood4life\User\presentacion\Cliente\GUIEliminarCitaAsignada.java
+D:\Systems Engineering\Semestre VI\Laboratorio Ingeniería del Software II\PROYECTO_BLOOD\Blood4Life\Blood4Life-User\src\main\java\blood4life\User\domain\services\CitaAsignadaService.java
+D:\Systems Engineering\Semestre VI\Laboratorio Ingeniería del Software II\PROYECTO_BLOOD\Blood4Life\Blood4Life-User\src\main\java\blood4life\User\presentacion\Funcionario\GUIVerCitas.java
+D:\Systems Engineering\Semestre VI\Laboratorio Ingeniería del Software II\PROYECTO_BLOOD\Blood4Life\Blood4Life-User\src\main\java\blood4life\User\access\LugaresAccesImplSockets.java
+D:\Systems Engineering\Semestre VI\Laboratorio Ingeniería del Software II\PROYECTO_BLOOD\Blood4Life\Blood4Life-User\src\main\java\blood4life\User\domain\services\ServicesEnum.java
+D:\Systems Engineering\Semestre VI\Laboratorio Ingeniería del Software II\PROYECTO_BLOOD\Blood4Life\Blood4Life-User\src\main\java\blood4life\User\access\WhatsappReminder.java
+D:\Systems Engineering\Semestre VI\Laboratorio Ingeniería del Software II\PROYECTO_BLOOD\Blood4Life\Blood4Life-User\src\main\java\blood4life\User\domain\services\ServiceLogin.java
+D:\Systems Engineering\Semestre VI\Laboratorio Ingeniería del Software II\PROYECTO_BLOOD\Blood4Life\Blood4Life-User\src\main\java\blood4life\User\presentacion\SignUpUser.java
+D:\Systems Engineering\Semestre VI\Laboratorio Ingeniería del Software II\PROYECTO_BLOOD\Blood4Life\Blood4Life-User\src\main\java\blood4life\User\access\ITwilioWhatsappMessager.java
+D:\Systems Engineering\Semestre VI\Laboratorio Ingeniería del Software II\PROYECTO_BLOOD\Blood4Life\Blood4Life-User\src\main\java\blood4life\User\domain\services\ServiceImpl.java
+D:\Systems Engineering\Semestre VI\Laboratorio Ingeniería del Software II\PROYECTO_BLOOD\Blood4Life\Blood4Life-User\src\main\java\blood4life\User\access\ILugaresAcces.java
+D:\Systems Engineering\Semestre VI\Laboratorio Ingeniería del Software II\PROYECTO_BLOOD\Blood4Life\Blood4Life-User\src\main\java\blood4life\User\domain\commands\Command.java
+D:\Systems Engineering\Semestre VI\Laboratorio Ingeniería del Software II\PROYECTO_BLOOD\Blood4Life\Blood4Life-User\src\main\java\blood4life\User\access\EntidadImplSockets.java
+D:\Systems Engineering\Semestre VI\Laboratorio Ingeniería del Software II\PROYECTO_BLOOD\Blood4Life\Blood4Life-User\src\main\java\blood4life\User\domain\services\GestorServicesImpl.java
+D:\Systems Engineering\Semestre VI\Laboratorio Ingeniería del Software II\PROYECTO_BLOOD\Blood4Life\Blood4Life-User\src\main\java\blood4life\User\domain\services\LugaresServices.java
+D:\Systems Engineering\Semestre VI\Laboratorio Ingeniería del Software II\PROYECTO_BLOOD\Blood4Life\Blood4Life-User\src\main\java\blood4life\User\access\ICitaAcces.java
+D:\Systems Engineering\Semestre VI\Laboratorio Ingeniería del Software II\PROYECTO_BLOOD\Blood4Life\Blood4Life-User\src\main\java\blood4life\User\presentacion\Cliente\GUISolicitarCita.java
+D:\Systems Engineering\Semestre VI\Laboratorio Ingeniería del Software II\PROYECTO_BLOOD\Blood4Life\Blood4Life-User\src\main\java\blood4life\User\access\Users\IClienteAcces.java
+D:\Systems Engineering\Semestre VI\Laboratorio Ingeniería del Software II\PROYECTO_BLOOD\Blood4Life\Blood4Life-User\src\main\java\blood4life\User\presentacion\Funcionario\GUILugares.java
+D:\Systems Engineering\Semestre VI\Laboratorio Ingeniería del Software II\PROYECTO_BLOOD\Blood4Life\Blood4Life-User\src\main\java\blood4life\User\presentacion\interfaceStrategy\IStrategy.java
+D:\Systems Engineering\Semestre VI\Laboratorio Ingeniería del Software II\PROYECTO_BLOOD\Blood4Life\Blood4Life-User\src\main\java\blood4life\User\domain\commands\Invoker.java
+D:\Systems Engineering\Semestre VI\Laboratorio Ingeniería del Software II\PROYECTO_BLOOD\Blood4Life\Blood4Life-User\src\main\java\blood4life\User\access\Users\UsuarioFuncionarioImplSockets.java
+D:\Systems Engineering\Semestre VI\Laboratorio Ingeniería del Software II\PROYECTO_BLOOD\Blood4Life\Blood4Life-User\src\main\java\blood4life\User\access\Users\UsuarioClienteImplSockets.java
+D:\Systems Engineering\Semestre VI\Laboratorio Ingeniería del Software II\PROYECTO_BLOOD\Blood4Life\Blood4Life-User\src\main\java\blood4life\User\access\Users\UsuarioImplSockets.java
+D:\Systems Engineering\Semestre VI\Laboratorio Ingeniería del Software II\PROYECTO_BLOOD\Blood4Life\Blood4Life-User\src\main\java\blood4life\User\domain\commands\DeleteCommand.java
+D:\Systems Engineering\Semestre VI\Laboratorio Ingeniería del Software II\PROYECTO_BLOOD\Blood4Life\Blood4Life-User\src\main\java\blood4life\User\access\FactoryImpl.java
+D:\Systems Engineering\Semestre VI\Laboratorio Ingeniería del Software II\PROYECTO_BLOOD\Blood4Life\Blood4Life-User\src\main\java\blood4life\User\presentacion\interfaceStrategy\ClienteStrategy.java
+D:\Systems Engineering\Semestre VI\Laboratorio Ingeniería del Software II\PROYECTO_BLOOD\Blood4Life\Blood4Life-User\src\main\java\blood4life\User\access\IEntidadAccess.java
+D:\Systems Engineering\Semestre VI\Laboratorio Ingeniería del Software II\PROYECTO_BLOOD\Blood4Life\Blood4Life-User\src\main\java\blood4life\User\access\Users\IFuncionarioAccess.java
+D:\Systems Engineering\Semestre VI\Laboratorio Ingeniería del Software II\PROYECTO_BLOOD\Blood4Life\Blood4Life-User\src\main\java\blood4life\User\presentacion\interfaceStrategy\FuncionarioStrategy.java
+D:\Systems Engineering\Semestre VI\Laboratorio Ingeniería del Software II\PROYECTO_BLOOD\Blood4Life\Blood4Life-User\src\main\java\blood4life\User\access\CitaAccesImplSockets.java
+D:\Systems Engineering\Semestre VI\Laboratorio Ingeniería del Software II\PROYECTO_BLOOD\Blood4Life\Blood4Life-User\src\main\java\blood4life\User\presentacion\Cliente\GUICliente.java
+D:\Systems Engineering\Semestre VI\Laboratorio Ingeniería del Software II\PROYECTO_BLOOD\Blood4Life\Blood4Life-User\src\main\java\blood4life\User\presentacion\interfaceStrategy\Context.java
+D:\Systems Engineering\Semestre VI\Laboratorio Ingeniería del Software II\PROYECTO_BLOOD\Blood4Life\Blood4Life-User\src\main\java\blood4life\User\domain\commands\FindAllCommand.java
+D:\Systems Engineering\Semestre VI\Laboratorio Ingeniería del Software II\PROYECTO_BLOOD\Blood4Life\Blood4Life-User\src\main\java\blood4life\User\domain\services\AssignmentsService.java
+D:\Systems Engineering\Semestre VI\Laboratorio Ingeniería del Software II\PROYECTO_BLOOD\Blood4Life\Blood4Life-User\src\main\java\blood4life\User\presentacion\Cliente\GuiCitasDisponibles.java
+D:\Systems Engineering\Semestre VI\Laboratorio Ingeniería del Software II\PROYECTO_BLOOD\Blood4Life\Blood4Life-User\src\main\java\blood4life\User\infra\Messages.java
+D:\Systems Engineering\Semestre VI\Laboratorio Ingeniería del Software II\PROYECTO_BLOOD\Blood4Life\Blood4Life-User\src\main\java\blood4life\User\access\ICitaAsignadaAcces.java
+D:\Systems Engineering\Semestre VI\Laboratorio Ingeniería del Software II\PROYECTO_BLOOD\Blood4Life\Blood4Life-User\src\main\java\blood4life\User\domain\commands\CreateCommand.java
+D:\Systems Engineering\Semestre VI\Laboratorio Ingeniería del Software II\PROYECTO_BLOOD\Blood4Life\Blood4Life-User\src\main\java\blood4life\User\domain\commands\FindCommand.java
+D:\Systems Engineering\Semestre VI\Laboratorio Ingeniería del Software II\PROYECTO_BLOOD\Blood4Life\Blood4Life-User\src\main\java\blood4life\User\presentacion\GUILogin.java
+D:\Systems Engineering\Semestre VI\Laboratorio Ingeniería del Software II\PROYECTO_BLOOD\Blood4Life\Blood4Life-User\src\main\java\blood4life\User\infra\Blood4LifeClientSocket.java
+D:\Systems Engineering\Semestre VI\Laboratorio Ingeniería del Software II\PROYECTO_BLOOD\Blood4Life\Blood4Life-User\src\main\java\blood4life\User\presentacion\Cliente\VisualizarLugares.java
+=======
 C:\Users\ASUS\Documents\GitHub\Blood4Life\Blood4Life-User\src\main\java\blood4life\User\presentacion\GUILogin.java
 C:\Users\ASUS\Documents\GitHub\Blood4Life\Blood4Life-User\src\main\java\blood4life\User\access\ITwilioWhatsappMessager.java
 C:\Users\ASUS\Documents\GitHub\Blood4Life\Blood4Life-User\src\main\java\blood4life\User\access\CitaAsignadaAccessImpSockets.java
@@ -55,3 +111,4 @@ C:\Users\ASUS\Documents\GitHub\Blood4Life\Blood4Life-User\src\main\java\blood4li
 C:\Users\ASUS\Documents\GitHub\Blood4Life\Blood4Life-User\src\main\java\blood4life\User\access\AssignmentsImplSockets.java
 C:\Users\ASUS\Documents\GitHub\Blood4Life\Blood4Life-User\src\main\java\blood4life\User\presentacion\Funcionario\GUILugares.java
 C:\Users\ASUS\Documents\GitHub\Blood4Life\Blood4Life-User\src\main\java\blood4life\User\domain\commands\Command.java
+>>>>>>> c6668b3ba0ad26130bdb26519dca3bbe2f8471c9
