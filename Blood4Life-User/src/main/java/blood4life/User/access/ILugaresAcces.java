@@ -15,6 +15,6 @@ public interface ILugaresAcces {
     public String editLugares(LugarRecogida lugar) throws Exception;
 
     public List<LugarRecogida> listLugaresDisponibles(Date before, Date After) throws Exception;
-	
-    public List<LugarRecogida> listLugares() throws Exception; 
+
+    public List<LugarRecogida> listLugares() throws Exception;
 }
