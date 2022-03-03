@@ -8,4 +8,5 @@ public interface ILugaresAcces {
 	public LugarRecogida findLugares(String id) throws Exception;
 	public String createLugar(LugarRecogida lugar) throws Exception; 
         public List<LugarRecogida> listLugaresDisponibles(Date before, Date After) throws Exception; 
+        public List<LugarRecogida> listLugares() throws Exception; 
 }

@@ -84,18 +84,7 @@ public class Blood4LifeHandler extends ServerHandler {
                 }
                 break;
             case "lugar":
-                if (protocolRequest.getAction().equals("get")) {
-                    // Consultar un customer
-                    proccesGetLugarRecogida(protocolRequest);
-                }
-
-                if (protocolRequest.getAction().equals("post")) {
-                    // Agregar un customer    
-                    proccesPostLugarRecogida(protocolRequest);
-                }
-                if (protocolRequest.getAction().equals("getlistadisponibles")) {
-                    processGetLugaresDisp(protocolRequest);
-                }
+                procesarLugares(protocolRequest);
                 break;
             case "citaAsignada":
                 procesarCitaAsignada(protocolRequest);
@@ -108,6 +97,21 @@ public class Blood4LifeHandler extends ServerHandler {
             case "entidades":
                 procesarEntidades(protocolRequest);
                 break;
+        }
+    }
+    
+      private void procesarLugares(Protocol protocolRequest) {
+        if (protocolRequest.getAction().equals("get")) {
+            proccesGetLugarRecogida(protocolRequest);
+        }
+        if (protocolRequest.getAction().equals("post")) {
+            proccesPostLugarRecogida(protocolRequest);
+        }
+        if (protocolRequest.getAction().equals("getlistadisponibles")) {
+            processGetLugaresDisp(protocolRequest);
+        }
+        if (protocolRequest.getAction().equals("getlista")) {
+            processGetLugaresDisp2(protocolRequest);
         }
     }
 
@@ -314,6 +318,20 @@ public class Blood4LifeHandler extends ServerHandler {
         } else {
             if (disp.isEmpty()) {
                 respond(new Gson().toJson("Info: Sin coincidencias"));
+            } else {
+                respond(listToJson(disp));
+            }
+        }
+    }
+    
+    private void processGetLugaresDisp2(Protocol protocolRequest) {
+        List<LugarRecogida> disp = ((LugaresRecogidaService) getService(ServicesEnum.LugaresRecogidaService)).list();
+        if (disp == null) {
+            String errorJson = generateNotFoundErrorJson("Sin elementos.");
+            respond(errorJson);
+        } else {
+            if (disp.isEmpty()) {
+                respond(new Gson().toJson("Info: Sin elementos"));
             } else {
                 respond(listToJson(disp));
             }
