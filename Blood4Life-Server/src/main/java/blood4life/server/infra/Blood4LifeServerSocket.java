@@ -166,7 +166,9 @@ public class Blood4LifeServerSocket extends ServerSocketTemplate {
         if (protocolRequest.getAction().equals("get")) {
             proccesGetCitaAsiganda(protocolRequest);
         }
-
+        if (protocolRequest.getAction().equals("getAll")) {
+            proccesGetAllInfoCitasAsignadas();
+        }
         if (protocolRequest.getAction().equals("post")) {
             proccesPostCitaAsignada(protocolRequest);
         }
@@ -174,7 +176,15 @@ public class Blood4LifeServerSocket extends ServerSocketTemplate {
             proccesDeleteCitaAsignada(protocolRequest);
         }
     }
-
+    private void proccesGetAllInfoCitasAsignadas() {
+        List<String> info = ((CitaAsignadaService) getService(ServicesEnum.CitaAsignadaService)).getRepo();
+        if (info == null) {
+            String errorJson = generateNotFoundErrorJson("info: Algo salió mal con la query para recopilar los datos de citas asignadas.");
+            respond(errorJson);
+        } else {
+            respond(listToJson(info));
+        }
+    }
     private void proccesGetCitaAsiganda(Protocol protocolRequest) {
         String id = protocolRequest.getParameters().get(0).getValue();
         UsuarioCliente cliente = ((UsuarioClienteService) getService(ServicesEnum.UsuarioClienteService)).find(Integer.parseInt(id));
