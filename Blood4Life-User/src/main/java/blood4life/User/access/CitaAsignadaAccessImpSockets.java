@@ -108,7 +108,7 @@ public class CitaAsignadaAccessImpSockets implements ICitaAsignadaAcces{
         String requestJson = doGetTableCitaAsignadaJson();
         List<String> citas = new ArrayList<String>(); 
         jsonResponse = peticionSocket(requestJson);
-        if (jsonResponse == null) {
+        if (jsonResponse == null || jsonResponse.equals("")) {
             throw new Exception("No se pudo conectar con el servidor. Revise la red o que el servidor esté escuchando. ");
         } else {
             if (jsonResponse.contains("error")) {
