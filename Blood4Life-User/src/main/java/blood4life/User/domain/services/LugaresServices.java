@@ -50,16 +50,20 @@ public class LugaresServices implements ServiceImpl {
     @SuppressWarnings("unchecked")
     public Object list(Object elements) {
         try {
-            ArrayList<Object> objects = (ArrayList<Object>) elements;
-            Date before = (Date) objects.get(0);
-            Date After = (Date) objects.get(1);
-            return impl.listLugaresDisponibles(before, After);
+            if(elements != null){
+                ArrayList<Object> objects = (ArrayList<Object>) elements;
+                Date before = (Date) objects.get(0);
+                Date After = (Date) objects.get(1);
+                return impl.listLugaresDisponibles(before, After);
+            }else{
+                return impl.listLugares(); 
+            }
         } catch (Exception ex) {
             Logger.getLogger(LugaresServices.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
-
+    
     @Deprecated
     @Override
     public String update(Object elements) {

@@ -11,4 +11,6 @@ public interface ILugaresRepository {
     public LugarRecogida find(int id);
 
     public List<LugarRecogida> list(Date before, Date after);
+    
+    public List<LugarRecogida> list(); 
 }
