@@ -12,7 +12,6 @@ import blood4life.User.infra.Messages;
 import blood4life.commons.domain.LugarRecogida;
 import javax.swing.table.DefaultTableModel;
 
-
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,10 +26,10 @@ import javax.swing.DefaultComboBoxModel;
 public class GUILugares extends javax.swing.JFrame {
 
     /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	/**
+     *
+     */
+    private static final long serialVersionUID = 1L;
+    /**
      * Instancia del invocador para poder enviar comandos al receptor
      * FoodService
      */
@@ -42,14 +41,13 @@ public class GUILugares extends javax.swing.JFrame {
      */
     public GUILugares() {
         invoker = new Invoker();
-        serv = new  GestorServicesImpl(); 
+        serv = new GestorServicesImpl();
         initComponents();
         setSize(870, 300);
         loadDataTable();
         loadDataCombo();
         initStateButtons();
         setLocationRelativeTo(null);
-        
 
     }
 
@@ -73,23 +71,24 @@ public class GUILugares extends javax.swing.JFrame {
     /**
      * Carga las comidas en el jTable
      */
-    private void loadDataTable()  {
-            try {
-                invoker.setCommand(new FindAllCommand(null,serv.getImpl(ServicesEnum.LugaresServices)));
-                invoker.execute();
-                FindAllCommand findAllCommand = (FindAllCommand) invoker.getCommand();
-                List<LugarRecogida> components = (List<LugarRecogida>) findAllCommand.getList();
-                DefaultTableModel modelTable = (DefaultTableModel) tblData.getModel();
-                clearData(modelTable);
-                for (LugarRecogida component : components) {
-                    Object[] fila = new Object[3];
-                    fila[0] = String.valueOf(component.getLugar_id());
-                    fila[1] = component.getNombre();
-                    fila[2] = component.getDireccion();
-                    modelTable.addRow(fila);
-                }   } catch (Exception ex) {
-                Logger.getLogger(GUILugares.class.getName()).log(Level.SEVERE, null, ex);
+    private void loadDataTable() {
+        try {
+            invoker.setCommand(new FindAllCommand(null, serv.getImpl(ServicesEnum.LugaresServices)));
+            invoker.execute();
+            FindAllCommand findAllCommand = (FindAllCommand) invoker.getCommand();
+            List<LugarRecogida> components = (List<LugarRecogida>) findAllCommand.getList();
+            DefaultTableModel modelTable = (DefaultTableModel) tblData.getModel();
+            clearData(modelTable);
+            for (LugarRecogida component : components) {
+                Object[] fila = new Object[3];
+                fila[0] = String.valueOf(component.getLugar_id());
+                fila[1] = component.getNombre();
+                fila[2] = component.getDireccion();
+                modelTable.addRow(fila);
             }
+        } catch (Exception ex) {
+            Logger.getLogger(GUILugares.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -246,26 +245,26 @@ public class GUILugares extends javax.swing.JFrame {
     }
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-            try {
-                String name = txtName.getText();
-                if (name.isEmpty()) {
-                    Messages.warningMessage("Debe agregar un nombre", "Atención");
-                    txtName.requestFocus();
-                    return;
-                }
-                
-                int id = Integer.parseInt(txtId.getText());
-                String direcccion = txtDireccion.getText();  
-                
-                addLugar(id, name, direcccion);
-                
-                Messages.successMessage("Comida agregada con éxito", "Atención");
-                clearControls();
-                initStateButtons();
-                loadDataTable();
-            } catch (Exception ex) {
-                Logger.getLogger(GUILugares.class.getName()).log(Level.SEVERE, null, ex);
+        try {
+            String name = txtName.getText();
+            if (name.isEmpty()) {
+                Messages.warningMessage("Debe agregar un nombre", "Atención");
+                txtName.requestFocus();
+                return;
             }
+
+            int id = Integer.parseInt(txtId.getText());
+            String direcccion = txtDireccion.getText();
+
+            addLugar(id, name, direcccion);
+
+            Messages.successMessage("Comida agregada con éxito", "Atención");
+            clearControls();
+            initStateButtons();
+            loadDataTable();
+        } catch (Exception ex) {
+            Logger.getLogger(GUILugares.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }//GEN-LAST:event_btnAddActionPerformed
 
@@ -277,7 +276,7 @@ public class GUILugares extends javax.swing.JFrame {
      * @param direccion direccion del lugar
      */
     private void addLugar(int id, String name, String direccion) throws Exception {
-        LugarRecogida lugar = new LugarRecogida(id,direccion,name);
+        LugarRecogida lugar = new LugarRecogida(id, direccion, name);
         //Fija el comando del invoker
         invoker.setCommand(new CreateCommand(lugar, serv.getImpl(ServicesEnum.LugaresServices)));
         //Ejecuta el comando
@@ -293,25 +292,25 @@ public class GUILugares extends javax.swing.JFrame {
             return;
         }
         // Preparar los datos
-        int id = Integer.parseInt(txtId.getText());
-        String direcccion = txtDireccion.getText();  
+        String id = txtId.getText();
+        String direcccion = txtDireccion.getText();
 
         // Crea el lugar con los nuevos datos
-        LugarRecogida lugar = new LugarRecogida(id, direcccion, name);
+        LugarRecogida lugar = new LugarRecogida(Integer.parseInt(id), direcccion, name);
 
-            try {
-                // Traer el lugar previa
-                invoker.setCommand(new FindCommand(String.valueOf(id), serv.getImpl(ServicesEnum.LugaresServices)));
-            } catch (Exception ex) {
-                Logger.getLogger(GUILugares.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        try {
+            // Traer el lugar previa
+            invoker.setCommand(new FindCommand(id, serv.getImpl(ServicesEnum.LugaresServices)));
+        } catch (Exception ex) {
+            Logger.getLogger(GUILugares.class.getName()).log(Level.SEVERE, null, ex);
+        }
         FindCommand findcommand = (FindCommand) invoker.getCommand();
         findcommand.setArgs(id);
         invoker.execute();
 
         //el lugar previo debe crearse en una nueva instancia
         LugarRecogida compAux = (LugarRecogida) findcommand.getElement();
-        LugarRecogida previous = new LugarRecogida(compAux.getLugar_id(), compAux.getDireccion(),compAux.getNombre());
+        LugarRecogida previous = new LugarRecogida(compAux.getLugar_id(), compAux.getDireccion(), compAux.getNombre());
 
         //Modifica el lugar y guarda el previo
         updatelugar(lugar, previous);
@@ -319,11 +318,11 @@ public class GUILugares extends javax.swing.JFrame {
         Messages.successMessage("Lugar modificada con éxito", "Atención");
         clearControls();
         initStateButtons();
-            try {
-                loadDataTable();
-            } catch (Exception ex) {
-                Logger.getLogger(GUILugares.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        try {
+            loadDataTable();
+        } catch (Exception ex) {
+            Logger.getLogger(GUILugares.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnUpdateActionPerformed
     /**
      * Llama a la logica de negocio para modificar comida mediante el comando
@@ -332,17 +331,17 @@ public class GUILugares extends javax.swing.JFrame {
      * @param previous lugar antes de ser modificada
      */
     private void updatelugar(LugarRecogida lugar, LugarRecogida previous) {
-            try {
-                //Fija el UpdateCommand
-                invoker.setCommand(new UpdateCommand(lugar, serv.getImpl(ServicesEnum.LugaresServices)));
-                UpdateCommand updateCommand = (UpdateCommand) invoker.getCommand();
-                //Fija el lugar  previo
-                updateCommand.setPrevious(previous);
-                //Ejecuta el comando
-                invoker.execute();
-            } catch (Exception ex) {
-                Logger.getLogger(GUILugares.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        try {
+            //Fija el UpdateCommand
+            invoker.setCommand(new UpdateCommand(lugar, serv.getImpl(ServicesEnum.LugaresServices)));
+            UpdateCommand updateCommand = (UpdateCommand) invoker.getCommand();
+            //Fija el lugar  previo
+            updateCommand.setPrevious(previous);
+            //Ejecuta el comando
+            invoker.execute();
+        } catch (Exception ex) {
+            Logger.getLogger(GUILugares.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private void txtIdFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtIdFocusLost
@@ -351,12 +350,12 @@ public class GUILugares extends javax.swing.JFrame {
             return;
         }
 
-            try {
-                //Fija el comando del invoker para buscar comida por id
-                invoker.setCommand(new FindCommand(null, serv.getImpl(ServicesEnum.LugaresServices)));
-            } catch (Exception ex) {
-                Logger.getLogger(GUILugares.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        try {
+            //Fija el comando del invoker para buscar comida por id
+            invoker.setCommand(new FindCommand(null, serv.getImpl(ServicesEnum.LugaresServices)));
+        } catch (Exception ex) {
+            Logger.getLogger(GUILugares.class.getName()).log(Level.SEVERE, null, ex);
+        }
         //Pasa parámetros al comando
         FindCommand findByIdCommand = (FindCommand) invoker.getCommand();
         findByIdCommand.setArgs(strId);
@@ -385,11 +384,11 @@ public class GUILugares extends javax.swing.JFrame {
     private void btnUndoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUndoActionPerformed
         //Ejecuta el comando deshacer
         invoker.undo();
-            try {
-                loadDataTable();
-            } catch (Exception ex) {
-                Logger.getLogger(GUILugares.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        try {
+            loadDataTable();
+        } catch (Exception ex) {
+            Logger.getLogger(GUILugares.class.getName()).log(Level.SEVERE, null, ex);
+        }
         initStateButtons();
     }//GEN-LAST:event_btnUndoActionPerformed
 
@@ -401,26 +400,26 @@ public class GUILugares extends javax.swing.JFrame {
     }//GEN-LAST:event_txtIdKeyPressed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-            try {
-                String strId = txtId.getText().trim();
-                
-                // Traer el lugar previo
-                invoker.setCommand(new FindCommand(strId, serv.getImpl(ServicesEnum.LugaresServices)));
-                FindCommand findByIdCommand = (FindCommand) invoker.getCommand();
-                invoker.execute();
-                LugarRecogida compAux = (LugarRecogida) findByIdCommand.getElement();
-                LugarRecogida lugar = new LugarRecogida(compAux.getLugar_id(), compAux.getDireccion(), compAux.getNombre());
-                
-                //Elimina el lugar
-                deleteLugar(lugar);
-                
-                Messages.successMessage("Comida eliminada con éxito", "Atención");
-                clearControls();
-                initStateButtons();
-                loadDataTable();
-            } catch (Exception ex) {
-                Logger.getLogger(GUILugares.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        try {
+            String strId = txtId.getText().trim();
+
+            // Traer el lugar previo
+            invoker.setCommand(new FindCommand(strId, serv.getImpl(ServicesEnum.LugaresServices)));
+            FindCommand findByIdCommand = (FindCommand) invoker.getCommand();
+            invoker.execute();
+            LugarRecogida compAux = (LugarRecogida) findByIdCommand.getElement();
+            LugarRecogida lugar = new LugarRecogida(compAux.getLugar_id(), compAux.getDireccion(), compAux.getNombre());
+
+            //Elimina el lugar
+            deleteLugar(lugar);
+
+            Messages.successMessage("Comida eliminada con éxito", "Atención");
+            clearControls();
+            initStateButtons();
+            loadDataTable();
+        } catch (Exception ex) {
+            Logger.getLogger(GUILugares.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnDeleteActionPerformed
     /**
      * Llama a la logica de negocio para lugar comida mediante el comando
@@ -429,14 +428,16 @@ public class GUILugares extends javax.swing.JFrame {
      *
      */
     private void deleteLugar(LugarRecogida lugar) {
-            try {
-                //Fija el comando del invoker
-                invoker.setCommand(new DeleteCommand(lugar, serv.getImpl(ServicesEnum.LugaresServices)));
-                //Ejecuta el comando
-                invoker.execute();
-            } catch (Exception ex) {
-                Logger.getLogger(GUILugares.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        try {
+            //Fija el comando del invoker
+            invoker.setCommand(new DeleteCommand(lugar, serv.getImpl(ServicesEnum.LugaresServices)));
+            DeleteCommand cmd = (DeleteCommand) invoker.getCommand();
+            cmd.setPrevious(lugar);
+            //Ejecuta el comando
+            invoker.execute();
+        } catch (Exception ex) {
+            Logger.getLogger(GUILugares.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -445,7 +446,7 @@ public class GUILugares extends javax.swing.JFrame {
     public void clearControls() {
         txtId.setText("");
         txtName.setText("");
-        txtDireccion.setText("");  
+        txtDireccion.setText("");
     }
 
     public static void main(String[] args) {
