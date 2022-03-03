@@ -13,5 +13,6 @@ public enum ServicesEnum {
     CitaAsignadaService,
     CitaService,
     LugaresServices,
-    CustomerClientService
+    CustomerClientService, 
+    AssignmentsService
 }

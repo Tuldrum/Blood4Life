@@ -107,5 +107,35 @@ public class FactoryImpl {
         }
         return result;
     }
+    
+    public IEntidadAccess getEntidadAccess() {
+        IEntidadAccess result = null;
+        try {
+            result = (IEntidadAccess) Class.forName(Utilities.loadProperty("EntidadImplSockets"))
+                    .getConstructor().newInstance();
+        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException
+                | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+            Logger.getLogger(FactoryImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (result == null) {
+            result = new EntidadImplSockets();
+        }
+        return result;
+    }
+    
+    public IAssignmentsAccess getAssignmentsAccess() {
+        IAssignmentsAccess result = null;
+        try {
+            result = (IAssignmentsAccess) Class.forName(Utilities.loadProperty("AssignmentsImplSockets"))
+                    .getConstructor().newInstance();
+        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException
+                | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+            Logger.getLogger(FactoryImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (result == null) {
+            result = new AssignmentsImplSockets();
+        }
+        return result;
+    }
 
 }
