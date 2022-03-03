@@ -42,13 +42,14 @@ public class GUILugares extends javax.swing.JFrame {
      */
     public GUILugares() {
         invoker = new Invoker();
+        serv = new  GestorServicesImpl(); 
         initComponents();
         setSize(870, 300);
         loadDataTable();
         loadDataCombo();
         initStateButtons();
         setLocationRelativeTo(null);
-        serv = new  GestorServicesImpl(); 
+        
 
     }
 
@@ -83,8 +84,8 @@ public class GUILugares extends javax.swing.JFrame {
                 for (LugarRecogida component : components) {
                     Object[] fila = new Object[3];
                     fila[0] = String.valueOf(component.getLugar_id());
-                    fila[1] = component.getDireccion();
-                    fila[2] = component.getNombre();
+                    fila[1] = component.getNombre();
+                    fila[2] = component.getDireccion();
                     modelTable.addRow(fila);
                 }   } catch (Exception ex) {
                 Logger.getLogger(GUILugares.class.getName()).log(Level.SEVERE, null, ex);
@@ -131,7 +132,7 @@ public class GUILugares extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblData = new javax.swing.JTable();
 
-        setTitle("Comidas del Menú Diario");
+        setTitle("Lugares ");
 
         pnlCentro.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         pnlCentro.setLayout(new java.awt.GridLayout(3, 2));
@@ -254,7 +255,7 @@ public class GUILugares extends javax.swing.JFrame {
                 }
                 
                 int id = Integer.parseInt(txtId.getText());
-                String direcccion = txtDireccion.getName();  
+                String direcccion = txtDireccion.getText();  
                 
                 addLugar(id, name, direcccion);
                 
@@ -358,7 +359,7 @@ public class GUILugares extends javax.swing.JFrame {
             }
         //Pasa parámetros al comando
         FindCommand findByIdCommand = (FindCommand) invoker.getCommand();
-        findByIdCommand.setArgs(Integer.parseInt(strId));
+        findByIdCommand.setArgs(strId);
         //Ejecuta el comando
         invoker.execute();
         LugarRecogida lugar = (LugarRecogida) findByIdCommand.getElement();
