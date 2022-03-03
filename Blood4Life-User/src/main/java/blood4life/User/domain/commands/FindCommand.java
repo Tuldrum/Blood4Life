@@ -41,4 +41,8 @@ public class FindCommand extends Command {
         return element;
     }
     
+    public void setArgs(Object args) {
+        this.args = args;
+    }
+    
 }
