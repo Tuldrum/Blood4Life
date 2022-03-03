@@ -113,6 +113,12 @@ public class Blood4LifeHandler extends ServerHandler {
         if (protocolRequest.getAction().equals("getlista")) {
             processGetLugaresDisp2(protocolRequest);
         }
+        if (protocolRequest.getAction().equals("update")) {
+            proccesUpdateLugarRecogida(protocolRequest);
+        }
+        if (protocolRequest.getAction().equals("delete")) {
+            proccesDeleteLugarRecogida(protocolRequest);
+        }
     }
 
     private void procesarEntidades(Protocol protocolRequest) {
@@ -296,6 +302,32 @@ public class Blood4LifeHandler extends ServerHandler {
         } else {
             respond(objectToJSON(lugar));
         }
+    }
+
+    private void proccesUpdateLugarRecogida(Protocol protocolRequest) {
+        String id = protocolRequest.getParameters().get(0).getValue();
+        LugarRecogida lugar = ((LugaresRecogidaService) getService(ServicesEnum.LugaresRecogidaService)).find(Integer.parseInt(id));
+        if (lugar == null) {
+            //generateNotFoundErrorJson("Información del lugar no encontrada.");   
+            respond(new Gson().toJson("info: Información del lugar no encontrada"));
+        } else {
+            LugarRecogida newlugar = new LugarRecogida();
+
+            newlugar.setLugar_id(Integer.parseInt(protocolRequest.getParameters().get(0).getValue()));
+            newlugar.setDireccion(protocolRequest.getParameters().get(1).getValue());
+            newlugar.setNombre(protocolRequest.getParameters().get(2).getValue());
+            String response = ((LugaresRecogidaService) getService(ServicesEnum.LugaresRecogidaService)).update(newlugar);
+            respond(response);
+        }
+    }
+
+    private void proccesDeleteLugarRecogida(Protocol protocolRequest) {
+        LugarRecogida newlugar = new LugarRecogida();
+        newlugar.setLugar_id(Integer.parseInt(protocolRequest.getParameters().get(0).getValue()));
+        newlugar.setDireccion(protocolRequest.getParameters().get(1).getValue());
+        newlugar.setNombre(protocolRequest.getParameters().get(2).getValue());
+        String response = ((LugaresRecogidaService) getService(ServicesEnum.LugaresRecogidaService)).update(newlugar);
+        respond(response);
     }
 
     private void proccesPostLugarRecogida(Protocol protocolRequest) {
