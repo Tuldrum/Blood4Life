@@ -73,6 +73,14 @@ CREATE TABLE `citasasignadas` (
   `cod_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Volcado de datos para la tabla `citasasignadas`
+--
+
+INSERT INTO `citasasignadas` (`user_id`, `cod_id`) VALUES
+(10, 100),
+(20, 101);
+
 -- --------------------------------------------------------
 
 --
