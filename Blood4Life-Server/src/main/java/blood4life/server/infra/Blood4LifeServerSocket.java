@@ -87,22 +87,7 @@ public class Blood4LifeServerSocket extends ServerSocketTemplate {
                 }
                 break;
             case "cita":
-                if (protocolRequest.getAction().equals("get")) {
-                    // Consultar un customer
-                    proccesGetCita(protocolRequest);
-                }
-
-                if (protocolRequest.getAction().equals("post")) {
-                    // Agregar un customer    
-                    processPostCita(protocolRequest);
-                }
-                if (protocolRequest.getAction().equals("update")) {
-                    proccesUpdateCita(protocolRequest);
-                }
-                if (protocolRequest.getAction().equals("getlistadisponibles")) {
-                    processGetCitasDisp(protocolRequest);
-                }
-
+                proccesarCita(protocolRequest); 
                 break;
             case "lugar":
                 procesarLugares(protocolRequest);
@@ -120,6 +105,27 @@ public class Blood4LifeServerSocket extends ServerSocketTemplate {
                 break;
         }
 
+    }
+
+    private void proccesarCita(Protocol protocolRequest) {
+        if (protocolRequest.getAction().equals("get")) {
+            // Consultar un customer
+            proccesGetCita(protocolRequest);
+        }
+
+        if (protocolRequest.getAction().equals("post")) {
+            // Agregar un customer    
+            processPostCita(protocolRequest);
+        }
+        if (protocolRequest.getAction().equals("update")) {
+            proccesUpdateCita(protocolRequest);
+        }
+        if (protocolRequest.getAction().equals("getlistadisponibles")) {
+            processGetCitasDisp(protocolRequest);
+        }
+        if (protocolRequest.getAction().equals("getlista")) {
+            processGetCitaList(protocolRequest);
+        }
     }
 
     private void procesarLugares(Protocol protocolRequest) {
@@ -186,6 +192,7 @@ public class Blood4LifeServerSocket extends ServerSocketTemplate {
             proccesDeleteCitaAsignada(protocolRequest);
         }
     }
+
     private void proccesGetAllInfoCitasAsignadas() {
         List<String> info = ((CitaAsignadaService) getService(ServicesEnum.CitaAsignadaService)).getRepo();
         if (info == null) {
@@ -195,6 +202,7 @@ public class Blood4LifeServerSocket extends ServerSocketTemplate {
             respond(listToJson(info));
         }
     }
+
     private void proccesGetCitaAsiganda(Protocol protocolRequest) {
         String id = protocolRequest.getParameters().get(0).getValue();
         UsuarioCliente cliente = ((UsuarioClienteService) getService(ServicesEnum.UsuarioClienteService)).find(Integer.parseInt(id));
@@ -270,6 +278,22 @@ public class Blood4LifeServerSocket extends ServerSocketTemplate {
     private String simpleformat(String param) {
         String aux[] = param.split("\"");
         return aux[1];
+    }
+
+    private void processGetCitaList(Protocol protocolRequest) {
+        int id_lugar = Integer.parseInt(protocolRequest.getParameters().get(0).getValue());
+        Date date = Date.valueOf(protocolRequest.getParameters().get(1).getValue());
+        List<Cita> disp = ((CitaService) getService(ServicesEnum.CitaService)).list(date, id_lugar);
+        if (disp == null) {
+            String errorJson = generateNotFoundErrorJson("Sin coincidencias.");
+            respond(errorJson);
+        } else {
+            if (disp.isEmpty()) {
+                respond(new Gson().toJson("Info: Sin coincidencias"));
+            } else {
+                respond(listToJson(disp));
+            }
+        }
     }
 
     private void processGetCitasDisp(Protocol protocolRequest) {

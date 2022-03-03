@@ -23,4 +23,6 @@ public interface ICitaRepository {
     
     public boolean update(Cita cita); 
     
+    public List<Cita> list(Date sqlDate, int lugar_id); 
+    
 }

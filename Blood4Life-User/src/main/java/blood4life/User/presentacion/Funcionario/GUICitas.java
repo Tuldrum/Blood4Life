@@ -10,51 +10,43 @@ import blood4life.User.domain.services.GestorServicesImpl;
 import blood4life.User.domain.services.ServicesEnum;
 import blood4life.User.infra.Messages;
 import blood4life.commons.domain.Cita;
-import blood4life.commons.domain.LugarRecogida;
 import java.sql.Date;
 import java.sql.Time;
 import javax.swing.table.DefaultTableModel;
-
 
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 
-/**
- * Interfaz gráfica de Consultar clientes
- *
- * @author Libardo Pantoja, Daniel Paz
- *
- */
 public class GUICitas extends javax.swing.JFrame {
 
     /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	/**
+     *
+     */
+    private static final long serialVersionUID = 1L;
+    /**
      * Instancia del invocador para poder enviar comandos al receptor
      * FoodService
      */
     private final Invoker invoker;
     GestorServicesImpl serv;
     private Object txtHora;
+    private int id_lugar = -1;
 
     /**
      * Constructor
      */
-    public GUICitas() {
+    public GUICitas(int id_lugar, GestorServicesImpl serv) {
+        this.id_lugar = id_lugar;
         invoker = new Invoker();
-        serv = new  GestorServicesImpl(); 
+        this.serv = serv;
         initComponents();
         setSize(870, 300);
         loadDataTable();
         loadDataCombo();
         initStateButtons();
         setLocationRelativeTo(null);
-        
-
     }
 
     /**
@@ -77,24 +69,25 @@ public class GUICitas extends javax.swing.JFrame {
     /**
      * Carga las comidas en el jTable
      */
-    private void loadDataTable()  {
-            try {
-                invoker.setCommand(new FindAllCommand(null,serv.getImpl(ServicesEnum.CitaService)));
-                invoker.execute();
-                FindAllCommand findAllCommand = (FindAllCommand) invoker.getCommand();
-                List<Cita> components = (List<Cita>) findAllCommand.getList();
-                DefaultTableModel modelTable = (DefaultTableModel) tblData.getModel();
-                clearData(modelTable);
-                for (Cita component : components) {
-                    Object[] fila = new Object[3];
-                    fila[0] = String.valueOf(component.getCodigo());
-                    fila[1] = component.getCupos();
-                    fila[2] = component.getFecha();
-                    fila[3] = component.getHora();
-                    modelTable.addRow(fila);
-                }   } catch (Exception ex) {
-                Logger.getLogger(GUICitas.class.getName()).log(Level.SEVERE, null, ex);
+    private void loadDataTable() {
+        try {
+            invoker.setCommand(new FindAllCommand(null, serv.getImpl(ServicesEnum.CitaService)));
+            invoker.execute();
+            FindAllCommand findAllCommand = (FindAllCommand) invoker.getCommand();
+            List<Cita> components = (List<Cita>) findAllCommand.getList();
+            DefaultTableModel modelTable = (DefaultTableModel) tblData.getModel();
+            clearData(modelTable);
+            for (Cita component : components) {
+                Object[] fila = new Object[3];
+                fila[0] = String.valueOf(component.getCodigo());
+                fila[1] = component.getCupos();
+                fila[2] = component.getFecha();
+                fila[3] = component.getHora();
+                modelTable.addRow(fila);
             }
+        } catch (Exception ex) {
+            Logger.getLogger(GUICitas.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -256,28 +249,28 @@ public class GUICitas extends javax.swing.JFrame {
     }
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-            try {
-                String idCita = txtId.getText();
-                if (idCita.isEmpty()) {
-                    Messages.warningMessage("Debe agregar un ID a la cita", "Atención");
-                    txtId.requestFocus();
-                    return;
-                }
-                
-                int id = Integer.parseInt(txtId.getText());
-                int cupos = Integer.parseInt(txtCupos.getText());
-                Date fecha = Date.valueOf(txtFecha.getText()); 
-                Time hora = null; //no pude agregarle la fila para la  hora :'c
-                
-                addCita(id, cupos, fecha, hora);
-                
-                Messages.successMessage("Cita agregada con éxito", "Atención");
-                clearControls();
-                initStateButtons();
-                loadDataTable();
-            } catch (Exception ex) {
-                Logger.getLogger(GUICitas.class.getName()).log(Level.SEVERE, null, ex);
+        try {
+            String idCita = txtId.getText();
+            if (idCita.isEmpty()) {
+                Messages.warningMessage("Debe agregar un ID a la cita", "Atención");
+                txtId.requestFocus();
+                return;
             }
+
+            int id = Integer.parseInt(txtId.getText());
+            int cupos = Integer.parseInt(txtCupos.getText());
+            Date fecha = Date.valueOf(txtFecha.getText());
+            Time hora = null; //no pude agregarle la fila para la  hora :'c
+
+            addCita(id, cupos, fecha, hora);
+
+            Messages.successMessage("Cita agregada con éxito", "Atención");
+            clearControls();
+            initStateButtons();
+            loadDataTable();
+        } catch (Exception ex) {
+            Logger.getLogger(GUICitas.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }//GEN-LAST:event_btnAddActionPerformed
 
@@ -285,14 +278,14 @@ public class GUICitas extends javax.swing.JFrame {
      * Llama a la logica de negocio para agregar la cita mediante el comando
      *
      * @param id identificador de la cita
-     * @param cupos 
+     * @param cupos
      * @param fecha fecha de la cita
      * @param hora hora de la cita
      */
     private void addCita(int codigo, int cupos, Date fecha, Time hora) throws Exception {
-        Cita cita = new Cita(codigo,cupos,fecha, hora);
+        Cita cita = new Cita(codigo, cupos, fecha, hora);
         //Fija el comando del invoker
-        invoker.setCommand(new CreateCommand(cita, serv.getImpl(ServicesEnum.LugaresServices)));
+        invoker.setCommand(new CreateCommand(cita, serv.getImpl(ServicesEnum.CitaService)));
         //Ejecuta el comando
         invoker.execute();
     }
@@ -308,18 +301,18 @@ public class GUICitas extends javax.swing.JFrame {
         // Preparar los datos
         int id = Integer.parseInt(txtId.getText());
         int cupos = Integer.parseInt(txtCupos.getText());
-        Date fecha = Date.valueOf(txtFecha.getText()); 
+        Date fecha = Date.valueOf(txtFecha.getText());
         Time hora = null; //Time.valueOf(txtHora.getText());  
 
         // Crea la cita con los nuevos datos
-        Cita cita = new Cita(id,cupos,fecha, hora);
+        Cita cita = new Cita(id, cupos, fecha, hora);
 
-            try {
-                // Traer la cita previa
-                invoker.setCommand(new FindCommand(String.valueOf(id), serv.getImpl(ServicesEnum.LugaresServices)));
-            } catch (Exception ex) {
-                Logger.getLogger(GUICitas.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        try {
+            // Traer la cita previa
+            invoker.setCommand(new FindCommand(String.valueOf(id), serv.getImpl(ServicesEnum.CitaService)));
+        } catch (Exception ex) {
+            Logger.getLogger(GUICitas.class.getName()).log(Level.SEVERE, null, ex);
+        }
         FindCommand findcommand = (FindCommand) invoker.getCommand();
         findcommand.setArgs(id);
         invoker.execute();
@@ -334,11 +327,11 @@ public class GUICitas extends javax.swing.JFrame {
         Messages.successMessage("Lugar modificada con éxito", "Atención");
         clearControls();
         initStateButtons();
-            try {
-                loadDataTable();
-            } catch (Exception ex) {
-                Logger.getLogger(GUICitas.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        try {
+            loadDataTable();
+        } catch (Exception ex) {
+            Logger.getLogger(GUICitas.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnUpdateActionPerformed
     /**
      * Llama a la logica de negocio para modificar comida mediante el comando
@@ -347,17 +340,17 @@ public class GUICitas extends javax.swing.JFrame {
      * @param previous lugar antes de ser modificada
      */
     private void updateCita(Cita cita, Cita previous) {
-            try {
-                //Fija el UpdateCommand
-                invoker.setCommand(new UpdateCommand(cita, serv.getImpl(ServicesEnum.CitaService)));
-                UpdateCommand updateCommand = (UpdateCommand) invoker.getCommand();
-                //Fija la cita  previa
-                updateCommand.setPrevious(previous);
-                //Ejecuta el comando
-                invoker.execute();
-            } catch (Exception ex) {
-                Logger.getLogger(GUICitas.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        try {
+            //Fija el UpdateCommand
+            invoker.setCommand(new UpdateCommand(cita, serv.getImpl(ServicesEnum.CitaService)));
+            UpdateCommand updateCommand = (UpdateCommand) invoker.getCommand();
+            //Fija la cita  previa
+            updateCommand.setPrevious(previous);
+            //Ejecuta el comando
+            invoker.execute();
+        } catch (Exception ex) {
+            Logger.getLogger(GUICitas.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private void txtIdFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtIdFocusLost
@@ -366,12 +359,12 @@ public class GUICitas extends javax.swing.JFrame {
             return;
         }
 
-            try {
-                //Fija el comando del invoker para buscar cita por id
-                invoker.setCommand(new FindCommand(null, serv.getImpl(ServicesEnum.CitaService)));
-            } catch (Exception ex) {
-                Logger.getLogger(GUICitas.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        try {
+            //Fija el comando del invoker para buscar cita por id
+            invoker.setCommand(new FindCommand(null, serv.getImpl(ServicesEnum.CitaService)));
+        } catch (Exception ex) {
+            Logger.getLogger(GUICitas.class.getName()).log(Level.SEVERE, null, ex);
+        }
         //Pasa parámetros al comando
         FindCommand findByIdCommand = (FindCommand) invoker.getCommand();
         findByIdCommand.setArgs(strId);
@@ -399,11 +392,11 @@ public class GUICitas extends javax.swing.JFrame {
     private void btnUndoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUndoActionPerformed
         //Ejecuta el comando deshacer
         invoker.undo();
-            try {
-                loadDataTable();
-            } catch (Exception ex) {
-                Logger.getLogger(GUICitas.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        try {
+            loadDataTable();
+        } catch (Exception ex) {
+            Logger.getLogger(GUICitas.class.getName()).log(Level.SEVERE, null, ex);
+        }
         initStateButtons();
     }//GEN-LAST:event_btnUndoActionPerformed
 
@@ -415,26 +408,26 @@ public class GUICitas extends javax.swing.JFrame {
     }//GEN-LAST:event_txtIdKeyPressed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-            try {
-                String strId = txtId.getText().trim();
-                
-                // Traer la cita previa
-                invoker.setCommand(new FindCommand(strId, serv.getImpl(ServicesEnum.CitaService)));
-                FindCommand findByIdCommand = (FindCommand) invoker.getCommand();
-                invoker.execute();
-                Cita compAux = (Cita) findByIdCommand.getElement();
-                Cita cita = new Cita(compAux.getCodigo(), compAux.getCupos(), compAux.getFecha(), compAux.getHora());
-                
-                //Elimina la cita
-                deleteCita(cita);
-                
-                Messages.successMessage("Comida eliminada con éxito", "Atención");
-                clearControls();
-                initStateButtons();
-                loadDataTable();
-            } catch (Exception ex) {
-                Logger.getLogger(GUICitas.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        try {
+            String strId = txtId.getText().trim();
+
+            // Traer la cita previa
+            invoker.setCommand(new FindCommand(strId, serv.getImpl(ServicesEnum.CitaService)));
+            FindCommand findByIdCommand = (FindCommand) invoker.getCommand();
+            invoker.execute();
+            Cita compAux = (Cita) findByIdCommand.getElement();
+            Cita cita = new Cita(compAux.getCodigo(), compAux.getCupos(), compAux.getFecha(), compAux.getHora());
+
+            //Elimina la cita
+            deleteCita(cita);
+
+            Messages.successMessage("Comida eliminada con éxito", "Atención");
+            clearControls();
+            initStateButtons();
+            loadDataTable();
+        } catch (Exception ex) {
+            Logger.getLogger(GUICitas.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void txtIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdActionPerformed
@@ -447,14 +440,14 @@ public class GUICitas extends javax.swing.JFrame {
      *
      */
     private void deleteCita(Cita cita) {
-            try {
-                //Fija el comando del invoker
-                invoker.setCommand(new DeleteCommand(cita, serv.getImpl(ServicesEnum.CitaService)));
-                //Ejecuta el comando
-                invoker.execute();
-            } catch (Exception ex) {
-                Logger.getLogger(GUICitas.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        try {
+            //Fija el comando del invoker
+            invoker.setCommand(new DeleteCommand(cita, serv.getImpl(ServicesEnum.CitaService)));
+            //Ejecuta el comando
+            invoker.execute();
+        } catch (Exception ex) {
+            Logger.getLogger(GUICitas.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -463,11 +456,11 @@ public class GUICitas extends javax.swing.JFrame {
     public void clearControls() {
         txtId.setText("");
         txtCupos.setText("");
-        txtFecha.setText("");  
+        txtFecha.setText("");
     }
 
     public static void main(String[] args) {
-        GUICitas gui = new GUICitas();
+        GUICitas gui = new GUICitas(1, new GestorServicesImpl());
         gui.setVisible(true);
     }
 
