@@ -39,5 +39,5 @@ public class Assignments {
 
     public void setLugar(LugarRecogida lugar) {
         this.lugar = lugar;
-    }    
+    } 
 }

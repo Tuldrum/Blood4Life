@@ -71,6 +71,56 @@ public class LugaresRepository implements ILugaresRepository {
         return lugar;
     }
 
+@Override
+    public boolean update(LugarRecogida lugar) {
+        try {
+            //Validate product
+            if (lugar == null || lugar.getLugar_id()< 0 || lugar.getNombre() == null
+                    || lugar.getDireccion() == null) {
+                return false;
+            }
+            if (find(lugar.getLugar_id()) == null) {
+                return false;
+            }
+            //this.connect();
+            String sql = "UPDATE lugaresrecogida "
+                    + "SET lugar_id = ?, "
+                    + "direccion = ?,"
+                    + "nombre = ?,"
+                    + "WHERE lugar_id = " + String.valueOf(lugar.getLugar_id());
+
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, lugar.getLugar_id());
+            pstmt.setString(2, lugar.getNombre());
+            pstmt.setString(3, lugar.getDireccion());
+            pstmt.executeUpdate();
+            //this.disconnect();
+            return true;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(CitaRepository.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    public boolean delete(LugarRecogida lugar) {
+        if (lugar == null) {
+            return false;
+        }
+        try {
+
+            String sql = "DELETE FROM lugarrecogida"
+                    + " WHERE (user_id = " + String.valueOf(lugar.getLugar_id()) + ");";
+
+            Statement stmt = conn.createStatement();
+            stmt.executeUpdate(sql);
+
+        } catch (SQLException ex) {
+            Logger.getLogger(CitaRepository.class.getName()).log(Level.SEVERE, "Error al eliminar la cita en la base de datos", ex);
+        }
+        return true;
+    }
+
     public List<LugarRecogida> list(Date before, Date after) {
         List<LugarRecogida> lugares = new ArrayList<>();
         try {
