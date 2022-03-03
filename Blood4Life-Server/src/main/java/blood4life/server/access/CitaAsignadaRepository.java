@@ -174,6 +174,7 @@ public class CitaAsignadaRepository implements ICitaAsignadaRepository {
         return true;
     }
     
+
     @Override
     public List<String> getAll() {
         List<String> list = new ArrayList<String>();

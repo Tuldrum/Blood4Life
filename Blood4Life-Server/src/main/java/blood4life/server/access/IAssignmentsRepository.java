@@ -3,7 +3,6 @@ package blood4life.server.access;
 import java.util.List;
 
 import blood4life.commons.domain.Assignments;
-import blood4life.commons.domain.CitaAsignada;
 import java.sql.Date;
 
 public interface IAssignmentsRepository {

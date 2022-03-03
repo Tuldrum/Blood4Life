@@ -24,11 +24,13 @@ public class GestorServicesImpl {
         ServiceImpl ser2 = new CitaService(instance.getCitaAcces()); 
         ServiceImpl ser3 = new LugaresServices(instance.getLugaresAcces()); 
         ServiceImpl ser4 = new CustomerClientService(instance.getCustomerAcces());
+        ServiceImpl ser5 = new AssignmentsService(instance.getAssignmentsAccess());
         
         implsServices.put(ServicesEnum.CitaAsignadaService, ser1);  
         implsServices.put(ServicesEnum.CitaService, ser2);  
         implsServices.put(ServicesEnum.LugaresServices, ser3);  
         implsServices.put(ServicesEnum.CustomerClientService, ser4);  
+        implsServices.put(ServicesEnum.AssignmentsService, ser5);
         
     }
     
