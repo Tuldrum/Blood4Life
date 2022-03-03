@@ -32,6 +32,10 @@ public class LugaresRecogidaService {
         return repo.list(before, after);  
     }
     
+    public synchronized List<LugarRecogida> list(){
+        return repo.list();  
+    }
+    
     public synchronized String create(LugarRecogida lugar){
         
         List<JsonError> errors = new ArrayList<>();

@@ -105,18 +105,7 @@ public class Blood4LifeServerSocket extends ServerSocketTemplate {
 
                 break;
             case "lugar":
-                if (protocolRequest.getAction().equals("get")) {
-                    // Consultar un customer
-                    proccesGetLugarRecogida(protocolRequest);
-                }
-
-                if (protocolRequest.getAction().equals("post")) {
-                    // Agregar un customer    
-                    proccesPostLugarRecogida(protocolRequest);
-                }
-                if (protocolRequest.getAction().equals("getlistadisponibles")) {
-                    processGetLugaresDisp(protocolRequest);
-                }
+                procesarLugares(protocolRequest);
                 break;
             case "citaAsignada":
                 procesarCitaAsignada(protocolRequest);
@@ -131,6 +120,21 @@ public class Blood4LifeServerSocket extends ServerSocketTemplate {
                 break;
         }
 
+    }
+
+    private void procesarLugares(Protocol protocolRequest) {
+        if (protocolRequest.getAction().equals("get")) {
+            proccesGetLugarRecogida(protocolRequest);
+        }
+        if (protocolRequest.getAction().equals("post")) {
+            proccesPostLugarRecogida(protocolRequest);
+        }
+        if (protocolRequest.getAction().equals("getlistadisponibles")) {
+            processGetLugaresDisp(protocolRequest);
+        }
+        if (protocolRequest.getAction().equals("getlista")) {
+            processGetLugaresDisp2(protocolRequest);
+        }
     }
 
     private void procesarEntidades(Protocol protocolRequest) {
@@ -331,6 +335,20 @@ public class Blood4LifeServerSocket extends ServerSocketTemplate {
         }
     }
 
+    private void processGetLugaresDisp2(Protocol protocolRequest) {
+        List<LugarRecogida> disp = ((LugaresRecogidaService) getService(ServicesEnum.LugaresRecogidaService)).list();
+        if (disp == null) {
+            String errorJson = generateNotFoundErrorJson("Sin elementos.");
+            respond(errorJson);
+        } else {
+            if (disp.isEmpty()) {
+                respond(new Gson().toJson("Info: Sin elementos"));
+            } else {
+                respond(listToJson(disp));
+            }
+        }
+    }
+
     private String generateNotFoundErrorJson(String msg) {
         List<JsonError> errors = new ArrayList<>();
         JsonError error = new JsonError();
@@ -431,7 +449,7 @@ public class Blood4LifeServerSocket extends ServerSocketTemplate {
         entidad.setNombre(protocolRequest.getParameters().get(2).getValue());
         entidad.setTelefono(protocolRequest.getParameters().get(2).getValue());
         String response = ((EntidadService) getService(ServicesEnum.EntidadService)).create(entidad);
-        respond(response); 
+        respond(response);
     }
 
     private void proccesDeleteEntidades(Protocol protocolRequest) {
@@ -441,6 +459,6 @@ public class Blood4LifeServerSocket extends ServerSocketTemplate {
         entidad.setNombre(protocolRequest.getParameters().get(2).getValue());
         entidad.setTelefono(protocolRequest.getParameters().get(2).getValue());
         String response = ((EntidadService) getService(ServicesEnum.EntidadService)).delete(entidad);
-        respond(response); 
+        respond(response);
     }
 }
