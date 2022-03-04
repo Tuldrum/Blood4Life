@@ -14,19 +14,16 @@ public class SangreService implements ServiceImpl {
 
     @Override
     public String create(Object elements) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public String update(Object elements) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public String delete(Object elements) {
-        // TODO Auto-generated method stub
         return null;
     }
 
