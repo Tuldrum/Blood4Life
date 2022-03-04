@@ -23,6 +23,7 @@ public class GUILogin extends javax.swing.JFrame {
      */
     public GUILogin() {
         initComponents();
+        btnRegistrarNuevoUsuario.setEnabled(false);
         txtPassword.setVisible(true);
         txtPasswordVisible.setVisible(false);
         setLocationRelativeTo(null);

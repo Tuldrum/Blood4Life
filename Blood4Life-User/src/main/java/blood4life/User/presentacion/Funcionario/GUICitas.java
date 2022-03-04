@@ -148,11 +148,6 @@ public class GUICitas extends javax.swing.JFrame {
                 txtIdFocusLost(evt);
             }
         });
-        txtId.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtIdActionPerformed(evt);
-            }
-        });
         txtId.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtIdKeyPressed(evt);
@@ -162,23 +157,11 @@ public class GUICitas extends javax.swing.JFrame {
         lblCupos.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblCupos.setText("*Cupos:");
 
-        txtCupos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCuposActionPerformed(evt);
-            }
-        });
-
         lblFecha.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblFecha.setText("*Fecha");
 
         lblFecha1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblFecha1.setText("*Hora");
-
-        txtCupos1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCupos1ActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout pnlCentroLayout = new javax.swing.GroupLayout(pnlCentro);
         pnlCentro.setLayout(pnlCentroLayout);
@@ -522,17 +505,6 @@ public class GUICitas extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
-    private void txtIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtIdActionPerformed
-
-    private void txtCupos1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCupos1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtCupos1ActionPerformed
-
-    private void txtCuposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCuposActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtCuposActionPerformed
     /**
      * Llama a la logica de negocio para cita mediante el comando
      *
