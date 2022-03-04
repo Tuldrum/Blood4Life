@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 04-03-2022 a las 18:10:09
+-- Tiempo de generación: 04-03-2022 a las 18:16:28
 -- Versión del servidor: 10.4.22-MariaDB
 -- Versión de PHP: 8.1.0
 
@@ -152,7 +152,9 @@ CREATE TABLE `useraccess` (
 
 INSERT INTO `useraccess` (`user`, `password`) VALUES
 (10, 'pw1'),
-(20, 'pw2');
+(20, 'pw2'),
+(3463, 'pwFunc2'),
+(4433, 'pwFunc1');
 
 -- --------------------------------------------------------
 
@@ -202,8 +204,8 @@ CREATE TABLE `usuariofuncionario` (
 --
 
 INSERT INTO `usuariofuncionario` (`user_id`, `nombre`, `apellido`, `mail`, `telefono`, `organizacion`) VALUES
-(0, 'func1', 'funcionario1', 'funcionario1@mail.com', '3010010001', 'organizacion1'),
-(1, 'func2', 'funcionario2', 'funcionario2@mail.com', '3020020002', 'organizacion2');
+(3463, 'func2', 'funcionario2', 'funcionario2@mail.com', '3020020002', 'organizacion2'),
+(4433, 'func1', 'funcionario1', 'funcionario1@mail.com', '3010010001', 'organizacion1');
 
 --
 -- Índices para tablas volcadas
