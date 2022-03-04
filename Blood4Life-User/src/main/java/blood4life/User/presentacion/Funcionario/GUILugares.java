@@ -265,6 +265,7 @@ public class GUILugares extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
+        new GUIFuncionario().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnCloseActionPerformed
     public String getTxtyId() {
@@ -494,10 +495,10 @@ public class GUILugares extends javax.swing.JFrame {
         txtDireccion.setText("");
     }
 
-    public static void main(String[] args) {
-        GUILugares gui = new GUILugares();
-        gui.setVisible(true);
-    }
+//    public static void main(String[] args) {
+//        GUILugares gui = new GUILugares();
+//        gui.setVisible(true);
+//    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

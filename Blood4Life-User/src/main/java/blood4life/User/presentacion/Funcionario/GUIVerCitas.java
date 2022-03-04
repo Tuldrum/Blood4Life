@@ -28,6 +28,7 @@ public class GUIVerCitas extends javax.swing.JFrame {
     public GUIVerCitas() {
         service = new ServiceLogin();
         initComponents();
+        setLocationRelativeTo(null);
         rec = new ArrayList();
         //infoJComboBox();
     }
@@ -50,11 +51,6 @@ public class GUIVerCitas extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Listar lugares con didponibilidad");
-        addComponentListener(new java.awt.event.ComponentAdapter() {
-            public void componentHidden(java.awt.event.ComponentEvent evt) {
-                formComponentHidden(evt);
-            }
-        });
 
         jButton1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButton1.setText("Aceptar");
@@ -153,11 +149,8 @@ public class GUIVerCitas extends javax.swing.JFrame {
         //TODO
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void formComponentHidden(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentHidden
-        // TODO add your handling code here:
-    }//GEN-LAST:event_formComponentHidden
-
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        new GUIFuncionario().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -178,9 +171,6 @@ public class GUIVerCitas extends javax.swing.JFrame {
         //evento -> injCombox
     }//GEN-LAST:event_ListaLugaresActionPerformed
 
-
-    
-    @SuppressWarnings("unused")
     /*private java.sql.Date DateToDateSQL(Date dateToConvert) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String sdate = simpleDateFormat.format(dateToConvert);

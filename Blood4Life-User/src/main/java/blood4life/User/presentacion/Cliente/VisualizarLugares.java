@@ -44,6 +44,7 @@ public class VisualizarLugares extends javax.swing.JFrame {
         this.serv = serv;  
         //service = new ServiceModel();
         initComponents();
+        setLocationRelativeTo(null);
         rec = new ArrayList();
         infoJComboBox();
     }
@@ -68,11 +69,6 @@ public class VisualizarLugares extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Lugares con disponibilidad de citas");
-        addComponentListener(new java.awt.event.ComponentAdapter() {
-            public void componentHidden(java.awt.event.ComponentEvent evt) {
-                formComponentHidden(evt);
-            }
-        });
 
         jLabel2.setText("Fecha final");
 
@@ -176,7 +172,7 @@ public class VisualizarLugares extends javax.swing.JFrame {
         if (!rec.isEmpty()) {
             try {
                 new GuiCitasDisponibles(serv, before, after, lugarID).setVisible(true);
-                this.setVisible(false);
+                this.dispose();
             } catch (Exception ex) {
                 Logger.getLogger(VisualizarLugares.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -200,11 +196,10 @@ public class VisualizarLugares extends javax.swing.JFrame {
         //evento -> injCombox
     }//GEN-LAST:event_ListaLugaresActionPerformed
 
-    private void formComponentHidden(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentHidden
-        // TODO add your handling code here:
-    }//GEN-LAST:event_formComponentHidden
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        GUICliente nVentana = new GUICliente();
+        nVentana.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 

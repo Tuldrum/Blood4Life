@@ -36,10 +36,12 @@ public class GuiCitasDisponibles extends javax.swing.JFrame {
      * @param service servicio
      */
     public GuiCitasDisponibles() {
+        setLocationRelativeTo(null);
     }
 
     public GuiCitasDisponibles(GestorServicesImpl ser) {
         parametrosInicializacion(ser);
+        setLocationRelativeTo(null);
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})
@@ -120,7 +122,8 @@ public class GuiCitasDisponibles extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
-        // TODO add your handling code here:
+        VisualizarLugares nVentana = new VisualizarLugares(ser);
+        nVentana.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnCerrarActionPerformed
 
@@ -129,7 +132,7 @@ public class GuiCitasDisponibles extends javax.swing.JFrame {
         int index = table.getSelectedRow();
         if (!listaCita.isEmpty() && index != -1) {
             new GUISolicitarCita(listaCita.get(index), ser).setVisible(true);
-            this.setVisible(false);
+            this.dispose();
         } else {
             if (index < 0) {
                 JOptionPane.showMessageDialog(null, "Debe seleccionar una cita para continuar");
