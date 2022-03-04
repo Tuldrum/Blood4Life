@@ -23,6 +23,7 @@ public class GUILogin extends javax.swing.JFrame {
      */
     public GUILogin() {
         initComponents();
+        btnRegistrarNuevoUsuario.setEnabled(false);
         txtPassword.setVisible(true);
         txtPasswordVisible.setVisible(false);
         setLocationRelativeTo(null);
@@ -132,10 +133,9 @@ public class GUILogin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEntrarActionPerformed
 
     private void btnRegistrarNuevoUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarNuevoUsuarioActionPerformed
-        this.setEnabled(false);
-        /*SignUpUser nVentana = new SignUpUser();
+        SignUpUser nVentana = new SignUpUser();
         nVentana.setVisible(true);
-        this.dispose();*/
+        this.dispose();
     }//GEN-LAST:event_btnRegistrarNuevoUsuarioActionPerformed
 
     @SuppressWarnings("deprecation")
