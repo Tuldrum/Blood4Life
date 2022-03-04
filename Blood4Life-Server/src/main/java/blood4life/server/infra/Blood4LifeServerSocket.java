@@ -162,6 +162,9 @@ public class Blood4LifeServerSocket extends ServerSocketTemplate {
         if (protocolRequest.getAction().equals("getlistadisponibles")) {
             processGetCitasDisp(protocolRequest);
         }
+        if (protocolRequest.getAction().equals("deleteCita")) {
+            processDeleteCita(protocolRequest);
+        }
         if (protocolRequest.getAction().equals("getlista")) {
             processGetCitaList(protocolRequest);
         }
