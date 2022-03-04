@@ -42,7 +42,7 @@
                   <Component id="lblCitas" max="32767" attributes="0"/>
                   <Component id="lblListaDonantes" alignment="0" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace pref="96" max="32767" attributes="0"/>
+              <EmptySpace pref="79" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Component id="btnExportar" max="32767" attributes="0"/>
                   <Component id="bntVerCitasAgendadas" alignment="0" max="32767" attributes="0"/>
@@ -173,7 +173,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Tahoma" size="11" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Lista de donantes"/>
+        <Property name="text" type="java.lang.String" value="Lista citas asignadas"/>
       </Properties>
       <AccessibilityProperties>
         <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="lblListaDonentes"/>

@@ -236,6 +236,7 @@ public class GUISolicitarCita extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Asignado con éxito");
                 jButton1.setEnabled(false);
             }
+            new VisualizarLugares(ser).setVisible(true);
             this.dispose();
         } catch (Exception ex) {
             Logger.getLogger(GUISolicitarCita.class.getName()).log(Level.SEVERE, null, ex);

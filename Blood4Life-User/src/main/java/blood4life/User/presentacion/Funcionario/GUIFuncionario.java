@@ -16,6 +16,7 @@ public class GUIFuncionario extends javax.swing.JFrame {
      */
     public GUIFuncionario() {
         initComponents();
+        bntVerCitasAgendadas.setEnabled(false);
         setLocationRelativeTo(null);
     }
 
@@ -74,7 +75,7 @@ public class GUIFuncionario extends javax.swing.JFrame {
         });
 
         lblListaDonantes.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        lblListaDonantes.setText("Lista de donantes");
+        lblListaDonantes.setText("Lista citas asignadas");
 
         btnExportar.setText("Exportar");
         btnExportar.addActionListener(new java.awt.event.ActionListener() {
@@ -103,7 +104,7 @@ public class GUIFuncionario extends javax.swing.JFrame {
                     .addComponent(lblSitios, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lblCitas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lblListaDonantes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 96, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 79, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnExportar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(bntVerCitasAgendadas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
