@@ -30,8 +30,6 @@ public class GUIFuncionario extends javax.swing.JFrame {
         lblCitas = new javax.swing.JLabel();
         bntAceptar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
-        bntVerCitasAgendadas = new javax.swing.JButton();
-        lblListaDonantes = new javax.swing.JLabel();
         btnExportar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -58,16 +56,6 @@ public class GUIFuncionario extends javax.swing.JFrame {
         btnCancelar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnCancelar.setText("Cancelar");
 
-        bntVerCitasAgendadas.setText("Ir");
-        bntVerCitasAgendadas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bntVerCitasAgendadasActionPerformed(evt);
-            }
-        });
-
-        lblListaDonantes.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        lblListaDonantes.setText("Lista de donantes");
-
         btnExportar.setText("Exportar");
         btnExportar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -82,25 +70,25 @@ public class GUIFuncionario extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(125, 125, 125)
                 .addComponent(bntAceptar)
-                .addGap(38, 38, 38)
+                .addGap(55, 55, 55)
                 .addComponent(btnCancelar)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(99, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(lblFuncionario)
-                .addGap(183, 183, 183))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(76, 76, 76)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(lblSitios, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblCitas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblListaDonantes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 96, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnExportar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(bntVerCitasAgendadas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(bntIrSitios, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(76, 76, 76))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(lblFuncionario)
+                        .addGap(106, 106, 106))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lblSitios)
+                            .addComponent(lblCitas, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(87, 87, 87)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnExportar, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(bntIrSitios, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(77, 77, 77))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -108,26 +96,20 @@ public class GUIFuncionario extends javax.swing.JFrame {
                 .addGap(52, 52, 52)
                 .addComponent(lblFuncionario)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(bntIrSitios)
-                    .addComponent(lblSitios))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnExportar)
+                    .addComponent(lblCitas))
+                .addGap(0, 14, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 14, Short.MAX_VALUE)
-                        .addComponent(lblCitas)
-                        .addGap(18, 18, 18)
-                        .addComponent(lblListaDonantes)
-                        .addGap(18, 18, 18)
+                        .addGap(64, 64, 64)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(bntAceptar)
-                            .addComponent(btnCancelar))
-                        .addGap(40, 40, 40))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(7, 7, 7)
-                        .addComponent(bntVerCitasAgendadas)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnExportar)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(btnCancelar)))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(bntIrSitios)
+                        .addComponent(lblSitios)))
+                .addGap(40, 40, 40))
         );
 
         lblFuncionario.getAccessibleContext().setAccessibleName("lblFuncionario");
@@ -136,8 +118,6 @@ public class GUIFuncionario extends javax.swing.JFrame {
         lblCitas.getAccessibleContext().setAccessibleName("lblCitas");
         bntAceptar.getAccessibleContext().setAccessibleName("btnAceptar");
         btnCancelar.getAccessibleContext().setAccessibleName("btnCancelar");
-        bntVerCitasAgendadas.getAccessibleContext().setAccessibleName("btnDesplegarCitas");
-        lblListaDonantes.getAccessibleContext().setAccessibleName("lblListaDonentes");
         btnExportar.getAccessibleContext().setAccessibleName("btnVerListDonant");
 
         pack();
@@ -146,10 +126,6 @@ public class GUIFuncionario extends javax.swing.JFrame {
     private void bntIrSitiosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntIrSitiosActionPerformed
         //TODO
     }//GEN-LAST:event_bntIrSitiosActionPerformed
-
-    private void bntVerCitasAgendadasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntVerCitasAgendadasActionPerformed
-        //TODO
-    }//GEN-LAST:event_bntVerCitasAgendadasActionPerformed
 
     private void btnExportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportarActionPerformed
         GUIExportarCitasAsignadasFecha nVentana = new GUIExportarCitasAsignadasFecha();
@@ -195,12 +171,10 @@ public class GUIFuncionario extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bntAceptar;
     private javax.swing.JButton bntIrSitios;
-    private javax.swing.JButton bntVerCitasAgendadas;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnExportar;
     private javax.swing.JLabel lblCitas;
     private javax.swing.JLabel lblFuncionario;
-    private javax.swing.JLabel lblListaDonantes;
     private javax.swing.JLabel lblSitios;
     // End of variables declaration//GEN-END:variables
 }
