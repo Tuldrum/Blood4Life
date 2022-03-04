@@ -5,6 +5,7 @@
  */
 package blood4life.User.access;
 
+import java.sql.Date;
 import java.util.List;
 
 import blood4life.commons.domain.CitaAsignada;
@@ -21,5 +22,5 @@ public interface ICitaAsignadaAcces {
 
     public String deleteCitaAsiganada(String cita_id, String user_id) throws Exception;
 
-    public List<String> listaCitasAsignadas() throws Exception;
+    public List<String> listaCitasAsignadas(int lugarId, Date today) throws Exception;
 }

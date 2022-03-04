@@ -4,38 +4,16 @@
  */
 package blood4life.User.presentacion.Funcionario;
 
-import java.io.BufferedWriter;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import javax.swing.JOptionPane;
-
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVPrinter;
-
-import blood4life.User.domain.commands.Command;
-import blood4life.User.domain.commands.FindAllCommand;
-import blood4life.User.domain.commands.Invoker;
-import blood4life.User.domain.services.GestorServicesImpl;
-import blood4life.User.domain.services.ServicesEnum;
-
 /**
  *
  * @author cerqu
  */
 public class GUIFuncionario extends javax.swing.JFrame {
-    private GestorServicesImpl ser;  
-    private Invoker inv;
     /**
      * Creates new form GUIFuncionario
      */
     public GUIFuncionario() {
         initComponents();
-        ser = new GestorServicesImpl(); 
-        inv = new Invoker(); 
     }
 
     /**
@@ -175,30 +153,10 @@ public class GUIFuncionario extends javax.swing.JFrame {
         guiCitas.setVisible(true);
     }//GEN-LAST:event_bntVerCitasAgendadasActionPerformed
 
-    @SuppressWarnings({"unchecked"})
     private void btnExportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportarActionPerformed
-        try {
-            Command cmd = new FindAllCommand("",ser.getImpl(ServicesEnum.CitaAsignadaService));  
-            inv.setCommand(cmd);
-            inv.execute(); 
-            FindAllCommand fcmd = (FindAllCommand) inv.getCommand(); 
-            List<String> infoCitasAsignadas = (List<String>) fcmd.getList();
-            if (infoCitasAsignadas.size() == 0) {
-                JOptionPane.showMessageDialog(null, "No se encontraron datos para citas asignadas");
-                return;
-            }
-            BufferedWriter writer = Files.newBufferedWriter(Paths.get("datos_citas_asignadas.csv"));
-            CSVPrinter csvPrinter = new CSVPrinter(writer,
-                CSVFormat.DEFAULT.withHeader("lugar","direccion","fecha","hora","documentoPaciente","nombrePaciente",
-                                            "apellidoPaciente","mailPaciente","telPaciente","tipoSangre","rh").withDelimiter(';'));
-            for (String each : infoCitasAsignadas) {
-                csvPrinter.printRecord(each);
-            }
-            csvPrinter.flush();
-            csvPrinter.close();
-        } catch (Exception ex) {
-            Logger.getLogger(GUIFuncionario.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        GUIExportarCitasAsignadasFecha nVentana = new GUIExportarCitasAsignadasFecha();
+        nVentana.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnExportarActionPerformed
 
     /**

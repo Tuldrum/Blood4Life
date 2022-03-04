@@ -12,6 +12,7 @@ import blood4life.commons.infra.Utilities;
 import blood4life.server.access.users.IClienteRepository;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -176,7 +177,7 @@ public class CitaAsignadaRepository implements ICitaAsignadaRepository {
     
 
     @Override
-    public List<String> getAll() {
+    public List<String> getAll(int lugarId, Date today) {
         List<String> list = new ArrayList<String>();
         try {
             String sql = 
@@ -190,24 +191,26 @@ public class CitaAsignadaRepository implements ICitaAsignadaRepository {
                 "ca.user_id = uc.user_id AND " +
                 "uc.sangre_id = sa.sangre_id AND " +
                 "ca.cod_id = ci.cod_id AND " +
-                "ci.lugar_id = lu.lugar_id";
-
+                "ci.lugar_id = lu.lugar_id AND " +
+                "lu.lugar_id = " + String.valueOf(lugarId) + " AND " +
+                "ci.fecha >= CAST('" + today.toString() + "' AS date)";
+            
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
 
             while (rs.next()) {
                 list.add(
-                    rs.getString(0)+","+
-                    rs.getString(1)+","+
-                    rs.getString(2)+","+
-                    rs.getString(3)+","+
-                    rs.getString(4)+","+
-                    rs.getString(5)+","+
-                    rs.getString(6)+","+
-                    rs.getString(7)+","+
-                    rs.getString(8)+","+
-                    rs.getString(9)+","+
-                    rs.getString(10)
+                    rs.getString("nombreLugar")+","+
+                    rs.getString("direccionLugar")+","+
+                    rs.getString("fecha")+","+
+                    rs.getString("hora")+","+
+                    rs.getString("user_id")+","+
+                    rs.getString("nombre")+","+
+                    rs.getString("apellido")+","+
+                    rs.getString("mail")+","+
+                    rs.getString("telefono")+","+
+                    rs.getString("tipo")+","+
+                    rs.getString("rh")
                 );
             }
         } catch (SQLException ex) {

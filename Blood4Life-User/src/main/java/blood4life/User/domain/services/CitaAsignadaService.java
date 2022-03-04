@@ -6,6 +6,8 @@
 package blood4life.User.domain.services;
 
 import blood4life.User.access.ICitaAsignadaAcces;
+
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -66,9 +68,13 @@ public class CitaAsignadaService implements ServiceImpl{
     }
     
     @Override
+    @SuppressWarnings("unchecked")
     public Object list(Object elements) {
         try {
-            return impl.listaCitasAsignadas();
+            ArrayList<Object> list = (ArrayList<Object>) elements;
+            int lugarId = (int) list.get(0);
+            Date today = (Date) list.get(1);
+            return impl.listaCitasAsignadas(lugarId, today);
         } catch (Exception e) {
             e.printStackTrace();
         }
