@@ -25,4 +25,6 @@ public interface ICitaRepository {
     
     public List<Cita> list(Date sqlDate, int lugar_id); 
     
+    public boolean delete(Cita cita); 
+    
 }

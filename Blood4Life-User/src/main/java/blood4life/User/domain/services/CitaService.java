@@ -78,10 +78,15 @@ public class CitaService implements ServiceImpl {
         return null;  
     }
     
-    @Deprecated
     @Override
     public String delete(Object elements) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            Cita cita = (Cita)elements;  
+            return CitaAccesImplSockets.delete(cita);
+        } catch (Exception ex) {
+            Logger.getLogger(CitaService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;  
     }
     
 }

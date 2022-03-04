@@ -178,4 +178,22 @@ public class CitaRepository implements ICitaRepository {
         }
         return products;
     }
+    
+    public boolean delete(Cita cita) {
+        if (cita == null) {
+            return false;
+        }
+        try {
+
+            String sql = "DELETE FROM cita"
+                    + " WHERE (cod_id = " + String.valueOf((cita.getCodigo())) + ");";
+
+            Statement stmt = conn.createStatement();
+            stmt.executeUpdate(sql);
+
+        } catch (SQLException ex) {
+            Logger.getLogger(CitaRepository.class.getName()).log(Level.SEVERE, "Error al eliminar la cita en la base de datos", ex);
+        }
+        return true;
+    }
 }

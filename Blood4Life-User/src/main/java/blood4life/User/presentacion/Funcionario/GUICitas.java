@@ -10,8 +10,11 @@ import blood4life.User.domain.services.GestorServicesImpl;
 import blood4life.User.domain.services.ServicesEnum;
 import blood4life.User.infra.Messages;
 import blood4life.commons.domain.Cita;
+import blood4life.commons.domain.LugarRecogida;
+import blood4life.commons.infra.Utilities;
 import java.sql.Date;
 import java.sql.Time;
+import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 
 import java.util.List;
@@ -31,18 +34,20 @@ public class GUICitas extends javax.swing.JFrame {
      */
     private final Invoker invoker;
     GestorServicesImpl serv;
-    private Object txtHora;
     private int id_lugar = -1;
-
+    private LugarRecogida lugar;
+    
+    
     /**
      * Constructor
      */
-    public GUICitas(int id_lugar, GestorServicesImpl serv) {
+    public GUICitas(LugarRecogida lugar, GestorServicesImpl serv) {
         this.id_lugar = id_lugar;
+        this.lugar = lugar;  
         invoker = new Invoker();
         this.serv = serv;
         initComponents();
-        setSize(870, 300);
+        setSize(988, 498);
         loadDataTable();
         loadDataCombo();
         initStateButtons();
@@ -71,19 +76,28 @@ public class GUICitas extends javax.swing.JFrame {
      */
     private void loadDataTable() {
         try {
-            invoker.setCommand(new FindAllCommand(null, serv.getImpl(ServicesEnum.CitaService)));
+            ArrayList<Object> args = new ArrayList();
+            args.add(Utilities.ActualDateToDateSQL());
+            args.add(lugar.getLugar_id());
+
+            invoker.setCommand(new FindAllCommand(args, serv.getImpl(ServicesEnum.CitaService)));
             invoker.execute();
+
             FindAllCommand findAllCommand = (FindAllCommand) invoker.getCommand();
             List<Cita> components = (List<Cita>) findAllCommand.getList();
-            DefaultTableModel modelTable = (DefaultTableModel) tblData.getModel();
-            clearData(modelTable);
-            for (Cita component : components) {
-                Object[] fila = new Object[3];
-                fila[0] = String.valueOf(component.getCodigo());
-                fila[1] = component.getCupos();
-                fila[2] = component.getFecha();
-                fila[3] = component.getHora();
-                modelTable.addRow(fila);
+            if (components.size() > 0) {
+                DefaultTableModel modelTable = (DefaultTableModel) tblData.getModel();
+                clearData(modelTable);
+                for (Cita component : components) {
+                    Object[] fila = new Object[4];
+                    fila[0] = String.valueOf(component.getCodigo());
+                    fila[1] = component.getCupos();
+                    fila[2] = component.getFecha();
+                    fila[3] = component.getHora();
+                    modelTable.addRow(fila);
+                }
+            } else {
+                Messages.confirmMessage("Sin citas disponibles para este lugar", "información");
             }
         } catch (Exception ex) {
             Logger.getLogger(GUICitas.class.getName()).log(Level.SEVERE, null, ex);
@@ -119,7 +133,9 @@ public class GUICitas extends javax.swing.JFrame {
         lblCupos = new javax.swing.JLabel();
         txtCupos = new javax.swing.JTextField();
         lblFecha = new javax.swing.JLabel();
-        txtFecha = new javax.swing.JTextField();
+        lblFecha1 = new javax.swing.JLabel();
+        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        txtCupos1 = new javax.swing.JTextField();
         pnlSur = new javax.swing.JPanel();
         btnAdd = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
@@ -133,11 +149,9 @@ public class GUICitas extends javax.swing.JFrame {
         setTitle("Lugares ");
 
         pnlCentro.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        pnlCentro.setLayout(new java.awt.GridLayout(3, 2));
 
         lblId.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblId.setText("*Id:");
-        pnlCentro.add(lblId);
 
         txtId.setPreferredSize(new java.awt.Dimension(150, 32));
         txtId.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -155,19 +169,76 @@ public class GUICitas extends javax.swing.JFrame {
                 txtIdKeyPressed(evt);
             }
         });
-        pnlCentro.add(txtId);
 
         lblCupos.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblCupos.setText("*Cupos:");
-        pnlCentro.add(lblCupos);
-        pnlCentro.add(txtCupos);
+
+        txtCupos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCuposActionPerformed(evt);
+            }
+        });
 
         lblFecha.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblFecha.setText("*Fecha");
-        pnlCentro.add(lblFecha);
-        pnlCentro.add(txtFecha);
 
-        getContentPane().add(pnlCentro, java.awt.BorderLayout.CENTER);
+        lblFecha1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblFecha1.setText("*Hora");
+
+        txtCupos1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCupos1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pnlCentroLayout = new javax.swing.GroupLayout(pnlCentro);
+        pnlCentro.setLayout(pnlCentroLayout);
+        pnlCentroLayout.setHorizontalGroup(
+            pnlCentroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlCentroLayout.createSequentialGroup()
+                .addGroup(pnlCentroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlCentroLayout.createSequentialGroup()
+                        .addGap(15, 15, 15)
+                        .addComponent(lblId, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnlCentroLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(lblCupos, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnlCentroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(lblFecha1, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addGroup(pnlCentroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(txtCupos, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jDateChooser1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtCupos1, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtId, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE))
+                .addContainerGap(26, Short.MAX_VALUE))
+        );
+        pnlCentroLayout.setVerticalGroup(
+            pnlCentroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlCentroLayout.createSequentialGroup()
+                .addGap(1, 1, 1)
+                .addGroup(pnlCentroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lblId, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(pnlCentroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblCupos, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtCupos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(pnlCentroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlCentroLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlCentroLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                .addGroup(pnlCentroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lblFecha1, javax.swing.GroupLayout.DEFAULT_SIZE, 83, Short.MAX_VALUE)
+                    .addComponent(txtCupos1))
+                .addGap(85, 85, 85))
+        );
 
         pnlSur.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -211,8 +282,6 @@ public class GUICitas extends javax.swing.JFrame {
         });
         pnlSur.add(btnClose);
 
-        getContentPane().add(pnlSur, java.awt.BorderLayout.SOUTH);
-
         pnlEste.setBorder(new javax.swing.border.MatteBorder(null));
         pnlEste.setLayout(new java.awt.BorderLayout());
 
@@ -234,9 +303,40 @@ public class GUICitas extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tblData);
 
-        pnlEste.add(jScrollPane1, java.awt.BorderLayout.CENTER);
-
-        getContentPane().add(pnlEste, java.awt.BorderLayout.EAST);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(pnlCentro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 454, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                .addComponent(pnlEste, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(2, 2, 2))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(37, 37, 37)
+                .addComponent(pnlSur, javax.swing.GroupLayout.PREFERRED_SIZE, 964, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(pnlEste, javax.swing.GroupLayout.PREFERRED_SIZE, 361, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(99, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(17, 17, 17)
+                        .addComponent(pnlCentro, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 387, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pnlSur, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(18, Short.MAX_VALUE))
+        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -259,8 +359,9 @@ public class GUICitas extends javax.swing.JFrame {
 
             int id = Integer.parseInt(txtId.getText());
             int cupos = Integer.parseInt(txtCupos.getText());
-            Date fecha = Date.valueOf(txtFecha.getText());
-            Time hora = null; //no pude agregarle la fila para la  hora :'c
+
+            Date fecha = Utilities.DateToDateSQL(jDateChooser1.getDate());
+            Time hora = Time.valueOf(txtCupos1.getText());
 
             addCita(id, cupos, fecha, hora);
 
@@ -283,7 +384,7 @@ public class GUICitas extends javax.swing.JFrame {
      * @param hora hora de la cita
      */
     private void addCita(int codigo, int cupos, Date fecha, Time hora) throws Exception {
-        Cita cita = new Cita(codigo, cupos, fecha, hora);
+        Cita cita = new Cita(codigo, cupos, lugar, fecha, hora);
         //Fija el comando del invoker
         invoker.setCommand(new CreateCommand(cita, serv.getImpl(ServicesEnum.CitaService)));
         //Ejecuta el comando
@@ -301,11 +402,11 @@ public class GUICitas extends javax.swing.JFrame {
         // Preparar los datos
         int id = Integer.parseInt(txtId.getText());
         int cupos = Integer.parseInt(txtCupos.getText());
-        Date fecha = Date.valueOf(txtFecha.getText());
-        Time hora = null; //Time.valueOf(txtHora.getText());  
+        Date fecha = Utilities.DateToDateSQL(jDateChooser1.getDate());
+        Time hora = Time.valueOf(txtCupos1.getText());
 
-        // Crea la cita con los nuevos datos
-        Cita cita = new Cita(id, cupos, fecha, hora);
+        //Crea la cita con los nuevos datos
+        Cita cita = new Cita(id, cupos,lugar, fecha, hora);
 
         try {
             // Traer la cita previa
@@ -314,12 +415,12 @@ public class GUICitas extends javax.swing.JFrame {
             Logger.getLogger(GUICitas.class.getName()).log(Level.SEVERE, null, ex);
         }
         FindCommand findcommand = (FindCommand) invoker.getCommand();
-        findcommand.setArgs(id);
+        findcommand.setArgs(String.valueOf(id));
         invoker.execute();
 
         //la cita previa debe crearse en una nueva instancia
         Cita compAux = (Cita) findcommand.getElement();
-        Cita previous = new Cita(compAux.getCodigo(), compAux.getCupos(), compAux.getFecha(), compAux.getHora());
+        Cita previous = new Cita(compAux.getCodigo(), compAux.getCupos(),lugar, compAux.getFecha(), compAux.getHora());
 
         //Modifica la cita y guarda el previo
         updateCita(cita, previous);
@@ -385,7 +486,9 @@ public class GUICitas extends javax.swing.JFrame {
             btnDelete.setEnabled(true);
             btnUndo.setEnabled(false);
             txtCupos.setText(String.valueOf(cita.getCupos()));
-            txtFecha.setText(String.valueOf(cita.getFecha()));
+            jDateChooser1.setDate(cita.getFecha());
+            txtCupos1.setText(cita.getHora().toString());
+            txtCupos1.setText(cita.getHora().toString());
         }
     }//GEN-LAST:event_txtIdFocusLost
 
@@ -416,7 +519,7 @@ public class GUICitas extends javax.swing.JFrame {
             FindCommand findByIdCommand = (FindCommand) invoker.getCommand();
             invoker.execute();
             Cita compAux = (Cita) findByIdCommand.getElement();
-            Cita cita = new Cita(compAux.getCodigo(), compAux.getCupos(), compAux.getFecha(), compAux.getHora());
+            Cita cita = new Cita(compAux.getCodigo(), compAux.getCupos(), lugar, compAux.getFecha(), compAux.getHora());
 
             //Elimina la cita
             deleteCita(cita);
@@ -433,6 +536,14 @@ public class GUICitas extends javax.swing.JFrame {
     private void txtIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtIdActionPerformed
+
+    private void txtCupos1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCupos1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCupos1ActionPerformed
+
+    private void txtCuposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCuposActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCuposActionPerformed
     /**
      * Llama a la logica de negocio para cita mediante el comando
      *
@@ -443,6 +554,8 @@ public class GUICitas extends javax.swing.JFrame {
         try {
             //Fija el comando del invoker
             invoker.setCommand(new DeleteCommand(cita, serv.getImpl(ServicesEnum.CitaService)));
+            DeleteCommand cmd = (DeleteCommand) invoker.getCommand();  
+            cmd.setPrevious(cita);
             //Ejecuta el comando
             invoker.execute();
         } catch (Exception ex) {
@@ -456,14 +569,10 @@ public class GUICitas extends javax.swing.JFrame {
     public void clearControls() {
         txtId.setText("");
         txtCupos.setText("");
-        txtFecha.setText("");
+        jDateChooser1.setDate(null);
+        txtCupos1.setText("");
     }
-
-    public static void main(String[] args) {
-        GUICitas gui = new GUICitas(1, new GestorServicesImpl());
-        gui.setVisible(true);
-    }
-
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
@@ -471,16 +580,18 @@ public class GUICitas extends javax.swing.JFrame {
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnUndo;
     private javax.swing.JButton btnUpdate;
+    private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblCupos;
     private javax.swing.JLabel lblFecha;
+    private javax.swing.JLabel lblFecha1;
     private javax.swing.JLabel lblId;
     private javax.swing.JPanel pnlCentro;
     private javax.swing.JPanel pnlEste;
     private javax.swing.JPanel pnlSur;
     private javax.swing.JTable tblData;
     private javax.swing.JTextField txtCupos;
-    private javax.swing.JTextField txtFecha;
+    private javax.swing.JTextField txtCupos1;
     private javax.swing.JTextField txtId;
     // End of variables declaration//GEN-END:variables
 }

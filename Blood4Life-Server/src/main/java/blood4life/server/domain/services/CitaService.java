@@ -85,5 +85,31 @@ public class CitaService {
         }
         return "Error: algo salió mal..consultar con el administrador del sistema";
     }
+    
+    public synchronized String delete(Cita cita){
+        // Validaciones y reglas de negocio
+        List<JsonError> errors = new ArrayList<>();
+        
+        if (cita.getLugar() == null || cita.getCodigo() < 0  ) {
+            errors.add(new JsonError("400", "BAD_REQUEST", "cod_id, lugar_id, fecha son obligatorios."));
+        }
 
+        if (find(cita.getCodigo()) == null) {
+            errors.add(new JsonError("400", "BAD_REQUEST", "No existe una cita con ese código."));
+        }
+
+        if (!errors.isEmpty()) {
+            Gson gson = new Gson();
+            String errorsJson = gson.toJson(errors);
+            return errorsJson;
+        }
+
+        if (repo.delete(cita)) {
+            return "Eliminado con éxito" + cita.toString();
+        }
+        return "Error: algo salió mal..consultar con el administrador del sistema";
+         
+        
+        
+    }
 }

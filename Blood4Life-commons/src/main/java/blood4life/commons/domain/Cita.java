@@ -16,26 +16,13 @@ public class Cita {
     private Time hora; 
     private int cupos; 
 
-    /*
+    
     public Cita(int codigo, int cupos, LugarRecogida lugar_id, Date fecha, Time hora) {
         this.codigo = codigo;
         this.cupos = cupos;
         this.lugar = lugar_id;
         this.fecha = fecha;
-    }*/
-    
-    /**
-     * Constructor para usar en la GUICitas
-     * @param codigo
-     * @param cupos
-     * @param fecha
-     * @param hora 
-     */
-    public Cita(int codigo, int cupos, Date fecha, Time hora) {
-        this.codigo = codigo;
-        this.cupos = cupos;
-        this.fecha = fecha;
-        this.hora = hora;
+        this.hora = hora;  
     }
     
     public Time getHora() {
