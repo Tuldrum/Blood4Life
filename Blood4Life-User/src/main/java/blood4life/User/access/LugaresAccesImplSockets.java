@@ -21,8 +21,8 @@ import java.util.logging.Logger;
  *
  * @author cerqu
  */
-public class LugaresAccesImplSockets implements ILugaresAcces{
-    
+public class LugaresAccesImplSockets implements ILugaresAcces {
+
     private Blood4LifeClientSocket mySocket;
 
     public LugaresAccesImplSockets() {
@@ -50,9 +50,13 @@ public class LugaresAccesImplSockets implements ILugaresAcces{
                 Logger.getLogger(LugaresAccesImplSockets.class.getName()).log(Level.INFO, jsonResponse);
                 throw new Exception(extractMessages(jsonResponse));
             } else {
+                if(jsonResponse.contains("info:")){
+                    Logger.getLogger(LugaresAccesImplSockets.class.getName()).log(Level.INFO, jsonResponse);
+                    return null; 
+                }
                 //Encontró el lugar
                 LugarRecogida lugares = jsonToLugares(jsonResponse);
-                Logger.getLogger(LugaresAccesImplSockets.class.getName()).log(Level.INFO, "Lo que va en el JSon: ("+jsonResponse.toString()+ ")");
+                Logger.getLogger(LugaresAccesImplSockets.class.getName()).log(Level.INFO, "Lo que va en el JSon: (" + jsonResponse.toString() + ")");
                 return lugares;
             }
         }
@@ -87,8 +91,66 @@ public class LugaresAccesImplSockets implements ILugaresAcces{
         }
 
     }
-    
-     @Override
+
+    @Override
+    public String deleteLugares(LugarRecogida lugar) throws Exception {
+        String jsonResponse = null;
+        String requestJson = doDeleteLugaresRequestJson(lugar);
+        try {
+            mySocket.connect();
+            jsonResponse = mySocket.sendRequest(requestJson);
+            mySocket.disconnect();
+
+        } catch (IOException ex) {
+            Logger.getLogger(LugaresAccesImplSockets.class.getName()).log(Level.SEVERE, "No hubo conexión con el servidor", ex);
+        }
+        if (jsonResponse == null) {
+            throw new Exception("No se pudo conectar con el servidor");
+        } else {
+
+            if (jsonResponse.contains("error")) {
+                //Devolvió algún error                
+                Logger.getLogger(LugaresAccesImplSockets.class.getName()).log(Level.INFO, jsonResponse);
+                throw new Exception(extractMessages(jsonResponse));
+            } else {
+                //Agregó correctamente, devuelve la cedula del customer 
+                return "El lugar " + lugar.getLugar_id() + " se borró correctamente";
+            }
+
+        }
+
+    }
+
+    @Override
+    public String editLugares(LugarRecogida lugar) throws Exception {
+        String jsonResponse = null;
+        String requestJson = doEditLugaresRequestJson(lugar);
+        try {
+            mySocket.connect();
+            jsonResponse = mySocket.sendRequest(requestJson);
+            mySocket.disconnect();
+
+        } catch (IOException ex) {
+            Logger.getLogger(LugaresAccesImplSockets.class.getName()).log(Level.SEVERE, "No hubo conexión con el servidor", ex);
+        }
+        if (jsonResponse == null) {
+            throw new Exception("No se pudo conectar con el servidor");
+        } else {
+
+            if (jsonResponse.contains("error")) {
+                //Devolvió algún error                
+                Logger.getLogger(LugaresAccesImplSockets.class.getName()).log(Level.INFO, jsonResponse);
+                throw new Exception(extractMessages(jsonResponse));
+            } else {
+                //Agregó correctamente, devuelve la cedula del customer 
+                return "El lugar " + lugar.getLugar_id() + " se editó correctamente";
+            }
+
+        }
+
+    }
+
+    @Override
     public List<LugarRecogida> listLugaresDisponibles(Date before, Date After) throws Exception {
         String jsonResponse = null;
         String requestJson = doLugaresDisponiblesRequestJson(before, After);
@@ -111,7 +173,7 @@ public class LugaresAccesImplSockets implements ILugaresAcces{
             } else {
                 //Encontró el lugar
                 List<LugarRecogida> lugares = jsonToList(jsonResponse);
-                Logger.getLogger(LugaresAccesImplSockets.class.getName()).log(Level.INFO, "Lo que va en el JSon: ("+jsonResponse.toString()+ ")");
+                Logger.getLogger(LugaresAccesImplSockets.class.getName()).log(Level.INFO, "Lo que va en el JSon: (" + jsonResponse.toString() + ")");
                 return lugares;
             }
         }
@@ -177,6 +239,35 @@ public class LugaresAccesImplSockets implements ILugaresAcces{
         return requestJson;
     }
 
+    private String doDeleteLugaresRequestJson(LugarRecogida lugar) {
+
+        Protocol protocol = new Protocol();
+        protocol.setResource("lugar");
+        protocol.setAction("delete");
+        protocol.addParameter("id", String.valueOf(lugar.getLugar_id()));
+        protocol.addParameter("dirección", lugar.getDireccion());
+        protocol.addParameter("nombre", lugar.getNombre());
+
+        Gson gson = new Gson();
+        String requestJson = gson.toJson(protocol);
+
+        return requestJson;
+    }
+
+    private String doEditLugaresRequestJson(LugarRecogida lugar) {
+
+        Protocol protocol = new Protocol();
+        protocol.setResource("lugar");
+        protocol.setAction("update");
+        protocol.addParameter("id", String.valueOf(lugar.getLugar_id()));
+        protocol.addParameter("dirección", lugar.getDireccion());
+        protocol.addParameter("nombre", lugar.getNombre());
+
+        Gson gson = new Gson();
+        String requestJson = gson.toJson(protocol);
+        return requestJson;
+    }
+
     private String doCreateLugaresRequestJson(LugarRecogida lugar) {
 
         Protocol protocol = new Protocol();
@@ -190,7 +281,7 @@ public class LugaresAccesImplSockets implements ILugaresAcces{
         String requestJson = gson.toJson(protocol);
         return requestJson;
     }
-    
+
     private String doLugaresDisponiblesRequestJson(Date before, Date after) {
 
         Protocol protocol = new Protocol();
@@ -209,11 +300,11 @@ public class LugaresAccesImplSockets implements ILugaresAcces{
         LugarRecogida lugar = gson.fromJson(jsonLugar, LugarRecogida.class);
         return lugar;
     }
-    
+
     private List<LugarRecogida> jsonToList(String jsonLista) {
-        if(jsonLista.contains("info:")){
-            return null; 
-        }else{
+        if (jsonLista.contains("info:")) {
+            return null;
+        } else {
             Gson gson = new Gson();
             Type type2 = new TypeToken<List<LugarRecogida>>() {
             }.getType();

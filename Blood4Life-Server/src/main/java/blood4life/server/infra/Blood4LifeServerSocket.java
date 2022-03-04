@@ -87,22 +87,7 @@ public class Blood4LifeServerSocket extends ServerSocketTemplate {
                 }
                 break;
             case "cita":
-                if (protocolRequest.getAction().equals("get")) {
-                    // Consultar un customer
-                    proccesGetCita(protocolRequest);
-                }
-
-                if (protocolRequest.getAction().equals("post")) {
-                    // Agregar un customer    
-                    processPostCita(protocolRequest);
-                }
-                if (protocolRequest.getAction().equals("update")) {
-                    proccesUpdateCita(protocolRequest);
-                }
-                if (protocolRequest.getAction().equals("getlistadisponibles")) {
-                    processGetCitasDisp(protocolRequest);
-                }
-
+                proccesarCita(protocolRequest); 
                 break;
             case "lugar":
                 procesarLugares(protocolRequest);
@@ -122,6 +107,27 @@ public class Blood4LifeServerSocket extends ServerSocketTemplate {
 
     }
 
+    private void proccesarCita(Protocol protocolRequest) {
+        if (protocolRequest.getAction().equals("get")) {
+            // Consultar un customer
+            proccesGetCita(protocolRequest);
+        }
+
+        if (protocolRequest.getAction().equals("post")) {
+            // Agregar un customer    
+            processPostCita(protocolRequest);
+        }
+        if (protocolRequest.getAction().equals("update")) {
+            proccesUpdateCita(protocolRequest);
+        }
+        if (protocolRequest.getAction().equals("getlistadisponibles")) {
+            processGetCitasDisp(protocolRequest);
+        }
+        if (protocolRequest.getAction().equals("getlista")) {
+            processGetCitaList(protocolRequest);
+        }
+    }
+
     private void procesarLugares(Protocol protocolRequest) {
         if (protocolRequest.getAction().equals("get")) {
             proccesGetLugarRecogida(protocolRequest);
@@ -134,6 +140,12 @@ public class Blood4LifeServerSocket extends ServerSocketTemplate {
         }
         if (protocolRequest.getAction().equals("getlista")) {
             processGetLugaresDisp2(protocolRequest);
+        }
+        if (protocolRequest.getAction().equals("update")) {
+            proccesUpdateLugarRecogida(protocolRequest);
+        }
+        if (protocolRequest.getAction().equals("delete")) {
+            proccesDeleteLugarRecogida(protocolRequest);
         }
     }
 
@@ -191,6 +203,7 @@ public class Blood4LifeServerSocket extends ServerSocketTemplate {
             respond(listToJson(info));
         }
     }
+
     private void proccesGetCitaAsiganda(Protocol protocolRequest) {
         String id = protocolRequest.getParameters().get(0).getValue();
         UsuarioCliente cliente = ((UsuarioClienteService) getService(ServicesEnum.UsuarioClienteService)).find(Integer.parseInt(id));
@@ -268,6 +281,22 @@ public class Blood4LifeServerSocket extends ServerSocketTemplate {
         return aux[1];
     }
 
+    private void processGetCitaList(Protocol protocolRequest) {
+        int id_lugar = Integer.parseInt(protocolRequest.getParameters().get(0).getValue());
+        Date date = Date.valueOf(protocolRequest.getParameters().get(1).getValue());
+        List<Cita> disp = ((CitaService) getService(ServicesEnum.CitaService)).list(date, id_lugar);
+        if (disp == null) {
+            String errorJson = generateNotFoundErrorJson("Sin coincidencias.");
+            respond(errorJson);
+        } else {
+            if (disp.isEmpty()) {
+                respond(new Gson().toJson("Info: Sin coincidencias"));
+            } else {
+                respond(listToJson(disp));
+            }
+        }
+    }
+
     private void processGetCitasDisp(Protocol protocolRequest) {
         Date before = Date.valueOf(protocolRequest.getParameters().get(0).getValue());
         Date after = Date.valueOf(protocolRequest.getParameters().get(1).getValue());
@@ -314,11 +343,37 @@ public class Blood4LifeServerSocket extends ServerSocketTemplate {
         String id = protocolRequest.getParameters().get(0).getValue();
         LugarRecogida lugar = ((LugaresRecogidaService) getService(ServicesEnum.LugaresRecogidaService)).find(Integer.parseInt(id));
         if (lugar == null) {
-            String errorJson = generateNotFoundErrorJson("Información del lugar no encontrada.");
-            respond(errorJson);
+            //generateNotFoundErrorJson("Información del lugar no encontrada.");   
+            respond(new Gson().toJson("info: Información del lugar no encontrada"));
         } else {
             respond(objectToJSON(lugar));
         }
+    }
+
+    private void proccesUpdateLugarRecogida(Protocol protocolRequest) {
+        String id = protocolRequest.getParameters().get(0).getValue();
+        LugarRecogida lugar = ((LugaresRecogidaService) getService(ServicesEnum.LugaresRecogidaService)).find(Integer.parseInt(id));
+        if (lugar == null) {
+            //generateNotFoundErrorJson("Información del lugar no encontrada.");   
+            respond(new Gson().toJson("info: Información del lugar no encontrada"));
+        } else {
+            LugarRecogida newlugar = new LugarRecogida();
+
+            newlugar.setLugar_id(Integer.parseInt(protocolRequest.getParameters().get(0).getValue()));
+            newlugar.setDireccion(protocolRequest.getParameters().get(1).getValue());
+            newlugar.setNombre(protocolRequest.getParameters().get(2).getValue());
+            String response = ((LugaresRecogidaService) getService(ServicesEnum.LugaresRecogidaService)).update(newlugar);
+            respond(response);
+        }
+    }
+
+    private void proccesDeleteLugarRecogida(Protocol protocolRequest) {
+        LugarRecogida newlugar = new LugarRecogida();
+        newlugar.setLugar_id(Integer.parseInt(protocolRequest.getParameters().get(0).getValue()));
+        newlugar.setDireccion(protocolRequest.getParameters().get(1).getValue());
+        newlugar.setNombre(protocolRequest.getParameters().get(2).getValue());
+        String response = ((LugaresRecogidaService) getService(ServicesEnum.LugaresRecogidaService)).delete(newlugar);
+        respond(response);
     }
 
     private void proccesPostLugarRecogida(Protocol protocolRequest) {

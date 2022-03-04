@@ -144,13 +144,11 @@ public class GUIFuncionario extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void bntIrSitiosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntIrSitiosActionPerformed
-        GUIEditarLugares guiLugares = new GUIEditarLugares();
-        guiLugares.setVisible(true);
+        //TODO
     }//GEN-LAST:event_bntIrSitiosActionPerformed
 
     private void bntVerCitasAgendadasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntVerCitasAgendadasActionPerformed
-        GUIEditarCitas guiCitas = new GUIEditarCitas();
-        guiCitas.setVisible(true);
+        //TODO
     }//GEN-LAST:event_bntVerCitasAgendadasActionPerformed
 
     private void btnExportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportarActionPerformed

@@ -63,17 +63,27 @@ public class LugaresServices implements ServiceImpl {
         }
         return null;
     }
-    
-    @Deprecated
+
     @Override
     public String update(Object elements) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            LugarRecogida lugar = (LugarRecogida) elements;
+            return impl.editLugares(lugar);
+        } catch (Exception ex) {
+            Logger.getLogger(LugaresServices.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "Error: desconocido";
     }
 
-    @Deprecated
     @Override
     public String delete(Object elements) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            LugarRecogida lugar = (LugarRecogida) elements;
+            return impl.deleteLugares(lugar);
+        } catch (Exception ex) {
+            Logger.getLogger(LugaresServices.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "Error: desconocido";
     }
 
 }
