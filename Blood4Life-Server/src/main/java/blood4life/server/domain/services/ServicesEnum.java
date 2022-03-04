@@ -16,5 +16,6 @@ public enum ServicesEnum {
     LugaresRecogidaService,
     UsuarioClienteService, 
     EntidadService,
-    SangreService
+    SangreService,
+    UsuarioService
 }

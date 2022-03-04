@@ -25,6 +25,7 @@ public class UserRepository implements IUserRepository {
         this.sangre = sangre;
     }
 
+    @Override
     public User login(int id, String password) {
         User user = null;
         user = consultarTablaUser("usuariocliente", id, password);
@@ -48,6 +49,7 @@ public class UserRepository implements IUserRepository {
 
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
+            
             if (rs.next()) {
                 return construirTipoUsuario(rs, tabla);
             }
@@ -60,23 +62,23 @@ public class UserRepository implements IUserRepository {
     private User construirTipoUsuario (ResultSet rs, String tipo) throws SQLException {
         switch (tipo) {
             case "usuariocliente": // Nombres de la tabla de la base de datos
-            return UsuarioCliente.getInstance(
-                rs.getInt("user_id"),
-                rs.getString("nombre"),
-                rs.getString("apellido"),
-                rs.getString("mail"),
-                rs.getString("telefono"),
-                sangre.find(rs.getInt("sangre_id"))
-                );
+                return UsuarioCliente.getInstance(
+                    rs.getInt("user_id"),
+                    rs.getString("nombre"),
+                    rs.getString("apellido"),
+                    rs.getString("mail"),
+                    rs.getString("telefono"),
+                    sangre.find(rs.getInt("sangre_id"))
+                    );
             case "usuariofuncionario":
-            return UsuarioFuncionario.getInstance(
-                rs.getInt("user_id"),
-                rs.getString("nombre"),
-                rs.getString("apellido"),
-                rs.getString("mail"),
-                rs.getString("telefono"),
-                rs.getString("organizacion")
-                );
+                return UsuarioFuncionario.getInstance(
+                    rs.getInt("user_id"),
+                    rs.getString("nombre"),
+                    rs.getString("apellido"),
+                    rs.getString("mail"),
+                    rs.getString("telefono"),
+                    rs.getString("organizacion")
+                    );
             default:
                 return null;
         }

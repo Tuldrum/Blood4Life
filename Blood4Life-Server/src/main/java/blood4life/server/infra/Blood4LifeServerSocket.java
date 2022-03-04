@@ -6,6 +6,7 @@ import blood4life.commons.domain.CitaAsignada;
 import blood4life.commons.domain.Entidad;
 import blood4life.commons.domain.LugarRecogida;
 import blood4life.commons.domain.Sangre;
+import blood4life.commons.domain.User;
 import blood4life.commons.domain.UsuarioCliente;
 import blood4life.commons.infra.JsonError;
 import blood4life.commons.infra.Protocol;
@@ -18,6 +19,7 @@ import blood4life.server.domain.services.GestorServicios;
 import blood4life.server.domain.services.LugaresRecogidaService;
 import blood4life.server.domain.services.SangreService;
 import blood4life.server.domain.services.ServicesEnum;
+import blood4life.server.domain.services.UserAccessService;
 import blood4life.server.domain.services.UsuarioClienteService;
 import blood4life.serversocket.serversockettemplate.infra.ServerSocketTemplate;
 
@@ -77,6 +79,9 @@ public class Blood4LifeServerSocket extends ServerSocketTemplate {
         Protocol protocolRequest = gson.fromJson(requestJson, Protocol.class);
 
         switch (protocolRequest.getResource()) {
+            case "user":
+                procesarUserAccess(protocolRequest);
+                break;
             case "customer":
                 if (protocolRequest.getAction().equals("get")) {
                     // Consultar un customer
@@ -111,6 +116,23 @@ public class Blood4LifeServerSocket extends ServerSocketTemplate {
                 break;
         }
 
+    }
+
+    private void procesarUserAccess(Protocol protocolRequest) {
+        if (protocolRequest.getAction().equals("get")) {
+            processGetUser(protocolRequest);
+        }
+    }
+    private void processGetUser(Protocol protocolRequest) {
+        int user_id = Integer.parseInt(protocolRequest.getParameters().get(0).getValue());
+        String password = protocolRequest.getParameters().get(1).getValue();
+        User user = ((UserAccessService) getService(ServicesEnum.UsuarioService)).login(user_id, password);
+        if (user == null) {
+            String errorJson = generateNotFoundErrorJson("user no encontrada. ");
+            respond(errorJson);
+        } else {
+            respond(objectToJSON(user));
+        }
     }
 
     private void procesarSangres(Protocol protocolRequest) {

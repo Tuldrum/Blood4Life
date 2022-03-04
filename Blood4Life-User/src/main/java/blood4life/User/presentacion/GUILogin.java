@@ -9,7 +9,6 @@ import blood4life.User.presentacion.interfaceStrategy.ClienteStrategy;
 import blood4life.User.presentacion.interfaceStrategy.Context;
 import blood4life.User.presentacion.interfaceStrategy.FuncionarioStrategy;
 import blood4life.commons.domain.User;
-import blood4life.commons.infra.Utilities;
 
 /**
  *
@@ -118,12 +117,14 @@ public class GUILogin extends javax.swing.JFrame {
         try {
             Context context = new Context();
             User newUser = service.logear(txtID.getText(), txtPassword.getText()); //TODO convertir en getBytes
-            if (Utilities.fun(newUser, "UsuarioCliente")) {
+            if (newUser.getClass().getSimpleName().equals("UsuarioCliente")) {
                 context.setStrategy(new ClienteStrategy());
             }
-            if (Utilities.fun(newUser, "UsuarioFuncionario")) {
+            if (newUser.getClass().getSimpleName().equals("UsuarioFuncionario")) {
                 context.setStrategy(new FuncionarioStrategy());
             }
+            context.executeStrategy();
+            this.dispose();
         } catch (Exception e) {
             e.printStackTrace();
         }

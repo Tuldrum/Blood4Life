@@ -28,6 +28,7 @@ public class GestorServicios {
         UsuarioClienteService s5 = new UsuarioClienteService(factory.getClienteRepository());
         EntidadService s6 = new EntidadService(factory.getEntidadRepository());
         SangreService s7 = new SangreService(factory.getSangreRepository());
+        UserAccessService s8 = new UserAccessService(factory.getUserAccessRepository());
         
         
         servicios.put(ServicesEnum.AssignmentsService, s1);  
@@ -37,6 +38,7 @@ public class GestorServicios {
         servicios.put(ServicesEnum.UsuarioClienteService, s5);  
         servicios.put(ServicesEnum.EntidadService, s6);
         servicios.put(ServicesEnum.SangreService, s7);
+        servicios.put(ServicesEnum.UsuarioService, s8);
     }
     
     public Object getService(ServicesEnum s_enum){

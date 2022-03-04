@@ -2,7 +2,6 @@ package blood4life.commons.domain;
 
 public abstract class User {
     protected int user_id;
-    protected String password;
     protected String name;
     protected String lastname;
     protected String mail;
@@ -32,14 +31,6 @@ public abstract class User {
 
     public void setUser_id(int user_id) {
         this.user_id = user_id;
-    }
-
-    public String getPassword() {
-        return this.password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getName() {

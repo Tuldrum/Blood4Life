@@ -7,6 +7,8 @@ import java.util.logging.Logger;
 import blood4life.commons.infra.Utilities;
 import blood4life.server.access.users.ClienteRepository;
 import blood4life.server.access.users.IClienteRepository;
+import blood4life.server.access.users.IUserRepository;
+import blood4life.server.access.users.UserRepository;
 
 public class Factory {
 
@@ -18,7 +20,8 @@ public class Factory {
     private ICitaRepository citaRepo = null;
     private ISangreRepository SangreRepo = null;
     private ICitaAsignadaRepository citAsigRepo = null;
-    private IEntidadRepository entidadrepo = null; 
+    private IEntidadRepository entidadrepo = null;
+    private IUserRepository userRepo = null;
 
     private Factory() {
         conn = getConnectionRepository();
@@ -174,5 +177,21 @@ public class Factory {
             }
         }
         return entidadrepo;
+    }
+
+    public IUserRepository getUserAccessRepository() {
+        if (userRepo == null) {
+            try {
+                userRepo = (IUserRepository) Class.forName(Utilities.loadProperty("UserRepository"))
+                        .getConstructor(IConnectionRepository.class, ISangreRepository.class).newInstance(getConn(), getSangreRepository());
+            } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException
+                    | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+                Logger.getLogger(Factory.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            if (userRepo == null) {
+                userRepo = new UserRepository(getConn(), getSangreRepository());
+            }
+        }
+        return userRepo;
     }
 }
