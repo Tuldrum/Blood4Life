@@ -36,6 +36,7 @@ public class GUISolicitarCita extends javax.swing.JFrame {
      */
     public GUISolicitarCita() {
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     public GUISolicitarCita(Cita cita, GestorServicesImpl ser) {
@@ -43,6 +44,7 @@ public class GUISolicitarCita extends javax.swing.JFrame {
         this.ser = ser;
         inv = new Invoker();
         initComponents();
+        setLocationRelativeTo(null);
         camposNoEditables();
         jButton1.setEnabled(false);
     }
@@ -213,6 +215,7 @@ public class GUISolicitarCita extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        new GuiCitasDisponibles(ser).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 

@@ -62,20 +62,31 @@ public class CitaService implements ServiceImpl {
     public Object list(Object elements) {
         try {
             ArrayList<Object> list = (ArrayList<Object>) elements;
-            Date before = (Date) list.get(0);
-            Date after = (Date) list.get(1);
-            int id_lugar = (int) list.get(2);  
-            return CitaAccesImplSockets.CitasDisponibles(before, after, id_lugar);
+            if(list.size() == 3){
+                Date before = (Date) list.get(0);
+                Date after = (Date) list.get(1);
+                int id_lugar = (int) list.get(2);  
+                return CitaAccesImplSockets.CitasDisponibles(before, after, id_lugar);
+            }else{
+                Date date = (Date) list.get(0); 
+                int id_lugar = (int) list.get(1);  
+                return CitaAccesImplSockets.CitasDisponibles(date, id_lugar);
+            }
         } catch (Exception ex) {
             Logger.getLogger(CitaService.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;  
     }
     
-    @Deprecated
     @Override
     public String delete(Object elements) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            Cita cita = (Cita)elements;  
+            return CitaAccesImplSockets.delete(cita);
+        } catch (Exception ex) {
+            Logger.getLogger(CitaService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;  
     }
     
 }

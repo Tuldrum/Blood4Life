@@ -10,6 +10,8 @@ import blood4life.commons.domain.Cita;
 import blood4life.commons.domain.CitaAsignada;
 import blood4life.commons.domain.Entidad;
 import blood4life.commons.domain.LugarRecogida;
+import blood4life.commons.domain.Sangre;
+import blood4life.commons.domain.User;
 import blood4life.commons.domain.UsuarioCliente;
 
 import com.google.gson.Gson;
@@ -22,7 +24,9 @@ import blood4life.server.domain.services.CitaService;
 import blood4life.server.domain.services.EntidadService;
 import blood4life.server.domain.services.GestorServicios;
 import blood4life.server.domain.services.LugaresRecogidaService;
+import blood4life.server.domain.services.SangreService;
 import blood4life.server.domain.services.ServicesEnum;
+import blood4life.server.domain.services.UserAccessService;
 import blood4life.server.domain.services.UsuarioClienteService;
 import blood4life.serversocket.serversockettemplate.infra.ServerHandler;
 import java.sql.Date;
@@ -55,6 +59,9 @@ public class Blood4LifeHandler extends ServerHandler {
         Protocol protocolRequest = gson.fromJson(requestJson, Protocol.class);
 
         switch (protocolRequest.getResource()) {
+            case "user":
+                procesarUserAccess(protocolRequest);
+                break;
             case "customer":
                 if (protocolRequest.getAction().equals("get")) {
                     // Consultar un customer
@@ -67,21 +74,7 @@ public class Blood4LifeHandler extends ServerHandler {
                 }
                 break;
             case "cita":
-                if (protocolRequest.getAction().equals("get")) {
-                    // Consultar un customer
-                    proccesGetCita(protocolRequest);
-                }
-
-                if (protocolRequest.getAction().equals("post")) {
-                    // Agregar un customer    
-                    processPostCita(protocolRequest);
-                }
-                if (protocolRequest.getAction().equals("update")) {
-                    proccesUpdateCita(protocolRequest);
-                }
-                if (protocolRequest.getAction().equals("getlistadisponibles")) {
-                    processGetCitasDisp(protocolRequest);
-                }
+                proccesarCita(protocolRequest);  
                 break;
             case "lugar":
                 procesarLugares(protocolRequest);
@@ -93,14 +86,91 @@ public class Blood4LifeHandler extends ServerHandler {
             case "assignments":
                 procesarAssignments(protocolRequest);
                 break;
-                
+
             case "entidades":
                 procesarEntidades(protocolRequest);
                 break;
+        
+                case "sangre":
+                procesarSangres(protocolRequest);
+                break;
+        }
+
+    }
+
+    private void procesarUserAccess(Protocol protocolRequest) {
+        if (protocolRequest.getAction().equals("get")) {
+            processGetUser(protocolRequest);
         }
     }
-    
-      private void procesarLugares(Protocol protocolRequest) {
+    private void processGetUser(Protocol protocolRequest) {
+        int user_id = Integer.parseInt(protocolRequest.getParameters().get(0).getValue());
+        String password = protocolRequest.getParameters().get(1).getValue();
+        User user = ((UserAccessService) getService(ServicesEnum.UsuarioService)).login(user_id, password);
+        if (user == null) {
+            String errorJson = generateNotFoundErrorJson("user no encontrada. ");
+            respond(errorJson);
+        } else {
+            respond(objectToJSON(user));
+        }
+    }
+
+    private void procesarSangres(Protocol protocolRequest) {
+        if (protocolRequest.getAction().equals("getId")) {
+            processGetIdSangre(protocolRequest);
+        }
+        if (protocolRequest.getAction().equals("getAll")) {
+            processGetAllSangre();
+        }
+    }
+    private void processGetIdSangre(Protocol protocolRequest) {
+        String sangreId = protocolRequest.getParameters().get(0).getValue();
+        Sangre sangre = ((SangreService) getService(ServicesEnum.SangreService)).find(Integer.parseInt(sangreId));
+        if (sangre == null) {
+            String errorJson = generateNotFoundErrorJson("Sangre no encontrada. ");
+            respond(errorJson);
+        } else {
+            respond(objectToJSON(sangre));
+        }
+    }
+    private void processGetAllSangre() {
+        List<Sangre> list = ((SangreService) getService(ServicesEnum.SangreService)).getRepo();
+
+        if (list == null) {
+            String errorJson = generateNotFoundErrorJson("Sin coincidencias.");
+            respond(errorJson);
+        } else {
+            if (list.isEmpty()) {
+                respond(new Gson().toJson("Info: Sin coincidencias"));
+            } else {
+                respond(listToJson(list));
+            }
+        }
+    }
+
+    private void proccesarCita(Protocol protocolRequest) {
+        if (protocolRequest.getAction().equals("get")) {
+            proccesGetCita(protocolRequest);
+        }
+
+        if (protocolRequest.getAction().equals("post")) {
+            processPostCita(protocolRequest);
+        }
+        if (protocolRequest.getAction().equals("update")) {
+            proccesUpdateCita(protocolRequest);
+        }
+        if (protocolRequest.getAction().equals("getlistadisponibles")) {
+            processGetCitasDisp(protocolRequest);
+        }
+        if (protocolRequest.getAction().equals("getlista")) {
+            processGetCitaList(protocolRequest);
+        }
+        if (protocolRequest.getAction().equals("delete")) {
+            processDeleteCita(protocolRequest);
+        }
+    }
+
+    private void procesarLugares(Protocol protocolRequest) {
         if (protocolRequest.getAction().equals("get")) {
             proccesGetLugarRecogida(protocolRequest);
         }
@@ -132,7 +202,7 @@ public class Blood4LifeHandler extends ServerHandler {
             proccesDeleteEntidades(protocolRequest);
         }
     }
-    
+
     private void procesarAssignments(Protocol protocolRequest) {
         if (protocolRequest.getAction().equals("get")) {
             proccesGetAssignment(protocolRequest);
@@ -155,7 +225,7 @@ public class Blood4LifeHandler extends ServerHandler {
             proccesGetCitaAsiganda(protocolRequest);
         }
         if (protocolRequest.getAction().equals("getAll")) {
-            proccesGetAllInfoCitasAsignadas();
+            proccesGetAllInfoCitasAsignadas(protocolRequest);
         }
         if (protocolRequest.getAction().equals("post")) {
             proccesPostCitaAsignada(protocolRequest);
@@ -165,8 +235,10 @@ public class Blood4LifeHandler extends ServerHandler {
         }
     }
 
-    private void proccesGetAllInfoCitasAsignadas() {
-        List<String> info = ((CitaAsignadaService) getService(ServicesEnum.CitaAsignadaService)).getRepo();
+    private void proccesGetAllInfoCitasAsignadas(Protocol protocolRequest) {
+        int lugarId = Integer.parseInt(protocolRequest.getParameters().get(0).getValue());
+        Date today = Date.valueOf(protocolRequest.getParameters().get(1).getValue());
+        List<String> info = ((CitaAsignadaService) getService(ServicesEnum.CitaAsignadaService)).getRepo(lugarId, today);
         if (info == null) {
             String errorJson = generateNotFoundErrorJson("info: Algo salió mal con la query para recopilar los datos de citas asignadas.");
             respond(errorJson);
@@ -245,10 +317,39 @@ public class Blood4LifeHandler extends ServerHandler {
         String response = ((CitaService) getService(ServicesEnum.CitaService)).update(cita);
         respond(response);
     }
+    
+     private void processDeleteCita(Protocol protocolRequest) {
+        Cita cita = new Cita();
+        // Reconstruir el customer a partid de lo que viene en los parámetros
+        cita.setCodigo(Integer.parseInt(protocolRequest.getParameters().get(0).getValue()));
+        cita.setFecha(Date.valueOf(protocolRequest.getParameters().get(1).getValue()));
+        cita.setLugar(gson.fromJson(protocolRequest.getParameters().get(2).getValue(), LugarRecogida.class));
+        cita.setCupos(Integer.parseInt(protocolRequest.getParameters().get(3).getValue()));
+        String s = protocolRequest.getParameters().get(4).getValue();
+        cita.setHora(Time.valueOf(simpleformat(s)));
+        String response = ((CitaService) getService(ServicesEnum.CitaService)).delete(cita);
+        respond(response);
+    }
 
     private String simpleformat(String param) {
         String aux[] = param.split("\"");
         return aux[1];
+    }
+
+    private void processGetCitaList(Protocol protocolRequest) {
+        int id_lugar = Integer.parseInt(protocolRequest.getParameters().get(0).getValue());
+        Date date = Date.valueOf(protocolRequest.getParameters().get(1).getValue());
+        List<Cita> disp = ((CitaService) getService(ServicesEnum.CitaService)).list(date, id_lugar);
+        if (disp == null) {
+            String errorJson = generateNotFoundErrorJson("Sin coincidencias.");
+            respond(errorJson);
+        } else {
+            if (disp.isEmpty()) {
+                respond(new Gson().toJson("Info: Sin coincidencias"));
+            } else {
+                respond(listToJson(disp));
+            }
+        }
     }
 
     private void processGetCitasDisp(Protocol protocolRequest) {
@@ -355,7 +456,7 @@ public class Blood4LifeHandler extends ServerHandler {
             }
         }
     }
-    
+
     private void processGetLugaresDisp2(Protocol protocolRequest) {
         List<LugarRecogida> disp = ((LugaresRecogidaService) getService(ServicesEnum.LugaresRecogidaService)).list();
         if (disp == null) {
@@ -451,7 +552,7 @@ public class Blood4LifeHandler extends ServerHandler {
             }
         }
     }
-    
+
     private void proccesGetEntidades(Protocol protocolRequest) {
         int entidad_id = Integer.parseInt(protocolRequest.getParameters().get(0).getValue());
         Entidad entidad = ((EntidadService) getService(ServicesEnum.EntidadService)).find(entidad_id);
@@ -470,7 +571,7 @@ public class Blood4LifeHandler extends ServerHandler {
         entidad.setNombre(protocolRequest.getParameters().get(2).getValue());
         entidad.setTelefono(protocolRequest.getParameters().get(2).getValue());
         String response = ((EntidadService) getService(ServicesEnum.EntidadService)).create(entidad);
-        respond(response); 
+        respond(response);
     }
 
     private void proccesDeleteEntidades(Protocol protocolRequest) {
@@ -480,6 +581,9 @@ public class Blood4LifeHandler extends ServerHandler {
         entidad.setNombre(protocolRequest.getParameters().get(2).getValue());
         entidad.setTelefono(protocolRequest.getParameters().get(2).getValue());
         String response = ((EntidadService) getService(ServicesEnum.EntidadService)).delete(entidad);
-        respond(response); 
+        respond(response);
     }
+
+   
+
 }

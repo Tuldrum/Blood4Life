@@ -32,10 +32,12 @@ public class GUIConsultarCitaAsignada extends javax.swing.JFrame {
      */
     public GUIConsultarCitaAsignada() {
         initComponents();
+        setLocationRelativeTo(null);
     }
     
     public GUIConsultarCitaAsignada(GestorServicesImpl ser) {
         this.ser = ser;  
+        setLocationRelativeTo(null);
         inv = new Invoker(); 
         initComponents();
         camposNoEditables();  
@@ -184,6 +186,8 @@ public class GUIConsultarCitaAsignada extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        GUICliente nVentana = new GUICliente();
+        nVentana.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 

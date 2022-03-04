@@ -6,6 +6,8 @@ import com.google.gson.Gson;
 
 import blood4life.User.infra.Blood4LifeClientSocket;
 import blood4life.commons.domain.User;
+import blood4life.commons.domain.UsuarioCliente;
+import blood4life.commons.domain.UsuarioFuncionario;
 import blood4life.commons.infra.JsonError;
 import blood4life.commons.infra.Protocol;
 
@@ -15,6 +17,10 @@ import java.util.logging.Logger;
 public class UsuarioImplSockets implements IUserAccess {
 
     private Blood4LifeClientSocket mySocket;
+
+    public UsuarioImplSockets() {
+        mySocket = new Blood4LifeClientSocket();
+    }
 
     @Override
     public User logInUser(String id, String pw) throws Exception {
@@ -58,10 +64,15 @@ public class UsuarioImplSockets implements IUserAccess {
     }
 
     private User jsonToUser(String jsonUser) {
-        // TODO decidir si Cliente o Funcionario
         Gson gson = new Gson();
-        User customer = gson.fromJson(jsonUser, User.class);
-        return customer;
+        if (jsonUser.contains("sangre")){
+            return gson.fromJson(jsonUser, UsuarioCliente.class);
+        }
+        if (jsonUser.contains("organizacion")){
+            return gson.fromJson(jsonUser, UsuarioFuncionario.class);
+        }
+        Logger.getLogger(UsuarioImplSockets.class.getName()).log(Level.SEVERE, "El objeto devuelto por el servidor no es apto para crear un tipo de usuario");
+        return null;
     }
 
     private String extractMessages(String jsonResponse) {

@@ -148,6 +148,66 @@ public class CitaAccesImplSockets implements ICitaAcces {
         }
     }
 
+    @Override
+    public List<Cita> CitasDisponibles(Date date, int id_lugar) throws Exception {
+        String jsonResponse = null;
+        String requestJson = doCitasListaRequestJson(date, id_lugar);
+        System.out.println(requestJson);
+        try {
+            mySocket.connect();
+            jsonResponse = mySocket.sendRequest(requestJson);
+            mySocket.disconnect();
+
+        } catch (IOException ex) {
+            Logger.getLogger(CitaAccesImplSockets.class.getName()).log(Level.SEVERE, "No hubo conexión con el servidor", ex);
+        }
+        if (jsonResponse == null) {
+            throw new Exception("No se pudo conectar con el servidor. Revise la red o que el servidor esté escuchando. ");
+        } else {
+            if (jsonResponse.contains("error")) {
+                //Devolvió algún error
+                Logger.getLogger(CitaAccesImplSockets.class.getName()).log(Level.INFO, jsonResponse);
+                throw new Exception(extractMessages(jsonResponse));
+            } else if (jsonResponse.toLowerCase().contains("info:")) {
+                Logger.getLogger(CitaAccesImplSockets.class.getName()).log(Level.INFO, "Lo que va en el JSon: (" + jsonResponse.toString() + ")");
+                return null;
+            } else {
+                //Encontró las citas
+                List<Cita> citas = jsonToList(jsonResponse);
+                Logger.getLogger(CitaAccesImplSockets.class.getName()).log(Level.INFO, "Lo que va en el JSon: (" + jsonResponse.toString() + ")");
+                return citas;
+            }
+        }
+    }
+
+    @Override
+    public String delete(Cita cita) throws Exception {
+        String jsonResponse = null;
+        String requestJson = doDeleteCitaRequestJson(cita);
+        try {
+            mySocket.connect();
+            jsonResponse = mySocket.sendRequest(requestJson);
+            mySocket.disconnect();
+
+        } catch (IOException ex) {
+            Logger.getLogger(CitaAccesImplSockets.class.getName()).log(Level.SEVERE, "No hubo conexión con el servidor", ex);
+        }
+        if (jsonResponse == null) {
+            throw new Exception("No se pudo conectar con el servidor");
+        } else {
+
+            if (jsonResponse.contains("error")) {
+                //Devolvió algún error                
+                Logger.getLogger(CitaAccesImplSockets.class.getName()).log(Level.INFO, jsonResponse);
+                throw new Exception(extractMessages(jsonResponse));
+            } else {
+                //Agregó correctamente, devuelve la cedula del cita 
+                return "Cita " + cita.getCodigo() + " eliminada";
+            }
+
+        }
+    }
+
     private String extractMessages(String jsonResponse) {
         JsonError[] errors = jsonToErrors(jsonResponse);
         String msjs = "";
@@ -189,6 +249,19 @@ public class CitaAccesImplSockets implements ICitaAcces {
         return requestJson;
     }
 
+    private String doCitasListaRequestJson(Date date, int id_lugar) {
+        Protocol protocol = new Protocol();
+        protocol.setResource("cita");
+        protocol.setAction("getlista");
+        protocol.addParameter("id_lugar", String.valueOf(id_lugar));
+        protocol.addParameter("date", date.toString());
+
+        Gson gson = new Gson();
+        String requestJson = gson.toJson(protocol);
+        return requestJson;
+
+    }
+
     private String doCreateCitaRequestJson(Cita cita) {
 
         Gson gson = new Gson();
@@ -200,7 +273,7 @@ public class CitaAccesImplSockets implements ICitaAcces {
         protocol.addParameter("lugar", gson.toJson(cita.getLugar()));
         protocol.addParameter("cupos", gson.toJson(cita.getCupos()));
         protocol.addParameter("hora", gson.toJson(cita.getHora()));
-        
+
         String requestJson = gson.toJson(protocol);
         return requestJson;
     }
@@ -228,9 +301,9 @@ public class CitaAccesImplSockets implements ICitaAcces {
     }
 
     private List<Cita> jsonToList(String jsonLista) {
-        if(jsonLista.contains("info:")){
-            return null; 
-        }else{
+        if (jsonLista.contains("info:")) {
+            return null;
+        } else {
             Gson gson = new Gson();
             Type type2 = new TypeToken<List<Cita>>() {
             }.getType();
@@ -238,4 +311,20 @@ public class CitaAccesImplSockets implements ICitaAcces {
             return aux;
         }
     }
+
+    private String doDeleteCitaRequestJson(Cita cita) {
+        Gson gson = new Gson();
+        Protocol protocol = new Protocol();
+        protocol.setResource("cita");
+        protocol.setAction("delete");
+        protocol.addParameter("id", String.valueOf(cita.getCodigo()));
+        protocol.addParameter("fecha", cita.getFecha().toString());
+        protocol.addParameter("lugar", gson.toJson(cita.getLugar()));
+        protocol.addParameter("cupos", gson.toJson(cita.getCupos()));
+        protocol.addParameter("hora", gson.toJson(cita.getHora().toString()));
+
+        String requestJson = gson.toJson(protocol);
+        return requestJson;
+    }
+
 }

@@ -9,7 +9,6 @@ import blood4life.User.presentacion.interfaceStrategy.ClienteStrategy;
 import blood4life.User.presentacion.interfaceStrategy.Context;
 import blood4life.User.presentacion.interfaceStrategy.FuncionarioStrategy;
 import blood4life.commons.domain.User;
-import blood4life.commons.infra.Utilities;
 
 /**
  *
@@ -113,23 +112,19 @@ public class GUILogin extends javax.swing.JFrame {
     private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
         service = new ServiceLogin();
         if (mostrar) {
-            txtPasswordVisible.setText(txtPassword.getText()); //TODO convertir en getBytes
+            txtPassword.setText(txtPasswordVisible.getText()); //TODO convertir en getBytes
         }
         try {
             Context context = new Context();
             User newUser = service.logear(txtID.getText(), txtPassword.getText()); //TODO convertir en getBytes
-            // if (newUser.getClass().equals(UsuarioCliente.class)){
-            //     JOptionPane.showMessageDialog(null, "Ingresado como Cliente");
-            // }
-            // if (newUser.getClass().equals(User.class)){
-            //     JOptionPane.showMessageDialog(null, "Ingresado como USUARIO ABSTRACTO?");
-            // }
-            if (Utilities.fun(newUser, "UsuarioCliente")) {
+            if (newUser.getClass().getSimpleName().equals("UsuarioCliente")) {
                 context.setStrategy(new ClienteStrategy());
             }
-            if (Utilities.fun(newUser, "UsuarioFuncionario")) {
+            if (newUser.getClass().getSimpleName().equals("UsuarioFuncionario")) {
                 context.setStrategy(new FuncionarioStrategy());
             }
+            context.executeStrategy();
+            this.dispose();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -137,7 +132,9 @@ public class GUILogin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEntrarActionPerformed
 
     private void btnRegistrarNuevoUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarNuevoUsuarioActionPerformed
-        // TODO add your handling code here:
+        SignUpUser nVentana = new SignUpUser();
+        nVentana.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnRegistrarNuevoUsuarioActionPerformed
 
     @SuppressWarnings("deprecation")

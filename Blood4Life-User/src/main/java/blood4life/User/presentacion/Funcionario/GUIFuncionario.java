@@ -4,38 +4,19 @@
  */
 package blood4life.User.presentacion.Funcionario;
 
-import java.io.BufferedWriter;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import javax.swing.JOptionPane;
-
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVPrinter;
-
-import blood4life.User.domain.commands.Command;
-import blood4life.User.domain.commands.FindAllCommand;
-import blood4life.User.domain.commands.Invoker;
-import blood4life.User.domain.services.GestorServicesImpl;
-import blood4life.User.domain.services.ServicesEnum;
+import blood4life.User.presentacion.GUILogin;
 
 /**
  *
  * @author cerqu
  */
 public class GUIFuncionario extends javax.swing.JFrame {
-    private GestorServicesImpl ser;  
-    private Invoker inv;
     /**
      * Creates new form GUIFuncionario
      */
     public GUIFuncionario() {
         initComponents();
-        ser = new GestorServicesImpl(); 
-        inv = new Invoker(); 
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -79,6 +60,11 @@ public class GUIFuncionario extends javax.swing.JFrame {
 
         btnCancelar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
         bntVerCitasAgendadas.setText("Ir");
         bntVerCitasAgendadas.addActionListener(new java.awt.event.ActionListener() {
@@ -166,73 +152,62 @@ public class GUIFuncionario extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void bntIrSitiosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntIrSitiosActionPerformed
-        //TODO
+        GUILugares nVentana = new GUILugares();
+        nVentana.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_bntIrSitiosActionPerformed
 
     private void bntVerCitasAgendadasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntVerCitasAgendadasActionPerformed
-        //TODO
+        GUIVerCitas nVentana = new GUIVerCitas();
+        nVentana.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_bntVerCitasAgendadasActionPerformed
 
-    @SuppressWarnings({"unchecked"})
     private void btnExportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportarActionPerformed
-        try {
-            Command cmd = new FindAllCommand("",ser.getImpl(ServicesEnum.CitaAsignadaService));  
-            inv.setCommand(cmd);
-            inv.execute(); 
-            FindAllCommand fcmd = (FindAllCommand) inv.getCommand(); 
-            List<String> infoCitasAsignadas = (List<String>) fcmd.getList();
-            if (infoCitasAsignadas.size() == 0) {
-                JOptionPane.showMessageDialog(null, "No se encontraron datos para citas asignadas");
-                return;
-            }
-            BufferedWriter writer = Files.newBufferedWriter(Paths.get("datos_citas_asignadas.csv"));
-            CSVPrinter csvPrinter = new CSVPrinter(writer,
-                CSVFormat.DEFAULT.withHeader("lugar","direccion","fecha","hora","documentoPaciente","nombrePaciente",
-                                            "apellidoPaciente","mailPaciente","telPaciente","tipoSangre","rh").withDelimiter(';'));
-            for (String each : infoCitasAsignadas) {
-                csvPrinter.printRecord(each);
-            }
-            csvPrinter.flush();
-            csvPrinter.close();
-        } catch (Exception ex) {
-            Logger.getLogger(GUIFuncionario.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        GUIExportarCitasAsignadasFecha nVentana = new GUIExportarCitasAsignadasFecha();
+        nVentana.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnExportarActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GUIFuncionario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GUIFuncionario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GUIFuncionario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GUIFuncionario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        new GUILogin().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new GUIFuncionario().setVisible(true);
-            }
-        });
-    }
+//    /**
+//     * @param args the command line arguments
+//     */
+//    public static void main(String args[]) {
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(GUIFuncionario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(GUIFuncionario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(GUIFuncionario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(GUIFuncionario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new GUIFuncionario().setVisible(true);
+//            }
+//        });
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bntAceptar;
