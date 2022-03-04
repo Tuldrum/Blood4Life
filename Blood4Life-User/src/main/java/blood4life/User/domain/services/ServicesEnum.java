@@ -14,5 +14,6 @@ public enum ServicesEnum {
     CitaService,
     LugaresServices,
     CustomerClientService, 
-    AssignmentsService
+    AssignmentsService,
+    SangreService
 }

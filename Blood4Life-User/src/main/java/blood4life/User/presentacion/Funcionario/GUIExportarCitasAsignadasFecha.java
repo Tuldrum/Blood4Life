@@ -207,7 +207,7 @@ public class GUIExportarCitasAsignadasFecha extends javax.swing.JFrame {
         ArrayList<Object> args = new ArrayList<Object>();
         Date today = Utilities.ActualDateToDateSQL();
         Date one_day_later = Utilities.ActualDateToDateSQL();
-        one_day_later.setTime(today.getTime() + Long.parseLong("86400000")); // + 1 days in milliseconds
+        one_day_later.setTime(today.getTime() + Long.parseLong("2592000000")); // 86400000 = 1 day in milliseconds, 2592000000 = 30 days
         args.add(today);
         args.add(one_day_later);
         Command command = new FindAllCommand(args, ser.getImpl(ServicesEnum.LugaresServices));  

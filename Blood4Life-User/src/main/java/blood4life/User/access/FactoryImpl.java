@@ -138,4 +138,19 @@ public class FactoryImpl {
         return result;
     }
 
+    public ISangreAcces getSangreAccess() {
+        ISangreAcces result = null;
+        try {
+            result = (ISangreAcces) Class.forName(Utilities.loadProperty("SangreImplSockets"))
+                    .getConstructor().newInstance();
+        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException
+                | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+            Logger.getLogger(FactoryImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (result == null) {
+            result = new SangreAccessImplSockets();
+        }
+        return result;
+    }
+
 }
