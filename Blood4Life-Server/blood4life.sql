@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 03-03-2022 a las 03:50:14
+-- Tiempo de generación: 04-03-2022 a las 18:10:09
 -- Versión del servidor: 10.4.22-MariaDB
--- Versión de PHP: 7.3.33
+-- Versión de PHP: 8.1.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -53,14 +53,14 @@ CREATE TABLE `cita` (
 --
 
 INSERT INTO `cita` (`cod_id`, `lugar_id`, `fecha`, `hora`, `cupos`) VALUES
-(100, 1, '2022-02-02', '08:00:00', 4),
-(101, 2, '2022-02-03', '13:00:00', 5),
-(123, 1, '2022-02-09', '15:00:00', 3),
-(13455, 2, '2022-02-10', '10:00:00', 5),
-(45678, 1, '2022-02-08', '16:13:17', 0),
-(134553, 1, '2022-02-16', '17:00:00', 4),
-(1234554, 1, '2022-02-11', '09:10:36', 1),
-(12345679, 1, '2022-02-15', '07:00:00', 3);
+(100, 1, '2022-03-04', '08:00:00', 4),
+(101, 2, '2022-03-04', '13:00:00', 5),
+(123, 1, '2022-03-05', '15:00:00', 3),
+(13455, 2, '2022-03-06', '10:00:00', 5),
+(45678, 1, '2022-03-05', '16:13:17', 0),
+(134553, 1, '2022-03-07', '17:00:00', 4),
+(1234554, 1, '2022-03-06', '09:10:36', 1),
+(12345679, 1, '2022-03-07', '07:00:00', 3);
 
 -- --------------------------------------------------------
 
@@ -196,6 +196,14 @@ CREATE TABLE `usuariofuncionario` (
   `telefono` text NOT NULL,
   `organizacion` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `usuariofuncionario`
+--
+
+INSERT INTO `usuariofuncionario` (`user_id`, `nombre`, `apellido`, `mail`, `telefono`, `organizacion`) VALUES
+(0, 'func1', 'funcionario1', 'funcionario1@mail.com', '3010010001', 'organizacion1'),
+(1, 'func2', 'funcionario2', 'funcionario2@mail.com', '3020020002', 'organizacion2');
 
 --
 -- Índices para tablas volcadas
