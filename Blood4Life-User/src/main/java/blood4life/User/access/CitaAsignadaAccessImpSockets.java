@@ -12,10 +12,10 @@ import blood4life.commons.infra.Protocol;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -103,9 +103,9 @@ public class CitaAsignadaAccessImpSockets implements ICitaAsignadaAcces{
     }
 
     @Override
-    public List<String> listaCitasAsignadas() throws Exception {
+    public List<String> listaCitasAsignadas(int lugarId, Date today) throws Exception {
         String jsonResponse = null;
-        String requestJson = doGetTableCitaAsignadaJson();
+        String requestJson = doGetTableCitaAsignadaJson(lugarId, today);
         List<String> citas = new ArrayList<String>(); 
         jsonResponse = peticionSocket(requestJson);
         if (jsonResponse == null || jsonResponse.equals("")) {
@@ -128,10 +128,12 @@ public class CitaAsignadaAccessImpSockets implements ICitaAsignadaAcces{
         }
     }
 
-    private String doGetTableCitaAsignadaJson() {
+    private String doGetTableCitaAsignadaJson(int lugarId, Date today) {
         Protocol protocol = new Protocol();
         protocol.setResource("citaAsignada");
         protocol.setAction("getAll");
+        protocol.addParameter("lugarId", String.valueOf(lugarId));
+        protocol.addParameter("today", today.toString());
 
         Gson gson = new Gson();
         String requestJson = gson.toJson(protocol);
@@ -142,20 +144,8 @@ public class CitaAsignadaAccessImpSockets implements ICitaAsignadaAcces{
         JsonArray jsonObject = JsonParser.parseString(jsonResponse).getAsJsonArray();
         List<String> listaCitasAsignadas = new ArrayList<String>();
         for (JsonElement citaAsignada : jsonObject) {
-            JsonObject jsonInfo = citaAsignada.getAsJsonObject();
-            listaCitasAsignadas.add(
-              jsonInfo.get("nombreLugar").getAsString() + "," +
-              jsonInfo.get("direccionLugar").getAsString() + "," +
-              jsonInfo.get("fecha").getAsString() + "," +
-              jsonInfo.get("hora").getAsString() + "," +
-              jsonInfo.get("user_id").getAsString() + "," +
-              jsonInfo.get("nombre").getAsString() + "," +
-              jsonInfo.get("apellido").getAsString() + "," +
-              jsonInfo.get("mail").getAsString() + "," +
-              jsonInfo.get("telefono").getAsString() + "," +
-              jsonInfo.get("tipo").getAsString() + "," +
-              jsonInfo.get("rh").getAsString()
-            );
+            String jsonInfo = citaAsignada.getAsString();
+            listaCitasAsignadas.add(jsonInfo);
         }
         return listaCitasAsignadas;
     }

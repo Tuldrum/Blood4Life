@@ -11,6 +11,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -77,5 +79,28 @@ public class SangreRepository implements ISangreRepository {
             Logger.getLogger(LugaresRepository.class.getName()).log(Level.SEVERE, "Error al buscar el producto en la base de datos", ex);
         }
         return sangre;
+    }
+
+    @Override
+    public List<Sangre> getRepo() {
+        List<Sangre> sangres = new ArrayList<Sangre>();
+        try {
+            String sql = "SELECT sangre_id, tipo, RH FROM sangre";
+
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            Sangre sangre;
+            while (rs.next()) {
+                sangre = new Sangre(
+                    rs.getInt("sangre_id"),
+                    rs.getString("tipo"),
+                    rs.getString("RH")
+                );
+                sangres.add(sangre);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(LugaresRepository.class.getName()).log(Level.SEVERE, "Error al buscar el producto en la base de datos", ex);
+        }
+        return sangres;
     }
 }

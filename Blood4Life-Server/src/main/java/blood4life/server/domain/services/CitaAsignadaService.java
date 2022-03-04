@@ -10,6 +10,8 @@ import blood4life.commons.domain.UsuarioCliente;
 import blood4life.server.access.ICitaAsignadaRepository;
 import blood4life.serversocket.serversockettemplate.helpers.JsonError;
 import com.google.gson.Gson;
+
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,8 +31,8 @@ public class CitaAsignadaService  {
         return repo.find(cliente);
     }
 
-    public synchronized List<String> getRepo () {
-        return repo.getAll();
+    public synchronized List<String> getRepo (int lugarId, Date today) {
+        return repo.getAll(lugarId, today);
     }
 
     public synchronized String delete(CitaAsignada citaAsi) {

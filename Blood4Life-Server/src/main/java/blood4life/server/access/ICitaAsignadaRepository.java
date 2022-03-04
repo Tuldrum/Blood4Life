@@ -5,6 +5,7 @@
  */
 package blood4life.server.access;
 
+import java.sql.Date;
 import java.util.List;
 
 import blood4life.commons.domain.CitaAsignada;
@@ -23,5 +24,5 @@ public interface ICitaAsignadaRepository {
     
     public CitaAsignada find(CitaAsignada cita);
 
-    public List<String> getAll();
+    public List<String> getAll(int lugarId, Date today);
 }

@@ -5,6 +5,8 @@
  */
 package blood4life.server.access;
 
+import java.util.List;
+
 import blood4life.commons.domain.Sangre;
 
 /**
@@ -13,5 +15,6 @@ import blood4life.commons.domain.Sangre;
  */
 public interface ISangreRepository {
     public Sangre find(int id);  
-    public boolean save(Sangre sangre);  
+    public boolean save(Sangre sangre);
+    public List<Sangre> getRepo();
 }

@@ -4,13 +4,26 @@
  */
 package blood4life.User.presentacion;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import blood4life.User.domain.commands.Command;
+import blood4life.User.domain.commands.FindAllCommand;
+import blood4life.User.domain.commands.Invoker;
+import blood4life.User.domain.services.GestorServicesImpl;
+import blood4life.User.domain.services.ServicesEnum;
+import blood4life.commons.domain.Sangre;
+
 /**
  *
  * @author UnSup
  */
 public class SignUpUser extends javax.swing.JFrame {
+    private GestorServicesImpl ser;  
+    private Invoker inv;
+    private List<Sangre> rec;
 
-    private boolean mostrar = true;
+    private boolean mostrar = false;
 
     /**
      * Creates new form SignUpUser
@@ -19,6 +32,11 @@ public class SignUpUser extends javax.swing.JFrame {
         initComponents();
         txtPassword.setVisible(true);
         txtPasswordVisible.setVisible(false);
+        
+        ser = new GestorServicesImpl(); 
+        inv = new Invoker();
+        rec = new ArrayList<Sangre>();
+        cargarSangres();
     }
 
     /**
@@ -46,6 +64,10 @@ public class SignUpUser extends javax.swing.JFrame {
         txtTelefono = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        listaSangres = new javax.swing.JComboBox<>();
+        btnRegistrarse = new javax.swing.JButton();
+        btnVolver = new javax.swing.JButton();
+
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -102,6 +124,25 @@ public class SignUpUser extends javax.swing.JFrame {
         });
         jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 150, 30, -1));
 
+        listaSangres.setModel(new javax.swing.DefaultComboBoxModel<>());
+        jPanel1.add(listaSangres, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 350, 190, -1));
+
+        btnRegistrarse.setText("Registrarse");
+        btnRegistrarse.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistrarseActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnRegistrarse, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 420, -1, -1));
+
+        btnVolver.setText("Volver");
+        btnVolver.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVolverActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnVolver, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 470, -1, -1));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -120,18 +161,56 @@ public class SignUpUser extends javax.swing.JFrame {
 
     @SuppressWarnings("deprecation")
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        mostrar = !mostrar;
         if (mostrar) {
             txtPassword.setVisible(false);
             txtPasswordVisible.setVisible(true);
             txtPasswordVisible.setText(txtPassword.getText());
-            mostrar = false;
         } else {
             txtPasswordVisible.setVisible(false);
             txtPassword.setVisible(true);
             txtPassword.setText(txtPasswordVisible.getText());
-            mostrar = true;
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    @SuppressWarnings("deprecation")
+    private void btnRegistrarseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarseActionPerformed
+        if (mostrar) {
+            txtPassword.setText(txtPasswordVisible.getText()); //TODO convertir en getBytes
+        }
+        System.out.println(
+            listaSangres.getSelectedIndex()+", "+
+            txtApellido.getText()+", "+
+            txtCorreo.getText()+", "+
+            txtIdentificacion.getText()+", "+
+            txtNombre.getText()+", "+
+            txtPassword.getText()+", "+
+            txtTelefono.getText()
+        );
+    }//GEN-LAST:event_btnRegistrarseActionPerformed
+
+    @SuppressWarnings("unchecked")
+    private void cargarSangres() {
+        List<Object> args = new ArrayList<Object>();
+        Command command = new FindAllCommand(args, ser.getImpl(ServicesEnum.SangreService));  
+        inv.setCommand(command);
+        inv.execute();
+        FindAllCommand obj = (FindAllCommand) inv.getCommand(); 
+        rec =  (List<Sangre>) obj.getList();
+        if (rec != null) {
+            for (int i = 0; i < rec.size(); i++) {
+                listaSangres.addItem(rec.get(i).getTipo() + rec.get(i).getRH());
+            }
+        } else {
+            listaSangres.addItem("No se recopilaron datos para tipos de Sangre");
+        }
+    }
+
+    private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
+        GUILogin nVentana = new GUILogin();
+        nVentana.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnVolverActionPerformed
 
     /**
      * @param args the command line arguments
@@ -169,6 +248,8 @@ public class SignUpUser extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnRegistrarse;
+    private javax.swing.JButton btnVolver;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -179,6 +260,7 @@ public class SignUpUser extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JComboBox<String> listaSangres;
     private javax.swing.JTextField txtApellido;
     private javax.swing.JTextField txtCorreo;
     private javax.swing.JTextField txtIdentificacion;

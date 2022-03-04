@@ -160,7 +160,7 @@ public class Factory {
         return citAsigRepo;
     }
     
-     public IEntidadRepository getEntidadRepository () {
+    public IEntidadRepository getEntidadRepository () {
         if (entidadrepo == null) {
             try {
                 entidadrepo = (IEntidadRepository) Class.forName(Utilities.loadProperty("EntidadRepository"))
@@ -175,5 +175,4 @@ public class Factory {
         }
         return entidadrepo;
     }
-
 }
