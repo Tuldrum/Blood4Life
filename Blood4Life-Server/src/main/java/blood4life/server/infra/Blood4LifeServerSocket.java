@@ -5,6 +5,7 @@ import blood4life.commons.domain.Cita;
 import blood4life.commons.domain.CitaAsignada;
 import blood4life.commons.domain.Entidad;
 import blood4life.commons.domain.LugarRecogida;
+import blood4life.commons.domain.Sangre;
 import blood4life.commons.domain.UsuarioCliente;
 import blood4life.commons.infra.JsonError;
 import blood4life.commons.infra.Protocol;
@@ -15,6 +16,7 @@ import blood4life.server.domain.services.CitaService;
 import blood4life.server.domain.services.EntidadService;
 import blood4life.server.domain.services.GestorServicios;
 import blood4life.server.domain.services.LugaresRecogidaService;
+import blood4life.server.domain.services.SangreService;
 import blood4life.server.domain.services.ServicesEnum;
 import blood4life.server.domain.services.UsuarioClienteService;
 import blood4life.serversocket.serversockettemplate.infra.ServerSocketTemplate;
@@ -103,8 +105,45 @@ public class Blood4LifeServerSocket extends ServerSocketTemplate {
             case "entidades":
                 procesarEntidades(protocolRequest);
                 break;
+            
+            case "sangre":
+                procesarSangres(protocolRequest);
+                break;
         }
 
+    }
+
+    private void procesarSangres(Protocol protocolRequest) {
+        if (protocolRequest.getAction().equals("getId")) {
+            processGetIdSangre(protocolRequest);
+        }
+        if (protocolRequest.getAction().equals("getAll")) {
+            processGetAllSangre();
+        }
+    }
+    private void processGetIdSangre(Protocol protocolRequest) {
+        String sangreId = protocolRequest.getParameters().get(0).getValue();
+        Sangre sangre = ((SangreService) getService(ServicesEnum.SangreService)).find(Integer.parseInt(sangreId));
+        if (sangre == null) {
+            String errorJson = generateNotFoundErrorJson("Sangre no encontrada. ");
+            respond(errorJson);
+        } else {
+            respond(objectToJSON(sangre));
+        }
+    }
+    private void processGetAllSangre() {
+        List<Sangre> list = ((SangreService) getService(ServicesEnum.SangreService)).getRepo();
+
+        if (list == null) {
+            String errorJson = generateNotFoundErrorJson("Sin coincidencias.");
+            respond(errorJson);
+        } else {
+            if (list.isEmpty()) {
+                respond(new Gson().toJson("Info: Sin coincidencias"));
+            } else {
+                respond(listToJson(list));
+            }
+        }
     }
 
     private void proccesarCita(Protocol protocolRequest) {
