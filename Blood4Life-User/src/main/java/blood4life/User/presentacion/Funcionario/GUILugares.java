@@ -62,6 +62,7 @@ public class GUILugares extends javax.swing.JFrame {
      * Poner los botones en su estado inicial
      */
     private void initStateButtons() {
+        ConsultarCitas.setEnabled(false); 
         btnAdd.setEnabled(false);
         btnUpdate.setEnabled(false);
         btnDelete.setEnabled(false);
@@ -127,6 +128,7 @@ public class GUILugares extends javax.swing.JFrame {
         btnDelete = new javax.swing.JButton();
         btnUndo = new javax.swing.JButton();
         btnClose = new javax.swing.JButton();
+        ConsultarCitas = new javax.swing.JButton();
         pnlEste = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblData = new javax.swing.JTable();
@@ -173,7 +175,6 @@ public class GUILugares extends javax.swing.JFrame {
                 btnAddActionPerformed(evt);
             }
         });
-        pnlSur.add(btnAdd);
 
         btnUpdate.setText("Modificar");
         btnUpdate.addActionListener(new java.awt.event.ActionListener() {
@@ -181,7 +182,6 @@ public class GUILugares extends javax.swing.JFrame {
                 btnUpdateActionPerformed(evt);
             }
         });
-        pnlSur.add(btnUpdate);
 
         btnDelete.setText("Eliminar");
         btnDelete.addActionListener(new java.awt.event.ActionListener() {
@@ -189,7 +189,6 @@ public class GUILugares extends javax.swing.JFrame {
                 btnDeleteActionPerformed(evt);
             }
         });
-        pnlSur.add(btnDelete);
 
         btnUndo.setText("Deshacer");
         btnUndo.addActionListener(new java.awt.event.ActionListener() {
@@ -197,7 +196,6 @@ public class GUILugares extends javax.swing.JFrame {
                 btnUndoActionPerformed(evt);
             }
         });
-        pnlSur.add(btnUndo);
 
         btnClose.setText("Cerrar");
         btnClose.addActionListener(new java.awt.event.ActionListener() {
@@ -205,7 +203,45 @@ public class GUILugares extends javax.swing.JFrame {
                 btnCloseActionPerformed(evt);
             }
         });
-        pnlSur.add(btnClose);
+
+        ConsultarCitas.setText("Consultar Citas");
+        ConsultarCitas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ConsultarCitasActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pnlSurLayout = new javax.swing.GroupLayout(pnlSur);
+        pnlSur.setLayout(pnlSurLayout);
+        pnlSurLayout.setHorizontalGroup(
+            pnlSurLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlSurLayout.createSequentialGroup()
+                .addGap(193, 193, 193)
+                .addComponent(btnAdd)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnUpdate)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnDelete)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnUndo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ConsultarCitas)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnClose)
+                .addContainerGap())
+        );
+        pnlSurLayout.setVerticalGroup(
+            pnlSurLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlSurLayout.createSequentialGroup()
+                .addGap(5, 5, 5)
+                .addGroup(pnlSurLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnUpdate)
+                    .addComponent(btnAdd)
+                    .addComponent(btnDelete)
+                    .addComponent(btnUndo)
+                    .addComponent(btnClose)
+                    .addComponent(ConsultarCitas)))
+        );
 
         getContentPane().add(pnlSur, java.awt.BorderLayout.SOUTH);
 
@@ -369,12 +405,14 @@ public class GUILugares extends javax.swing.JFrame {
             btnUndo.setEnabled(false);
             btnUpdate.setEnabled(false);
             btnDelete.setEnabled(false);
+            ConsultarCitas.setEnabled(false); 
 
         } else {
             //Editar
             btnUpdate.setEnabled(true);
             btnDelete.setEnabled(true);
             btnUndo.setEnabled(false);
+            ConsultarCitas.setEnabled(true); 
             txtName.setText(lugar.getNombre());
             txtDireccion.setText(lugar.getDireccion());
         }
@@ -421,6 +459,22 @@ public class GUILugares extends javax.swing.JFrame {
             Logger.getLogger(GUILugares.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void ConsultarCitasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConsultarCitasActionPerformed
+        String strId = txtId.getText().trim();
+        if (!strId.isEmpty()) {
+            LugarRecogida lugar = new LugarRecogida();
+
+            String name = txtName.getText();
+            String direcccion = txtDireccion.getText();
+            lugar.setDireccion(direcccion);
+            lugar.setLugar_id(Integer.parseInt(strId));
+            lugar.setNombre(name);
+
+            GUICitas citas = new GUICitas(lugar, serv);
+            citas.setVisible(true);
+        }
+    }//GEN-LAST:event_ConsultarCitasActionPerformed
     /**
      * Llama a la logica de negocio para lugar comida mediante el comando
      *
@@ -456,6 +510,7 @@ public class GUILugares extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton ConsultarCitas;
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnClose;
     private javax.swing.JButton btnDelete;

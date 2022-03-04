@@ -143,6 +143,9 @@ public class Blood4LifeHandler extends ServerHandler {
         if (protocolRequest.getAction().equals("getlista")) {
             processGetCitaList(protocolRequest);
         }
+        if (protocolRequest.getAction().equals("delete")) {
+            processDeleteCita(protocolRequest);
+        }
     }
 
     private void procesarLugares(Protocol protocolRequest) {
@@ -290,6 +293,19 @@ public class Blood4LifeHandler extends ServerHandler {
         String s = protocolRequest.getParameters().get(4).getValue();
         cita.setHora(Time.valueOf(simpleformat(s)));
         String response = ((CitaService) getService(ServicesEnum.CitaService)).update(cita);
+        respond(response);
+    }
+    
+     private void processDeleteCita(Protocol protocolRequest) {
+        Cita cita = new Cita();
+        // Reconstruir el customer a partid de lo que viene en los parámetros
+        cita.setCodigo(Integer.parseInt(protocolRequest.getParameters().get(0).getValue()));
+        cita.setFecha(Date.valueOf(protocolRequest.getParameters().get(1).getValue()));
+        cita.setLugar(gson.fromJson(protocolRequest.getParameters().get(2).getValue(), LugarRecogida.class));
+        cita.setCupos(Integer.parseInt(protocolRequest.getParameters().get(3).getValue()));
+        String s = protocolRequest.getParameters().get(4).getValue();
+        cita.setHora(Time.valueOf(simpleformat(s)));
+        String response = ((CitaService) getService(ServicesEnum.CitaService)).delete(cita);
         respond(response);
     }
 
@@ -545,5 +561,7 @@ public class Blood4LifeHandler extends ServerHandler {
         String response = ((EntidadService) getService(ServicesEnum.EntidadService)).delete(entidad);
         respond(response);
     }
+
+   
 
 }

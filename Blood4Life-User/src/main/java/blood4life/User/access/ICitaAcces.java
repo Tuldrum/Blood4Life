@@ -24,4 +24,6 @@ public interface ICitaAcces {
     public List<Cita> CitasDisponibles(Date before, Date after, int id_lugar) throws Exception; 
     
     public List<Cita> CitasDisponibles(Date date, int id_lugar) throws Exception; 
+
+    public String delete(Cita cita) throws Exception;
 }

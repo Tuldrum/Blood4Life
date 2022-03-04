@@ -180,6 +180,34 @@ public class CitaAccesImplSockets implements ICitaAcces {
         }
     }
 
+    @Override
+    public String delete(Cita cita) throws Exception {
+        String jsonResponse = null;
+        String requestJson = doDeleteCitaRequestJson(cita);
+        try {
+            mySocket.connect();
+            jsonResponse = mySocket.sendRequest(requestJson);
+            mySocket.disconnect();
+
+        } catch (IOException ex) {
+            Logger.getLogger(CitaAccesImplSockets.class.getName()).log(Level.SEVERE, "No hubo conexión con el servidor", ex);
+        }
+        if (jsonResponse == null) {
+            throw new Exception("No se pudo conectar con el servidor");
+        } else {
+
+            if (jsonResponse.contains("error")) {
+                //Devolvió algún error                
+                Logger.getLogger(CitaAccesImplSockets.class.getName()).log(Level.INFO, jsonResponse);
+                throw new Exception(extractMessages(jsonResponse));
+            } else {
+                //Agregó correctamente, devuelve la cedula del cita 
+                return "Cita " + cita.getCodigo() + " eliminada";
+            }
+
+        }
+    }
+
     private String extractMessages(String jsonResponse) {
         JsonError[] errors = jsonToErrors(jsonResponse);
         String msjs = "";
@@ -227,7 +255,7 @@ public class CitaAccesImplSockets implements ICitaAcces {
         protocol.setAction("getlista");
         protocol.addParameter("id_lugar", String.valueOf(id_lugar));
         protocol.addParameter("date", date.toString());
-        
+
         Gson gson = new Gson();
         String requestJson = gson.toJson(protocol);
         return requestJson;
@@ -282,6 +310,21 @@ public class CitaAccesImplSockets implements ICitaAcces {
             List<Cita> aux = gson.fromJson(jsonLista, type2);
             return aux;
         }
+    }
+
+    private String doDeleteCitaRequestJson(Cita cita) {
+        Gson gson = new Gson();
+        Protocol protocol = new Protocol();
+        protocol.setResource("cita");
+        protocol.setAction("delete");
+        protocol.addParameter("id", String.valueOf(cita.getCodigo()));
+        protocol.addParameter("fecha", cita.getFecha().toString());
+        protocol.addParameter("lugar", gson.toJson(cita.getLugar()));
+        protocol.addParameter("cupos", gson.toJson(cita.getCupos()));
+        protocol.addParameter("hora", gson.toJson(cita.getHora().toString()));
+
+        String requestJson = gson.toJson(protocol);
+        return requestJson;
     }
 
 }
