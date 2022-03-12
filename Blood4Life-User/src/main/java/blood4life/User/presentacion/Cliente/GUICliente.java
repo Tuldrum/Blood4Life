@@ -154,8 +154,7 @@ public class GUICliente extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        GUIConsultarCitaAsignada guiConsultarCita = new GUIConsultarCitaAsignada(serv, user);
-        // guiConsultarCita.setVisible(true);
+        new GUIConsultarCitaAsignada(serv, user);
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -166,8 +165,7 @@ public class GUICliente extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        GUIEliminarCitaAsignada eliminarCita = new GUIEliminarCitaAsignada(serv, user);
-        // eliminarCita.setVisible(true);
+        new GUIEliminarCitaAsignada(serv, user);
         this.dispose();
     }//GEN-LAST:event_jButton5ActionPerformed
 

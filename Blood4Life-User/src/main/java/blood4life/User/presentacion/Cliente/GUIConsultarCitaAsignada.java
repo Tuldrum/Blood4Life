@@ -39,6 +39,7 @@ public class GUIConsultarCitaAsignada extends javax.swing.JFrame {
         inv = new Invoker(); 
         initComponents();
         camposNoEditables();
+        setVisible(true);
         cargarInformacion();
     }
     

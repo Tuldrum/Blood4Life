@@ -43,7 +43,7 @@ public class GUIEliminarCitaAsignada extends javax.swing.JFrame {
         camposNoEditables();
         jButton2.setEnabled(true);
         jButton3.setEnabled(true);
-        setVisible(false);
+        setVisible(true);
         cargarInformacion();
     }
     
