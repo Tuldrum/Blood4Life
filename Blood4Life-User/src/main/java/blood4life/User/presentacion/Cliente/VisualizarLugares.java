@@ -11,6 +11,8 @@ import blood4life.User.domain.commands.Invoker;
 import blood4life.User.domain.services.GestorServicesImpl;
 import blood4life.User.domain.services.ServicesEnum;
 import blood4life.commons.domain.LugarRecogida;
+import blood4life.commons.domain.UsuarioCliente;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -35,13 +37,15 @@ public class VisualizarLugares extends javax.swing.JFrame {
     private java.sql.Date before = null;
     private Date actual;
     private List<LugarRecogida> rec;
-    private Invoker inv;  
-    private int lugarID = -1;
+    private Invoker inv;
+    private LugarRecogida lugar;
+    private UsuarioCliente user;
 
     @SuppressWarnings({"unchecked", "rawtypes"})
-    public VisualizarLugares(GestorServicesImpl serv) {
+    public VisualizarLugares(GestorServicesImpl serv, UsuarioCliente user) {
         inv = new Invoker();  
         this.serv = serv;  
+        this.user = user;
         //service = new ServiceModel();
         initComponents();
         setLocationRelativeTo(null);
@@ -171,7 +175,7 @@ public class VisualizarLugares extends javax.swing.JFrame {
 
         if (!rec.isEmpty()) {
             try {
-                new GuiCitasDisponibles(serv, before, after, lugarID).setVisible(true);
+                new GuiCitasDisponibles(serv, before, after, lugar.getLugar_id(), user).setVisible(true);
                 this.dispose();
             } catch (Exception ex) {
                 Logger.getLogger(VisualizarLugares.class.getName()).log(Level.SEVERE, null, ex);
@@ -185,7 +189,7 @@ public class VisualizarLugares extends javax.swing.JFrame {
         int index = ListaLugares.getSelectedIndex();
         if (!rec.isEmpty()) {
             if(index > -1){
-                lugarID = rec.get(index).getLugar_id();
+                lugar = rec.get(index);
             }
         } else {
             if (before != null || after != null) {
@@ -198,7 +202,7 @@ public class VisualizarLugares extends javax.swing.JFrame {
 
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        GUICliente nVentana = new GUICliente();
+        GUICliente nVentana = new GUICliente(user);
         nVentana.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -234,7 +238,6 @@ public class VisualizarLugares extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Rango de fechas inválido");
                 ListaLugares.addItem("Sin lugares disponibles");
             } else {
-                
                 ArrayList<Object> args = new ArrayList();
                 args.add(before); 
                 args.add(after);  

@@ -6,6 +6,8 @@ import blood4life.User.domain.commands.Invoker;
 import blood4life.User.domain.services.GestorServicesImpl;
 import blood4life.User.domain.services.ServicesEnum;
 import blood4life.commons.domain.Cita;
+import blood4life.commons.domain.UsuarioCliente;
+
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +30,7 @@ public class GuiCitasDisponibles extends javax.swing.JFrame {
     Date before;
     Date after;
     int lugarCita;
+    UsuarioCliente user;
     List<Cita> listaCita;
 
     /**
@@ -45,13 +48,15 @@ public class GuiCitasDisponibles extends javax.swing.JFrame {
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})
-    public GuiCitasDisponibles(GestorServicesImpl ser, Date before, Date after, int lugarCita) throws Exception {
+    public GuiCitasDisponibles(GestorServicesImpl ser, Date before, Date after, int lugarCita, UsuarioCliente user) throws Exception {
         inv = new Invoker();
         parametrosInicializacion(ser);
         this.before = before;
         this.after = after;
         this.lugarCita = lugarCita;
+        this.user = user;
         this.listaCita = new ArrayList();
+
         actualizarInfo();
         update();
     }
@@ -122,7 +127,7 @@ public class GuiCitasDisponibles extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
-        VisualizarLugares nVentana = new VisualizarLugares(ser);
+        VisualizarLugares nVentana = new VisualizarLugares(ser, user);
         nVentana.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnCerrarActionPerformed
@@ -131,7 +136,7 @@ public class GuiCitasDisponibles extends javax.swing.JFrame {
 
         int index = table.getSelectedRow();
         if (!listaCita.isEmpty() && index != -1) {
-            new GUISolicitarCita(listaCita.get(index), ser).setVisible(true);
+            new GUISolicitarCita(listaCita.get(index), ser, user).setVisible(true);
             this.dispose();
         } else {
             if (index < 0) {
@@ -148,7 +153,7 @@ public class GuiCitasDisponibles extends javax.swing.JFrame {
         this.setVisible(true);
         model.setRowCount(0);
         for (Cita c : listaCita) {
-            model.addRow(new Object[]{"" + c.getHora()});
+            model.addRow(new Object[]{"" + c.getFecha() + " | " + c.getHora()});
         }
         table.paintImmediately(table.getBounds());
     }

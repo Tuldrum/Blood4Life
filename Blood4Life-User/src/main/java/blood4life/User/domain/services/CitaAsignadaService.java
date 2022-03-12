@@ -6,6 +6,10 @@
 package blood4life.User.domain.services;
 
 import blood4life.User.access.ICitaAsignadaAcces;
+import blood4life.User.access.ITwilioWhatsappMessager;
+import blood4life.User.access.WhatsappReminder;
+import blood4life.commons.domain.Cita;
+import blood4life.commons.domain.User;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -27,13 +31,23 @@ public class CitaAsignadaService implements ServiceImpl{
     public String create(Object elements) {
         try {
             ArrayList<Object> objects = (ArrayList<Object>) elements;
-            String cita_id = (String) objects.get(0);
-            String user_id = (String) objects.get(1);  
-            return impl.createCitaAsignada(cita_id, user_id);
+            Cita cita = (Cita) objects.get(0);
+            User user = (User) objects.get(1);
+            enviarInfoCitaAsignada(cita, user.getNumeroTelefono());
+            return impl.createCitaAsignada(String.valueOf(cita.getCodigo()), String.valueOf(user.getUser_id()));
         } catch (Exception ex) {
             Logger.getLogger(CitaAsignadaService.class.getName()).log(Level.SEVERE, null, ex);
         }
         return "Error: desconocido"; 
+    }
+
+    private void enviarInfoCitaAsignada(Cita cita, String telefono) {
+        ITwilioWhatsappMessager reminder = new WhatsappReminder();
+        String reminderMessage = "Informacion de su cita:"+
+            "\nLugar: " + cita.getLugar().getNombre() + 
+            "\nDireccion: " + cita.getLugar().getDireccion() +
+            "\nFecha y hora: " + cita.getFecha() + " | " + cita.getHora();
+        reminder.sendReminder(telefono, reminderMessage);
     }
     
     @Override

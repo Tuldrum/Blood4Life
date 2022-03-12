@@ -6,6 +6,7 @@ package blood4life.User.presentacion.Cliente;
 
 import blood4life.User.domain.services.GestorServicesImpl;
 import blood4life.User.presentacion.GUILogin;
+import blood4life.commons.domain.UsuarioCliente;
 
 /**
  *
@@ -14,13 +15,14 @@ import blood4life.User.presentacion.GUILogin;
 public class GUICliente extends javax.swing.JFrame {
     
     private GestorServicesImpl serv; 
-    
+    private UsuarioCliente user;
     /**
      * Creates new form GUICliente
      */
-    public GUICliente() {
+    public GUICliente(UsuarioCliente user) {
         initComponents();
-        serv = new GestorServicesImpl(); 
+        serv = new GestorServicesImpl();
+        this.user = user;
         setLocationRelativeTo(null);
     }
 
@@ -152,20 +154,20 @@ public class GUICliente extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        GUIConsultarCitaAsignada guiConsultarCita = new GUIConsultarCitaAsignada(serv);
-        guiConsultarCita.setVisible(true);
+        GUIConsultarCitaAsignada guiConsultarCita = new GUIConsultarCitaAsignada(serv, user);
+        // guiConsultarCita.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        VisualizarLugares lugares = new VisualizarLugares(serv);
+        VisualizarLugares lugares = new VisualizarLugares(serv, user);
         lugares.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        GUIEliminarCitaAsignada eliminarCita = new GUIEliminarCitaAsignada(serv);
-        eliminarCita.setVisible(true);
+        GUIEliminarCitaAsignada eliminarCita = new GUIEliminarCitaAsignada(serv, user);
+        // eliminarCita.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton5ActionPerformed
 

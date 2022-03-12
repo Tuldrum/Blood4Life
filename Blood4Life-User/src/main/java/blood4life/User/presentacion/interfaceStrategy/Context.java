@@ -7,7 +7,7 @@ public class Context {
         this.strategy = strategy;
     }
 
-    public void executeStrategy() {
-        strategy.desplegarInterfaz();
+    public void executeStrategy(Object args) {
+        strategy.desplegarInterfaz(args);
     }
 }

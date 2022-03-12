@@ -14,10 +14,7 @@ import blood4life.User.domain.services.ServicesEnum;
 import blood4life.commons.domain.Cita;
 import blood4life.commons.domain.CitaAsignada;
 import blood4life.commons.domain.UsuarioCliente;
-import blood4life.commons.infra.Utilities;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -26,9 +23,9 @@ import javax.swing.JOptionPane;
  */
 public class GUIEliminarCitaAsignada extends javax.swing.JFrame { 
     private Cita cita;  
-    private String id_user;  
     private GestorServicesImpl ser;  
-    private Invoker inv;  
+    private Invoker inv;
+    private UsuarioCliente user;
     /**
      * Creates new form GUISolicitarCita
      */
@@ -37,17 +34,21 @@ public class GUIEliminarCitaAsignada extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }
     
-    public GUIEliminarCitaAsignada(GestorServicesImpl ser) {
-        this.ser = ser;  
+    public GUIEliminarCitaAsignada(GestorServicesImpl ser, UsuarioCliente user) {
+        this.ser = ser;
+        this.user = user;
         inv = new Invoker(); 
         initComponents();
         setLocationRelativeTo(null);
-        camposNoEditables();  
+        camposNoEditables();
         jButton2.setEnabled(true);
-        jButton3.setEnabled(false);
+        jButton3.setEnabled(true);
+        setVisible(false);
+        cargarInformacion();
     }
     
     private void camposNoEditables(){
+        jTextField1.setEditable(false);
         jTextField2.setEditable(false);
         jTextField3.setEditable(false);
         jTextField4.setEditable(false);
@@ -106,13 +107,7 @@ public class GUIEliminarCitaAsignada extends javax.swing.JFrame {
         });
 
         jTextField1.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
-        jTextField1.setText("\"ingrese su número de identificación\"");
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
-            }
-        });
-
+        
         jButton3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButton3.setText("Eliminar cita");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -204,65 +199,57 @@ public class GUIEliminarCitaAsignada extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        GUICliente nVentana = new GUICliente();
+        GUICliente nVentana = new GUICliente(user);
         nVentana.setVisible(true);        
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void cargarInformacion(){
-        String id = jTextField1.getText(); 
-        if(!id.isEmpty() && Utilities.isNumeric(id)){
-            id_user = String.valueOf(id);  
-            try {
-                Command cmd = new FindCommand(id_user, ser.getImpl(ServicesEnum.CustomerClientService));  
-                inv.setCommand(cmd);
-                inv.execute(); 
-                FindCommand fcmd = (FindCommand) inv.getCommand(); 
-                UsuarioCliente user = (UsuarioCliente) fcmd.getElement();  
-                if(user != null){
-                    cmd = new FindCommand(String.valueOf(user.getUser_id()), ser.getImpl(ServicesEnum.CitaAsignadaService));  
-                    inv.setCommand(cmd);
-                    inv.execute(); 
-                    fcmd = (FindCommand) inv.getCommand(); 
-                    CitaAsignada citAsg = (CitaAsignada) fcmd.getElement();  
-                    if(citAsg != null){
-                        cita = citAsg.getCita();  
-                        jTextField1.setText(String.valueOf(id));
-                        jTextField2.setText(user.getName() + " " + user.getLastname());
-                        jTextField3.setText(cita.getLugar().getNombre());
-                        jTextField4.setText(cita.getLugar().getDireccion());
-                        jTextField5.setText(cita.getFecha() + " " + cita.getHora());
-                        jButton3.setEnabled(true);
-                    }else{
-                        JOptionPane.showMessageDialog(null, "no existe una cita registrada en el sistema para este usuario");
-                    }
-                }else{
-                    JOptionPane.showMessageDialog(null, "Verifique su número de identificación");
-                }
-            } catch (Exception ex) {
-                Logger.getLogger(GUIEliminarCitaAsignada.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }else {
-            JOptionPane.showMessageDialog(null, "Formato inválido");
+        // String id = jTextField1.getText(); 
+        // if(!id.isEmpty() && Utilities.isNumeric(id)){
+        //     id_user = String.valueOf(id);  
+        //     try {
+        //         Command cmd = new FindCommand(id_user, ser.getImpl(ServicesEnum.CustomerClientService));  
+        //         inv.setCommand(cmd);
+        //         inv.execute(); 
+        //         FindCommand fcmd = (FindCommand) inv.getCommand(); 
+        //         UsuarioCliente user = (UsuarioCliente) fcmd.getElement();  
+        //         if(user != null){
+        Command cmd = new FindCommand(String.valueOf(user.getUser_id()), ser.getImpl(ServicesEnum.CitaAsignadaService));  
+        inv.setCommand(cmd);
+        inv.execute(); 
+        FindCommand fcmd = (FindCommand) inv.getCommand(); 
+        CitaAsignada citAsg = (CitaAsignada) fcmd.getElement();  
+        if(citAsg != null){
+            cita = citAsg.getCita();  
+            jTextField1.setText(String.valueOf(user.getUser_id()));
+            jTextField2.setText(user.getName() + " " + user.getLastname());
+            jTextField3.setText(cita.getLugar().getNombre());
+            jTextField4.setText(cita.getLugar().getDireccion());
+            jTextField5.setText(cita.getFecha() + " " + cita.getHora());
+            jButton3.setEnabled(true);
+        }else{
+            JOptionPane.showMessageDialog(null, "no existe una cita registrada en el sistema para este usuario");
+            GUICliente nVentana = new GUICliente(user);
+            nVentana.setVisible(true);        
+            this.dispose();
         }
+        //         }else{
+        //             JOptionPane.showMessageDialog(null, "Verifique su número de identificación");
+        //         }
+        //     } catch (Exception ex) {
+        //         Logger.getLogger(GUIEliminarCitaAsignada.class.getName()).log(Level.SEVERE, null, ex);
+        //     }
+        // }else {
+        //     JOptionPane.showMessageDialog(null, "Formato inválido");
+        // }
     }
     
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        String txt = jTextField1.getText();  
-        if(!Utilities.isNumeric(txt)){
-            jTextField1.setText("");
-            JOptionPane.showMessageDialog(null, "La identifiacion debe contener solo números");
-        }else{
-            cargarInformacion(); 
-        }
-    }//GEN-LAST:event_jTextField1ActionPerformed
-
     @SuppressWarnings({"unchecked", "rawtypes"})
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         ArrayList<Object> args = new ArrayList();  
         args.add(String.valueOf(cita.getCodigo()));  
-        args.add(id_user); 
-        
+        args.add(String.valueOf(user.getUser_id()));
         Command cmdEli = new DeleteCommand(args, ser.getImpl(ServicesEnum.CitaAsignadaService));  
         inv.setCommand(cmdEli);
         inv.execute(); 

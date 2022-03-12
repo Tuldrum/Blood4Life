@@ -113,18 +113,18 @@ public class GUILogin extends javax.swing.JFrame {
     private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
         service = new ServiceLogin();
         if (mostrar) {
-            txtPassword.setText(txtPasswordVisible.getText()); //TODO convertir en getBytes
+            txtPassword.setText(txtPasswordVisible.getText());
         }
         try {
             Context context = new Context();
-            User newUser = service.logear(txtID.getText(), txtPassword.getText()); //TODO convertir en getBytes
+            User newUser = service.logear(txtID.getText(), txtPassword.getText());
             if (newUser.getClass().getSimpleName().equals("UsuarioCliente")) {
                 context.setStrategy(new ClienteStrategy());
             }
             if (newUser.getClass().getSimpleName().equals("UsuarioFuncionario")) {
                 context.setStrategy(new FuncionarioStrategy());
             }
-            context.executeStrategy();
+            context.executeStrategy(newUser);
             this.dispose();
         } catch (Exception e) {
             e.printStackTrace();
