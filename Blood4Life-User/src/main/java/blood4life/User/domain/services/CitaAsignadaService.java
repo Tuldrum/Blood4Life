@@ -60,7 +60,7 @@ public class CitaAsignadaService implements ServiceImpl{
         }
         return null;  
     }
-    
+
     @Override
     @SuppressWarnings("unchecked")
     public String delete(Object elements) {
@@ -68,11 +68,22 @@ public class CitaAsignadaService implements ServiceImpl{
             ArrayList<Object> args = (ArrayList<Object>) elements;
             String cita_cod = (String) args.get(0);
             String cod_user = (String) args.get(1);   
-            return impl.deleteCitaAsiganada(cita_cod, cod_user);
+            String telefonos = impl.deleteCitaAsiganada(cita_cod, cod_user);
+            notificarCancelacionCita(telefonos);
+            return "Cita cancelada con exito";
         } catch (Exception ex) {
             Logger.getLogger(CitaAsignadaService.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;  
+    }
+
+    private void notificarCancelacionCita (String telefonos) {
+        ITwilioWhatsappMessager reminder = new WhatsappReminder();
+        String reminderMessage = "Informacion cancelacion de cita de donacion:"+
+            "\nSu cita ha sido cancelada, por favor ingrese a la aplicacion si desea asignar una nueva cita";
+        for (String telefono: telefonos.split(",")) {
+            reminder.sendReminder(telefono, reminderMessage);
+        }
     }
     
     @Deprecated

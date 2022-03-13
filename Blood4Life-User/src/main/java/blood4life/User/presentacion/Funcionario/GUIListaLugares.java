@@ -1,4 +1,4 @@
-package blood4life.User.presentacion.Cliente;
+package blood4life.User.presentacion.Funcionario;
 
 import blood4life.User.domain.commands.Command;
 import blood4life.User.domain.commands.FindAllCommand;
@@ -9,7 +9,6 @@ import blood4life.commons.domain.Cita;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -120,13 +119,12 @@ public class GUIListaLugares extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
-        // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_btnCerrarActionPerformed
 
     private void btnAsignarLugarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsignarLugarActionPerformed
 
-        int index = table.getSelectedRow();
+        // int index = table.getSelectedRow();
         /*
         if (!listaCita.isEmpty() && index != -1) {
             new GUISolicitarCita(listaCita.get(index), ser).setVisible(true);

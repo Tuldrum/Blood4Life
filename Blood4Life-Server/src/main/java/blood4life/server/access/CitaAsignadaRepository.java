@@ -89,10 +89,10 @@ public class CitaAsignadaRepository implements ICitaAsignadaRepository {
         try {
 
             String sql = "SELECT c.cod_id FROM citasasignadas ca, cita c "
-                    + "WHERE (ca.cod_id = c.cod_id "
-                    + "AND c.fecha >= CAST('"
-                    + Utilities.ActualDateToDateSQL().toString() +"' AS date) "
-                    + "AND ca.user_id = "+ String.valueOf(cliente.getUser_id()) +" );";
+                        + "WHERE (ca.cod_id = c.cod_id "
+                        + "AND c.fecha >= CAST('"
+                        + Utilities.ActualDateToDateSQL().toString() +"' AS date) "
+                        + "AND ca.user_id = "+ String.valueOf(cliente.getUser_id()) +" );";
 
             //this.connect();
             Statement stmt = conn.createStatement();
@@ -118,27 +118,24 @@ public class CitaAsignadaRepository implements ICitaAsignadaRepository {
     @Override
     public CitaAsignada find(CitaAsignada cita) {
         boolean banNull = false;
-        if (cita.getCita() == null || cita.getCliente() == null || cita.getCita().getCodigo() < 0
+        if (cita.getCita() == null || cita.getCita().getCodigo() < 0
                 || cita.getCita().getFecha() == null || cita.getCita().getLugar() == null
-                || cita.getCita().getCupos() <= 0
-                || !cita.getCliente().Status()) {
+                || cita.getCita().getCupos() <= 0) {
             return null;
         }
         try {
 
             String sql = "SELECT user_id, cod_id FROM citasasignadas"
-                    + " WHERE (user_id = " + String.valueOf(cita.getCliente().getUser_id()) 
-                    + " and cod_id = " + String.valueOf(cita.getCita().getCodigo()) + ");"; 
+                    + " WHERE cod_id = " + String.valueOf(cita.getCita().getCodigo()) + ";"; 
 
             //this.connect();
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
 
             if (rs.next()) {
-
                 rs.getInt("cod_id");
                 banNull = rs.wasNull();
-                rs.getInt("cod_id");
+                rs.getInt("user_id");
                 banNull = rs.wasNull();
             }
             if (banNull) {
@@ -152,30 +149,45 @@ public class CitaAsignadaRepository implements ICitaAsignadaRepository {
     }
 
     @Override
-    public boolean delete(CitaAsignada citaAsi) {
+    public String delete(CitaAsignada citaAsi) {
         if (citaAsi == null) {
-            return false;
+            return "error: info: cita nula";
         }
+        String response = "";
         try {
-
-            String sql = "DELETE FROM citasasignadas"
-                    + " WHERE (user_id = " + String.valueOf(citaAsi.getCliente().getUser_id())
-                    + " AND cod_id = " + String.valueOf(citaAsi.getCita().getCodigo()) + ");";
-
             Statement stmt = conn.createStatement();
+            String sql;
+            if (citaAsi.getCliente() == null) { // Borra todas las citasAsignadas correspondientes a esta cita_id
+                String getDatosSql = "SELECT uc.telefono FROM citasasignadas as ca, usuariocliente as uc " +
+                                     "WHERE cod_id = " + String.valueOf(citaAsi.getCita().getCodigo()) + " AND uc.user_id = ca.user_id";
+                ResultSet rs = stmt.executeQuery(getDatosSql);
+                while (rs.next()) {
+                    response += rs.getString("telefono")+",";
+                }
+                sql = "DELETE FROM citasasignadas"
+                    + " WHERE cod_id = " + String.valueOf(citaAsi.getCita().getCodigo()) + ";";
+            } else { // Borra una unica fila corerspondente a esta cita asignada en concreto
+                String getDatosSql = "SELECT uc.telefono FROM citasasignadas as ca, usuariocliente as uc " +
+                                    " WHERE (user_id = " + String.valueOf(citaAsi.getCliente().getUser_id()) +
+                                    " AND cod_id = " + String.valueOf(citaAsi.getCita().getCodigo()) + ");";
+                ResultSet rs = stmt.executeQuery(getDatosSql);
+                while (rs.next()) {
+                    response += rs.getString("telefono")+",";
+                }
+                sql = "DELETE FROM citasasignadas"
+                        + " WHERE (user_id = " + String.valueOf(citaAsi.getCliente().getUser_id())
+                        + " AND cod_id = " + String.valueOf(citaAsi.getCita().getCodigo()) + ");";
+            }
             stmt.executeUpdate(sql);
-
             Cita citaUpd = citaAsi.getCita();
             citaUpd.setCupos(citaUpd.getCupos() + 1);
             citarepo.update(citaUpd);
-
         } catch (SQLException ex) {
             Logger.getLogger(CitaRepository.class.getName()).log(Level.SEVERE, "Error al eliminar la cita en la base de datos", ex);
         }
-        return true;
+        return response.substring(0, response.length());
     }
     
-
     @Override
     public List<String> getAll(int lugarId, Date today) {
         List<String> list = new ArrayList<String>();

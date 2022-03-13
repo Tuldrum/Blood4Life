@@ -38,8 +38,8 @@ public class CitaAsignadaService  {
     public synchronized String delete(CitaAsignada citaAsi) {
         List<JsonError> errors = new ArrayList<>();
         // Validaciones y reglas de negocio
-        if (citaAsi.getCita() == null || citaAsi.getCliente() == null) {
-            errors.add(new JsonError("400", "BAD_REQUEST", "el usuario, y la información de la cita son obligatorios."));
+        if (citaAsi.getCita() == null) {
+            errors.add(new JsonError("400", "BAD_REQUEST", "Al menos la informacion de la cita es obligatoria."));
         }
 
         if (repo.find(citaAsi) == null) {
@@ -51,9 +51,9 @@ public class CitaAsignadaService  {
             String errorsJson = gson.toJson(errors);
             return errorsJson;
         }
-
-        if (repo.delete(citaAsi)) {
-            return "info: Eliminado con éxito" + citaAsi.toString();
+        String response = repo.delete(citaAsi);
+        if (!response.contains("error:") || !response.contains("info:")) {
+            return response;
         }
         return "error: Algo salió mal, consulte con el administrador del sistema";
     }

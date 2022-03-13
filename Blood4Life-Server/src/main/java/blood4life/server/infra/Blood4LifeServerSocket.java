@@ -318,7 +318,11 @@ public class Blood4LifeServerSocket extends ServerSocketTemplate {
         int cod_cit = Integer.parseInt(protocolRequest.getParameters().get(1).getValue());
         CitaAsignada cita = new CitaAsignada();
         cita.setCita(((CitaService) getService(ServicesEnum.CitaService)).find(cod_cit));
-        cita.setCliente(((UsuarioClienteService) getService(ServicesEnum.UsuarioClienteService)).find(cod_user));
+        if (cod_user == 0) {
+            cita.setCliente(null);
+        } else {
+            cita.setCliente(((UsuarioClienteService) getService(ServicesEnum.UsuarioClienteService)).find(cod_user));
+        }
         String deleteCitaAsignada = ((CitaAsignadaService) getService(ServicesEnum.CitaAsignadaService)).delete(cita);
         respond(deleteCitaAsignada);
     }

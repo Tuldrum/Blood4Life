@@ -20,7 +20,7 @@ public interface ICitaAsignadaRepository {
     
     public CitaAsignada find(UsuarioCliente cliente); 
     
-    public boolean delete(CitaAsignada citaAsi);
+    public String delete(CitaAsignada citaAsi);
     
     public CitaAsignada find(CitaAsignada cita);
 
