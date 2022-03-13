@@ -50,6 +50,44 @@ public class UsuarioImplSockets implements IUserAccess {
         }
     }
 
+    @Override 
+    public String signUpUser (String id, String pw) throws Exception {
+        String jsonResponse = null;
+        String requestJson = doSignUpRequestJson(id, pw);
+        System.out.println(requestJson);
+        try {
+            mySocket.connect();
+            jsonResponse = mySocket.sendRequest(requestJson);
+            mySocket.disconnect();
+        } catch (IOException ex) {
+            Logger.getLogger(UsuarioImplSockets.class.getName()).log(Level.SEVERE, "No hubo conexión con el servidor", ex);
+        }
+        if (jsonResponse == null) {
+            throw new Exception("No se pudo conectar con el servidor. Revise la red o que el servidor esté escuchando. ");
+        }
+        if (jsonResponse.contains("error")) {
+            //Devolvió algún error
+            Logger.getLogger(UsuarioImplSockets.class.getName()).log(Level.INFO, jsonResponse);
+            throw new Exception(extractMessages(jsonResponse));
+        }
+        // Se registró el customer
+        Logger.getLogger(UsuarioImplSockets.class.getName()).log(Level.INFO, "Lo que va en el JSon: ("+jsonResponse.toString()+ ")");
+        return jsonResponse;
+    }
+
+    private String doSignUpRequestJson(String id, String password) {
+        Protocol protocol = new Protocol();
+        protocol.setResource("user");
+        protocol.setAction("post");
+        protocol.addParameter("id", id);
+        protocol.addParameter("pw", password);
+
+        Gson gson = new Gson();
+        String requestJson = gson.toJson(protocol);
+
+        return requestJson;
+    }
+
     private String doLoggerRequestJson(String idUser, String pwUser) {
         Protocol protocol = new Protocol();
         protocol.setResource("user");

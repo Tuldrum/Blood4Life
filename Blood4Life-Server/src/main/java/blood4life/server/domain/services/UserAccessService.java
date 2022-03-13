@@ -13,4 +13,8 @@ public class UserAccessService {
     public synchronized User login(int id, String password) {
         return repo.login(id, password);
     } 
+
+    public synchronized String signup (int id, String password) {
+        return repo.signup(id, password);
+    }
 }

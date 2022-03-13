@@ -15,22 +15,9 @@ public class UsuarioCliente extends User {
     
     private Sangre sangre;
 
-    public static UsuarioCliente getInstance() {
-        if (instance == null) {
-            instance = new UsuarioCliente();
-        }
-        return instance;
-    }
-    public static UsuarioCliente getInstance(int user_id, String name, String lastname, String mail, String numeroTelefono, Sangre sangre) {
-        if (instance == null) {
-            instance = new UsuarioCliente(user_id, name, lastname, mail, numeroTelefono, sangre);
-        }
-        return instance;
-    }
+    public UsuarioCliente() {}
 
-    private UsuarioCliente() {}
-
-    private UsuarioCliente(int user_id, String name, String lastname, String mail, String numeroTelefono, Sangre sangre) {
+    public UsuarioCliente(int user_id, String name, String lastname, String mail, String numeroTelefono, Sangre sangre) {
         super(user_id, name, lastname, mail, numeroTelefono);
         this.sangre = sangre;  
     }
@@ -45,5 +32,10 @@ public class UsuarioCliente extends User {
 
     public boolean StatusCliente(){
         return this.sangre == null && Status(); 
+    }
+
+    @Override
+    public String toString(){
+        return "id: " + this.user_id + " name: " + this.name;
     }
 }

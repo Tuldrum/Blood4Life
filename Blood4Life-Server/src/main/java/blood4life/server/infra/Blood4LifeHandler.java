@@ -57,7 +57,7 @@ public class Blood4LifeHandler extends ServerHandler {
     public void processRequest(String requestJson) {
         // Convertir la solicitud a objeto Protocol para poderlo procesar
         Protocol protocolRequest = gson.fromJson(requestJson, Protocol.class);
-
+        System.out.println("b4lHandler -> protocolRequest: " + protocolRequest);
         switch (protocolRequest.getResource()) {
             case "user":
                 procesarUserAccess(protocolRequest);
@@ -102,6 +102,9 @@ public class Blood4LifeHandler extends ServerHandler {
         if (protocolRequest.getAction().equals("get")) {
             processGetUser(protocolRequest);
         }
+        if (protocolRequest.getAction().equals("post")) {
+            processPostUser(protocolRequest);
+        }
     }
     private void processGetUser(Protocol protocolRequest) {
         int user_id = Integer.parseInt(protocolRequest.getParameters().get(0).getValue());
@@ -112,6 +115,18 @@ public class Blood4LifeHandler extends ServerHandler {
             respond(errorJson);
         } else {
             respond(objectToJSON(user));
+        }
+    }
+
+    private void processPostUser(Protocol protocolRequest) {
+        int user_id = Integer.parseInt(protocolRequest.getParameters().get(0).getValue());
+        String password = protocolRequest.getParameters().get(1).getValue();
+        String response = ((UserAccessService) getService(ServicesEnum.UsuarioService)).signup(user_id, password);
+        if (response.contains("info:") || response.contains("error:")) {
+            String errorJson = generateNotFoundErrorJson("credenciales no encontrada. ");
+            respond(errorJson);
+        } else {
+            respond(response);
         }
     }
 
@@ -381,15 +396,15 @@ public class Blood4LifeHandler extends ServerHandler {
     }
 
     private void processPostUsuarioCliente(Protocol protocolRequest) {
-        UsuarioCliente cliente = UsuarioCliente.getInstance();
-        // Se llama al singleton de UsuarioCliente
-        // // Reconstruir el customer a partid de lo que viene en los parámetros
-        // cliente.setUser_id(Integer.parseInt(protocolRequest.getParameters().get(0).getValue()));
-        // cliente.setName(protocolRequest.getParameters().get(1).getValue());
-        // cliente.setLastname(protocolRequest.getParameters().get(2).getValue());
-        // cliente.setMail(protocolRequest.getParameters().get(3).getValue());
-        // cliente.setNumeroTelefono(protocolRequest.getParameters().get(4).getValue());
-        // cliente.setSangre(gson.fromJson(protocolRequest.getParameters().get(5).getValue(), Sangre.class));
+        // Reconstruir el customer a partid de lo que viene en los parámetros
+        UsuarioCliente cliente = new UsuarioCliente(
+            Integer.parseInt(protocolRequest.getParameters().get(0).getValue()),
+            protocolRequest.getParameters().get(1).getValue(),
+            protocolRequest.getParameters().get(2).getValue(),
+            protocolRequest.getParameters().get(3).getValue(),
+            protocolRequest.getParameters().get(4).getValue(),
+            gson.fromJson(protocolRequest.getParameters().get(5).getValue(), Sangre.class));
+        System.out.println("Server->B4LHandler->processPostUsuarioCliente: " + cliente.toString());
         String response = ((UsuarioClienteService) getService(ServicesEnum.UsuarioClienteService)).create(cliente);
         respond(response);
     }

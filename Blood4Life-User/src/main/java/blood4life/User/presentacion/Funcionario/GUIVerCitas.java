@@ -5,7 +5,7 @@
  */
 package blood4life.User.presentacion.Funcionario;
 
-import blood4life.User.domain.services.ServiceLogin;
+import blood4life.User.domain.services.ServiceUserAccess;
 import blood4life.commons.domain.LugarRecogida;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class GUIVerCitas extends javax.swing.JFrame {
 
-    ServiceLogin service;
+    ServiceUserAccess service;
 
     /**
      * Creates new form VisualizarLugares
@@ -26,7 +26,7 @@ public class GUIVerCitas extends javax.swing.JFrame {
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     public GUIVerCitas() {
-        service = new ServiceLogin();
+        service = new ServiceUserAccess();
         initComponents();
         setLocationRelativeTo(null);
         rec = new ArrayList();
@@ -146,7 +146,7 @@ public class GUIVerCitas extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        //TODO
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

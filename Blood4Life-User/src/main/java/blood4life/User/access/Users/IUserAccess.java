@@ -5,5 +5,5 @@ import blood4life.commons.domain.User;
 public interface IUserAccess {
     
     public User logInUser(String id, String pw) throws Exception;
-
+    public String signUpUser(String id, String pw) throws Exception;
 }

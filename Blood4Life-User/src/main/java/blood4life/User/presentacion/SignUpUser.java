@@ -6,13 +6,21 @@ package blood4life.User.presentacion;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.swing.JOptionPane;
 
 import blood4life.User.domain.commands.Command;
+import blood4life.User.domain.commands.CreateCommand;
 import blood4life.User.domain.commands.FindAllCommand;
 import blood4life.User.domain.commands.Invoker;
 import blood4life.User.domain.services.GestorServicesImpl;
+import blood4life.User.domain.services.ServiceUserAccess;
 import blood4life.User.domain.services.ServicesEnum;
 import blood4life.commons.domain.Sangre;
+import blood4life.commons.domain.User;
+import blood4life.commons.domain.UsuarioCliente;
 
 /**
  *
@@ -22,7 +30,7 @@ public class SignUpUser extends javax.swing.JFrame {
     private GestorServicesImpl ser;  
     private Invoker inv;
     private List<Sangre> rec;
-
+    private ServiceUserAccess service;
     private boolean mostrar = false;
 
     /**
@@ -158,6 +166,12 @@ public class SignUpUser extends javax.swing.JFrame {
         );
 
         pack();
+        txtIdentificacion.setText("1002805624");
+        txtPassword.setText("pw17");
+        txtNombre.setText("Diego");
+        txtApellido.setText("Collazos");
+        txtCorreo.setText("coll@mail.com");
+        txtTelefono.setText("3105089540");
     }// </editor-fold>//GEN-END:initComponents
 
     @SuppressWarnings("deprecation")
@@ -174,21 +188,81 @@ public class SignUpUser extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    @SuppressWarnings("deprecation")
     private void btnRegistrarseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarseActionPerformed
         if (mostrar) {
-            txtPassword.setText(txtPasswordVisible.getText()); //TODO convertir en getBytes
+            txtPassword.setText(txtPasswordVisible.getText());
         }
-        System.out.println(
-            listaSangres.getSelectedIndex()+", "+
-            txtApellido.getText()+", "+
-            txtCorreo.getText()+", "+
-            txtIdentificacion.getText()+", "+
-            txtNombre.getText()+", "+
-            txtPassword.getText()+", "+
-            txtTelefono.getText()
-        );
+        // System.out.println(
+        //     txtApellido.getText()+", "+
+        //     txtCorreo.getText()+", "+
+        //     txtIdentificacion.getText()+", "+
+        //     txtNombre.getText()+", "+
+        //     txtPassword.getText()+", "+
+        //     txtTelefono.getText()
+        // );
+        if (!sonDatosValidos()){
+            JOptionPane.showMessageDialog(null, "Datos no validos, verifique");
+            return;
+        }
+        try {
+            String customerResponse = createCustomer();
+            String accessResponse = createCustomerAccess();
+            if (customerResponse.toLowerCase().contains("error:") || customerResponse.toLowerCase().contains("info:") ||
+                accessResponse.toLowerCase().contains("error:") || accessResponse.toLowerCase().contains("info:")) {
+                JOptionPane.showMessageDialog(null, customerResponse);
+                JOptionPane.showMessageDialog(null, accessResponse);
+            } else {
+                JOptionPane.showMessageDialog(null, "Usuario creado con éxito");
+                jButton1.setEnabled(false);
+            }
+            new GUILogin().setVisible(true);
+            this.dispose();
+        } catch (Exception ex) {
+            Logger.getLogger(SignUpUser.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }//GEN-LAST:event_btnRegistrarseActionPerformed
+
+    @SuppressWarnings("deprecation")
+    private boolean sonDatosValidos() {
+        return (txtNombre.getText().matches("[A-Za-z ]*") &&
+                txtApellido.getText().matches("[A-Za-z ]*") &&
+                txtIdentificacion.getText().matches("[0-9]*") &&
+                txtCorreo.getText().matches("^[A-Za-z0-9+_.-]+@(.+)$") &&
+                txtPassword.getText().matches("[a-zA-Z0-9]*") &&
+                txtTelefono.getText().matches("[0-9]*"));
+    }
+
+    private String createCustomer() {
+        Sangre sangre = rec.get(listaSangres.getSelectedIndex());
+        User user = new UsuarioCliente(
+            Integer.parseInt(txtIdentificacion.getText()),
+            txtNombre.getText(),
+            txtApellido.getText(),
+            txtCorreo.getText(),
+            txtTelefono.getText(),
+            sangre);
+        Command createCustomer = new CreateCommand(user, ser.getImpl(ServicesEnum.CustomerClientService));
+        inv.setCommand(createCustomer);
+        inv.execute();
+        CreateCommand createCustomerComand = (CreateCommand) inv.getCommand();
+        String element = createCustomerComand.getResponse();
+        return element;
+    }
+
+    @SuppressWarnings("deprecation")
+    private String createCustomerAccess () {
+        service = new ServiceUserAccess();
+        if (mostrar) {
+            txtPassword.setText(txtPasswordVisible.getText());
+        }
+        try {
+            return service.registrar(txtIdentificacion.getText(), txtPassword.getText());
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "error: info: algo salio mal";
+    }
 
     @SuppressWarnings("unchecked")
     private void cargarSangres() {

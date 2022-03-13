@@ -13,17 +13,21 @@ import blood4life.commons.domain.User;
  *
  * @author ASUS
  */
-public class ServiceLogin {
+public class ServiceUserAccess {
 
     private FactoryImpl instance;
     private IUserAccess usuarios;
 
-    public ServiceLogin() {
+    public ServiceUserAccess() {
         instance = FactoryImpl.getInstance();
         usuarios = instance.getUsuarioAccess();
     }
 
     public User logear(String id, String pw) throws Exception {
         return usuarios.logInUser(id, pw);
+    }
+
+    public String registrar(String id, String pw) throws Exception {
+        return usuarios.signUpUser(id, pw);
     }
 }

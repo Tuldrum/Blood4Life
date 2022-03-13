@@ -26,7 +26,8 @@ public class CustomerClientService implements ServiceImpl {
     public String create(Object elements) {
         try {
             UsuarioCliente customer = (UsuarioCliente) elements;
-            return customerAcces.createCustomer(customer);
+            String response = customerAcces.createCustomer(customer);
+            return response;
         } catch (Exception ex) {
             Logger.getLogger(CustomerClientService.class.getName()).log(Level.SEVERE, null, ex);
         }

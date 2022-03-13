@@ -77,7 +77,7 @@ public class Blood4LifeServerSocket extends ServerSocketTemplate {
     protected void processRequest(String requestJson) {
         // Convertir la solicitud a objeto Protocol para poderlo procesar
         Protocol protocolRequest = gson.fromJson(requestJson, Protocol.class);
-
+        System.out.println("b4lServerSocket: protocol: " + protocolRequest);
         switch (protocolRequest.getResource()) {
             case "user":
                 procesarUserAccess(protocolRequest);
@@ -122,6 +122,9 @@ public class Blood4LifeServerSocket extends ServerSocketTemplate {
         if (protocolRequest.getAction().equals("get")) {
             processGetUser(protocolRequest);
         }
+        if (protocolRequest.getAction().equals("post")) {
+            processPostUser(protocolRequest);
+        }
     }
     private void processGetUser(Protocol protocolRequest) {
         int user_id = Integer.parseInt(protocolRequest.getParameters().get(0).getValue());
@@ -135,6 +138,18 @@ public class Blood4LifeServerSocket extends ServerSocketTemplate {
         }
     }
 
+    private void processPostUser(Protocol protocolRequest) {
+        int user_id = Integer.parseInt(protocolRequest.getParameters().get(0).getValue());
+        String password = protocolRequest.getParameters().get(1).getValue();
+        User user = ((UserAccessService) getService(ServicesEnum.UsuarioService)).login(user_id, password);
+        if (user == null) {
+            String errorJson = generateNotFoundErrorJson("user no encontrada. ");
+            respond(errorJson);
+        } else {
+            respond(objectToJSON(user));
+        }
+    }
+    
     private void procesarSangres(Protocol protocolRequest) {
         if (protocolRequest.getAction().equals("getId")) {
             processGetIdSangre(protocolRequest);
@@ -407,15 +422,15 @@ public class Blood4LifeServerSocket extends ServerSocketTemplate {
     }
 
     private void processPostUsuarioCliente(Protocol protocolRequest) {
-        UsuarioCliente cliente = UsuarioCliente.getInstance();
-        // Singleton de UsuarioCliente
-        // // Reconstruir el customer a partid de lo que viene en los parámetros
-        // cliente.setUser_id(Integer.parseInt(protocolRequest.getParameters().get(0).getValue()));
-        // cliente.setName(protocolRequest.getParameters().get(1).getValue());
-        // cliente.setLastname(protocolRequest.getParameters().get(2).getValue());
-        // cliente.setMail(protocolRequest.getParameters().get(3).getValue());
-        // cliente.setNumeroTelefono(protocolRequest.getParameters().get(4).getValue());
-        // cliente.setSangre(gson.fromJson(protocolRequest.getParameters().get(5).getValue(), Sangre.class));
+        // Reconstruir el customer a partid de lo que viene en los parámetros
+        UsuarioCliente cliente = new UsuarioCliente(
+            Integer.parseInt(protocolRequest.getParameters().get(0).getValue()),
+            protocolRequest.getParameters().get(1).getValue(),
+            protocolRequest.getParameters().get(2).getValue(),
+            protocolRequest.getParameters().get(3).getValue(),
+            protocolRequest.getParameters().get(4).getValue(),
+            gson.fromJson(protocolRequest.getParameters().get(5).getValue(), Sangre.class));
+        System.out.println("Server->B4LServerSocket->processPostUsuarioCliente: " + cliente.toString());
         String response = ((UsuarioClienteService) getService(ServicesEnum.UsuarioClienteService)).create(cliente);
         respond(response);
     }

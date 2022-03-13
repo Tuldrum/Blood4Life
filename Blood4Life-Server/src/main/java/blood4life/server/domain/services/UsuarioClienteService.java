@@ -7,7 +7,6 @@ package blood4life.server.domain.services;
 
 import blood4life.commons.domain.UsuarioCliente;
 import blood4life.commons.infra.JsonError;
-import blood4life.commons.infra.Utilities;
 import blood4life.server.access.users.IClienteRepository;
 
 import com.google.gson.Gson;
@@ -41,10 +40,6 @@ public class UsuarioClienteService {
 
         if (!customer.getMail().contains("@")) {
             errors.add(new JsonError("400", "BAD_REQUEST", "Email debe tener una @. "));
-        }
-
-        if (!Utilities.isNumeric(String.valueOf(customer.getNumeroTelefono()))) {
-            errors.add(new JsonError("400", "BAD_REQUEST", "Teléfono móvil debe contener sólo dígitos "));
         }
 
         if (this.find(customer.getUser_id()) != null) {

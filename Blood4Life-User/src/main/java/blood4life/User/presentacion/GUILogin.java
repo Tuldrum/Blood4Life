@@ -4,7 +4,7 @@
  */
 package blood4life.User.presentacion;
 
-import blood4life.User.domain.services.ServiceLogin;
+import blood4life.User.domain.services.ServiceUserAccess;
 import blood4life.User.presentacion.interfaceStrategy.ClienteStrategy;
 import blood4life.User.presentacion.interfaceStrategy.Context;
 import blood4life.User.presentacion.interfaceStrategy.FuncionarioStrategy;
@@ -17,13 +17,12 @@ import blood4life.commons.domain.User;
 public class GUILogin extends javax.swing.JFrame {
 
     private boolean mostrar = false;
-    ServiceLogin service;
+    ServiceUserAccess service;
     /**
      * Creates new form GUILogin
      */
     public GUILogin() {
         initComponents();
-        btnRegistrarNuevoUsuario.setEnabled(false);
         txtPassword.setVisible(true);
         txtPasswordVisible.setVisible(false);
         setLocationRelativeTo(null);
@@ -111,7 +110,7 @@ public class GUILogin extends javax.swing.JFrame {
 
     @SuppressWarnings("deprecation")
     private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
-        service = new ServiceLogin();
+        service = new ServiceUserAccess();
         if (mostrar) {
             txtPassword.setText(txtPasswordVisible.getText());
         }

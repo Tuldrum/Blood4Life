@@ -1,6 +1,7 @@
 package blood4life.server.access.users;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 
 import blood4life.commons.domain.User;
 import blood4life.server.access.IConnectionRepository;
@@ -39,6 +40,44 @@ public class UserRepository implements IUserRepository {
         return user;
     }
 
+    @Override
+    public String signup(int id, String password) {
+        if (!userExists(id)) {
+            return crearUsuario(id, password);
+        }
+        return "error: info: Usuario existente";
+    }
+    
+    private String crearUsuario(int id, String password) {
+        try {
+            String sql = "INSERT INTO useraccess (user, password) VALUES ( ?, ? )";
+
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, id);
+            pstmt.setString(2, password);
+            
+            pstmt.executeUpdate();
+            return "Creado con exito";
+        } catch (SQLException ex) {
+            Logger.getLogger(ClienteRepository.class.getName()).log(Level.SEVERE, "Error al buscar el producto en la base de datos", ex);
+        }
+        return "error: info: algo salio mal";
+    }
+
+    private boolean userExists (int id) {
+        try {
+            String sql = "SELECT * FROM useraccess WHERE user = " + String.valueOf(id);
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            if (rs.next()) {
+                return true;
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(ClienteRepository.class.getName()).log(Level.SEVERE, "Error al buscar el producto en la base de datos", ex);
+        }
+        return false;
+    }
+
     private User consultarTablaUser(String tabla, int id, String password) {
         User user = null;
         try {
@@ -62,7 +101,7 @@ public class UserRepository implements IUserRepository {
     private User construirTipoUsuario (ResultSet rs, String tipo) throws SQLException {
         switch (tipo) {
             case "usuariocliente": // Nombres de la tabla de la base de datos
-                return UsuarioCliente.getInstance(
+                return new UsuarioCliente(
                     rs.getInt("user_id"),
                     rs.getString("nombre"),
                     rs.getString("apellido"),
@@ -71,7 +110,7 @@ public class UserRepository implements IUserRepository {
                     sangre.find(rs.getInt("sangre_id"))
                     );
             case "usuariofuncionario":
-                return UsuarioFuncionario.getInstance(
+                return new UsuarioFuncionario(
                     rs.getInt("user_id"),
                     rs.getString("nombre"),
                     rs.getString("apellido"),

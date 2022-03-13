@@ -29,7 +29,7 @@ public class ClienteRepository implements IClienteRepository {
             }
             //this.connect();
 
-            String sql = "INSERT INTO UsuarioCliente ( user_id, nombre, apellido, mail, telefono, sangre) "
+            String sql = "INSERT INTO UsuarioCliente ( user_id, nombre, apellido, mail, telefono, sangre_id) "
                     + "VALUES ( ?, ?, ?, ?, ?, ? )";
 
             PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -60,7 +60,7 @@ public class ClienteRepository implements IClienteRepository {
             ResultSet rs = stmt.executeQuery(sql);
 
             if (rs.next()) {
-                cliente = UsuarioCliente.getInstance(
+                cliente = new UsuarioCliente(
                     rs.getInt("user_id"),
                     rs.getString("nombre"),
                     rs.getString("apellido"),
