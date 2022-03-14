@@ -252,12 +252,12 @@ public class Blood4LifeHandler extends ServerHandler {
     private void proccesGetAllInfoCitasAsignadas(Protocol protocolRequest) {
         int lugarId = Integer.parseInt(protocolRequest.getParameters().get(0).getValue());
         Date today = Date.valueOf(protocolRequest.getParameters().get(1).getValue());
-        String info = ((CitaAsignadaService) getService(ServicesEnum.CitaAsignadaService)).getRepo(lugarId, today);
+        List<String> info = ((CitaAsignadaService) getService(ServicesEnum.CitaAsignadaService)).getRepo(lugarId, today);
         if (info == null) {
             String errorJson = generateNotFoundErrorJson("info: Algo salió mal con la query para recopilar los datos de citas asignadas.");
             respond(errorJson);
         } else {
-            respond(info);
+            respond(listToJson(info));
         }
     }
 
