@@ -57,7 +57,6 @@ public class Blood4LifeHandler extends ServerHandler {
     public void processRequest(String requestJson) {
         // Convertir la solicitud a objeto Protocol para poderlo procesar
         Protocol protocolRequest = gson.fromJson(requestJson, Protocol.class);
-        System.out.println("b4lHandler -> protocolRequest: " + protocolRequest);
         switch (protocolRequest.getResource()) {
             case "user":
                 procesarUserAccess(protocolRequest);
@@ -253,12 +252,12 @@ public class Blood4LifeHandler extends ServerHandler {
     private void proccesGetAllInfoCitasAsignadas(Protocol protocolRequest) {
         int lugarId = Integer.parseInt(protocolRequest.getParameters().get(0).getValue());
         Date today = Date.valueOf(protocolRequest.getParameters().get(1).getValue());
-        List<String> info = ((CitaAsignadaService) getService(ServicesEnum.CitaAsignadaService)).getRepo(lugarId, today);
+        String info = ((CitaAsignadaService) getService(ServicesEnum.CitaAsignadaService)).getRepo(lugarId, today);
         if (info == null) {
             String errorJson = generateNotFoundErrorJson("info: Algo salió mal con la query para recopilar los datos de citas asignadas.");
             respond(errorJson);
         } else {
-            respond(listToJson(info));
+            respond(info);
         }
     }
 
