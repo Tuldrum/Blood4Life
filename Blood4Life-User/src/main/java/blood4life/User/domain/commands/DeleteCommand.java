@@ -35,8 +35,8 @@ public class DeleteCommand extends Command {
     @Override
     public void execute() {
         Logger logger= LoggerFactory.getLogger(DeleteCommand.class); 
-        logger.info("Comando de eliminación ejecutado. Se borró el objeto " + object.toString());
         result = service.delete(object);
+        logger.info("Comando de eliminación ejecutado. Se borró el objeto " + object.toString());
     }
 
     @Override

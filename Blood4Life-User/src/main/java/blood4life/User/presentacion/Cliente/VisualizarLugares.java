@@ -208,7 +208,7 @@ public class VisualizarLugares extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
-        infoJComboBox(); 
+        infoJComboBox();
     }//GEN-LAST:event_button1ActionPerformed
 
     private java.sql.Date DateToDateSQL(Date dateToConvert) {

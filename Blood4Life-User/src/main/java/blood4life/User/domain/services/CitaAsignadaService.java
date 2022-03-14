@@ -66,8 +66,8 @@ public class CitaAsignadaService implements ServiceImpl{
     public String delete(Object elements) {
         try {
             ArrayList<Object> args = (ArrayList<Object>) elements;
-            String cita_cod = (String) args.get(0);
-            String cod_user = (String) args.get(1);   
+            String cita_cod = String.valueOf(args.get(0));
+            String cod_user = String.valueOf(args.get(1));   
             String telefonos = impl.deleteCitaAsiganada(cita_cod, cod_user);
             notificarCancelacionCita(telefonos);
             return "Cita cancelada con exito";

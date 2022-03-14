@@ -185,7 +185,7 @@ public class CitaAsignadaRepository implements ICitaAsignadaRepository {
         } catch (SQLException ex) {
             Logger.getLogger(CitaRepository.class.getName()).log(Level.SEVERE, "Error al eliminar la cita en la base de datos", ex);
         }
-        return response.substring(0, response.length());
+        return response.substring(0, response.length()-1);
     }
     
     @Override

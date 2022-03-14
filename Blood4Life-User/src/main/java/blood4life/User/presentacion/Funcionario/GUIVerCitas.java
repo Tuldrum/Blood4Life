@@ -5,10 +5,22 @@
  */
 package blood4life.User.presentacion.Funcionario;
 
-import blood4life.User.domain.services.ServiceUserAccess;
+import blood4life.User.domain.commands.Command;
+import blood4life.User.domain.commands.FindAllCommand;
+import blood4life.User.domain.commands.Invoker;
+import blood4life.User.domain.services.GestorServicesImpl;
+import blood4life.User.domain.services.ServicesEnum;
 import blood4life.commons.domain.LugarRecogida;
+
+import java.util.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -16,21 +28,22 @@ import java.util.List;
  */
 public class GUIVerCitas extends javax.swing.JFrame {
 
-    ServiceUserAccess service;
-
-    /**
-     * Creates new form VisualizarLugares
-     */
-    @SuppressWarnings("unused")
+    private Date actual;
+    private java.sql.Date after = null;
+    private java.sql.Date before = null;
+    private LugarRecogida lugar;
+    private Invoker inv;
+    GestorServicesImpl serv;
     private List<LugarRecogida> rec;
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     public GUIVerCitas() {
-        service = new ServiceUserAccess();
+        this.inv = new Invoker();
+        this.serv = new GestorServicesImpl();
         initComponents();
         setLocationRelativeTo(null);
         rec = new ArrayList();
-        //infoJComboBox();
+        infoJComboBox();
     }
 
     /**
@@ -74,7 +87,7 @@ public class GUIVerCitas extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel5.setText("Ver Citas");
 
-        ListaLugares.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecciona el lugar", "Item 2", "Item 3", "Item 4" }));
+        ListaLugares.setModel(new javax.swing.DefaultComboBoxModel<>());
         ListaLugares.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ListaLugaresActionPerformed(evt);
@@ -146,7 +159,7 @@ public class GUIVerCitas extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
+        new GUICitas(lugar, serv).setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -157,54 +170,60 @@ public class GUIVerCitas extends javax.swing.JFrame {
 
     private void ListaLugaresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ListaLugaresActionPerformed
 
-        /*int index = ListaLugares.getSelectedIndex();
+        int index = ListaLugares.getSelectedIndex();
         if (!rec.isEmpty()) {
             if(index > -1){
-                lugarID = rec.get(index).getLugar_id();
+                lugar = rec.get(index);
             }
         } else {
             if (before != null || after != null) {
                 JOptionPane.showMessageDialog(null, "Sin coincidencias para la busqueda");
             }
-        }*/
-        //infoJComboBox(); -> acepta rango
+        }
+        //infoJComboBox(); -> acepta rango 
         //evento -> injCombox
     }//GEN-LAST:event_ListaLugaresActionPerformed
 
-    /*private java.sql.Date DateToDateSQL(Date dateToConvert) {
+    private java.sql.Date DateToDateSQL(Date dateToConvert) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String sdate = simpleDateFormat.format(dateToConvert);
         return java.sql.Date.valueOf(sdate);
-    }*/
-/*
+    }
+
+    @SuppressWarnings("unchecked")
     private void infoJComboBox() {
         try {
             ListaLugares.removeAllItems();
             if (before == null || after == null
-                    || jDateChooser2.getDate() == null
-                    || jDateChooser3.getDate() == null) {
+                || jDateChooser2.getDate() == null) {
                 actual = Calendar.getInstance().getTime();
                 before = DateToDateSQL(actual);
-                Date mas = new Date(actual.getTime() + 15 * (1000 * 60 * 60 * 24));
-                after = DateToDateSQL(mas);
             } else if (before != null && after != null) {
                 before = DateToDateSQL(jDateChooser2.getDate());
-                after = DateToDateSQL(jDateChooser3.getDate());;
             }
+            Date mas = new Date(actual.getTime() + 15 * (1000 * 60 * 60 * 24));
+            after = DateToDateSQL(mas);
             if (before.compareTo(DateToDateSQL(actual)) < 0
                     || after.compareTo(DateToDateSQL(actual)) < 0
                     || after.compareTo(before) <= 0) {
                 JOptionPane.showMessageDialog(null, "Rango de fechas inválido");
                 ListaLugares.addItem("Sin lugares disponibles");
             } else {
-                rec = service.listLugaresDisponibles(before, after);
+                ArrayList<Object> args = new ArrayList<Object>();
+                args.add(before); 
+                args.add(after);  
+                Command command = new FindAllCommand(args, serv.getImpl(ServicesEnum.LugaresServices));  
+                inv.setCommand(command);
+                inv.execute();
+                FindAllCommand obj = (FindAllCommand) inv.getCommand(); 
+                rec =  (List<LugarRecogida>) obj.getList();
                 actualizarJbox(rec);
             }
         } catch (Exception ex) {
             Logger.getLogger(GUIVerCitas.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }*/
-/*
+    }
+
     private void actualizarJbox(List<LugarRecogida> rec) {
         if (rec != null) {
             for (int i = 0; i < rec.size(); i++) {
@@ -213,7 +232,7 @@ public class GUIVerCitas extends javax.swing.JFrame {
         } else {
             ListaLugares.addItem("Sin lugares disponibles");
         }
-    }*/
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

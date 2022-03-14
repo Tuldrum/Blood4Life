@@ -16,7 +16,6 @@ public class GUIFuncionario extends javax.swing.JFrame {
      */
     public GUIFuncionario() {
         initComponents();
-        bntVerCitasAgendadas.setEnabled(false);
         setLocationRelativeTo(null);
     }
 

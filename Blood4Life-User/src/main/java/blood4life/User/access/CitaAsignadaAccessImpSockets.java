@@ -96,7 +96,7 @@ public class CitaAsignadaAccessImpSockets implements ICitaAsignadaAcces{
                 throw new Exception(extractMessages(jsonResponse));
             } else {
                 //Agregó correctamente, devuelve la cedula del cita 
-                return "Cita " + cita_id + " cancelada";
+                return jsonResponse;
             }
 
         }

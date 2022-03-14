@@ -513,12 +513,26 @@ public class GUICitas extends javax.swing.JFrame {
      */
     private void deleteCita(Cita cita) {
         try {
+            DeleteCommand cmd;
+
+            //Borrar todas las citas asignadas
+            List<Object> args = new ArrayList<Object>();
+            args.add(cita.getCodigo());
+            args.add("0");
             //Fija el comando del invoker
-            invoker.setCommand(new DeleteCommand(cita, serv.getImpl(ServicesEnum.CitaService)));
-            DeleteCommand cmd = (DeleteCommand) invoker.getCommand();  
-            cmd.setPrevious(cita);
+            invoker.setCommand(new DeleteCommand(args, serv.getImpl(ServicesEnum.CitaAsignadaService)));
+            cmd = (DeleteCommand) invoker.getCommand();  
+            cmd.setPrevious(args);
             //Ejecuta el comando
             invoker.execute();
+
+            //Fija el comando del invoker
+            invoker.setCommand(new DeleteCommand(cita, serv.getImpl(ServicesEnum.CitaService)));
+            cmd = (DeleteCommand) invoker.getCommand();  
+            cmd.setPrevious(cita);
+            //Ejecuta el comando
+            invoker.execute(); //Borrar cita
+
         } catch (Exception ex) {
             Logger.getLogger(GUICitas.class.getName()).log(Level.SEVERE, null, ex);
         }
