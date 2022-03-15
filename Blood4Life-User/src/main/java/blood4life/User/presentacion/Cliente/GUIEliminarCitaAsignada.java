@@ -251,6 +251,7 @@ public class GUIEliminarCitaAsignada extends javax.swing.JFrame {
         args.add(String.valueOf(cita.getCodigo()));  
         args.add(String.valueOf(user.getUser_id()));
         Command cmdEli = new DeleteCommand(args, ser.getImpl(ServicesEnum.CitaAsignadaService));  
+        cmdEli.setHasUndo(false);
         inv.setCommand(cmdEli);
         inv.execute(); 
         JOptionPane.showMessageDialog(null, "Eliminado con éxito");

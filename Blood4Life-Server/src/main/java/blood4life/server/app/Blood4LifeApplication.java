@@ -13,4 +13,3 @@ public class Blood4LifeApplication {
         myServer.startServer();
     }
 }
-    

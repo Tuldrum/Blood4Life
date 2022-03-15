@@ -120,7 +120,7 @@ public class CitaAsignadaRepository implements ICitaAsignadaRepository {
         boolean banNull = false;
         if (cita.getCita() == null || cita.getCita().getCodigo() < 0
                 || cita.getCita().getFecha() == null || cita.getCita().getLugar() == null
-                || cita.getCita().getCupos() <= 0) {
+                || cita.getCita().getCupos() < 0) {
             return null;
         }
         try {
@@ -137,11 +137,12 @@ public class CitaAsignadaRepository implements ICitaAsignadaRepository {
                 banNull = rs.wasNull();
                 rs.getInt("user_id");
                 banNull = rs.wasNull();
+            } else {
+                return null;
             }
             if (banNull) {
                 return null;
             }
-
         } catch (SQLException ex) {
             Logger.getLogger(CitaRepository.class.getName()).log(Level.SEVERE, "Error al buscar el producto en la base de datos", ex);
         }
@@ -159,7 +160,7 @@ public class CitaAsignadaRepository implements ICitaAsignadaRepository {
             String sql;
             if (citaAsi.getCliente() == null) { // Borra todas las citasAsignadas correspondientes a esta cita_id
                 String getDatosSql = "SELECT uc.telefono FROM citasasignadas as ca, usuariocliente as uc " +
-                                     "WHERE cod_id = " + String.valueOf(citaAsi.getCita().getCodigo()) + " AND uc.user_id = ca.user_id";
+                                     "WHERE ca.cod_id = " + String.valueOf(citaAsi.getCita().getCodigo()) + " AND uc.user_id = ca.user_id";
                 ResultSet rs = stmt.executeQuery(getDatosSql);
                 while (rs.next()) {
                     response += rs.getString("telefono")+",";
@@ -168,8 +169,9 @@ public class CitaAsignadaRepository implements ICitaAsignadaRepository {
                     + " WHERE cod_id = " + String.valueOf(citaAsi.getCita().getCodigo()) + ";";
             } else { // Borra una unica fila corerspondente a esta cita asignada en concreto
                 String getDatosSql = "SELECT uc.telefono FROM citasasignadas as ca, usuariocliente as uc " +
-                                    " WHERE (user_id = " + String.valueOf(citaAsi.getCliente().getUser_id()) +
-                                    " AND cod_id = " + String.valueOf(citaAsi.getCita().getCodigo()) + ");";
+                                    " WHERE (ca.user_id = " + String.valueOf(citaAsi.getCliente().getUser_id()) +
+                                    " AND cod_id = " + String.valueOf(citaAsi.getCita().getCodigo()) + 
+                                    " AND ca.user_id = uc.user_id);";
                 ResultSet rs = stmt.executeQuery(getDatosSql);
                 while (rs.next()) {
                     response += rs.getString("telefono")+",";
