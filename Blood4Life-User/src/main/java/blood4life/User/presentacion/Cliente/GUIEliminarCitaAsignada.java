@@ -205,16 +205,6 @@ public class GUIEliminarCitaAsignada extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void cargarInformacion(){
-        // String id = jTextField1.getText(); 
-        // if(!id.isEmpty() && Utilities.isNumeric(id)){
-        //     id_user = String.valueOf(id);  
-        //     try {
-        //         Command cmd = new FindCommand(id_user, ser.getImpl(ServicesEnum.CustomerClientService));  
-        //         inv.setCommand(cmd);
-        //         inv.execute(); 
-        //         FindCommand fcmd = (FindCommand) inv.getCommand(); 
-        //         UsuarioCliente user = (UsuarioCliente) fcmd.getElement();  
-        //         if(user != null){
         Command cmd = new FindCommand(String.valueOf(user.getUser_id()), ser.getImpl(ServicesEnum.CitaAsignadaService));  
         inv.setCommand(cmd);
         inv.execute(); 
