@@ -179,6 +179,7 @@ public class CitaRepository implements ICitaRepository {
         return products;
     }
     
+    @Override
     public boolean delete(Cita cita) {
         if (cita == null) {
             return false;

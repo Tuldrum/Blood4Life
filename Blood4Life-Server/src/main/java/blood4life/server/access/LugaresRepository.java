@@ -21,6 +21,7 @@ public class LugaresRepository implements ILugaresRepository {
         this.conn = connection.getConn();
     }
 
+    @Override
     public boolean save(LugarRecogida newLugar) {
 
         try {
@@ -46,6 +47,7 @@ public class LugaresRepository implements ILugaresRepository {
         return false;
     }
 
+    @Override
     public LugarRecogida find(int id) {
         LugarRecogida lugar = null;
         try {
@@ -105,6 +107,7 @@ public class LugaresRepository implements ILugaresRepository {
         return false;
     }
 
+    @Override
     public boolean delete(LugarRecogida lugar) {
         if (lugar == null) {
             return false;
@@ -123,6 +126,7 @@ public class LugaresRepository implements ILugaresRepository {
         return true;
     }
 
+    @Override
     public List<LugarRecogida> list(Date before, Date after) {
         List<LugarRecogida> lugares = new ArrayList<>();
         try {
@@ -150,6 +154,7 @@ public class LugaresRepository implements ILugaresRepository {
         return lugares;
     }
 
+    @Override
     public List<LugarRecogida> list() {
         List<LugarRecogida> lugares = new ArrayList<>();
         try {

@@ -21,6 +21,7 @@ import blood4life.User.domain.services.ServicesEnum;
 import blood4life.commons.domain.Sangre;
 import blood4life.commons.domain.User;
 import blood4life.commons.domain.UsuarioCliente;
+import java.awt.HeadlessException;
 
 /**
  *
@@ -217,7 +218,7 @@ public class SignUpUser extends javax.swing.JFrame {
             }
             new GUILogin().setVisible(true);
             this.dispose();
-        } catch (Exception ex) {
+        } catch (HeadlessException ex) {
             Logger.getLogger(SignUpUser.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -266,7 +267,7 @@ public class SignUpUser extends javax.swing.JFrame {
 
     @SuppressWarnings("unchecked")
     private void cargarSangres() {
-        List<Object> args = new ArrayList<Object>();
+        List<Object> args = new ArrayList<>();
         Command command = new FindAllCommand(args, ser.getImpl(ServicesEnum.SangreService));  
         inv.setCommand(command);
         inv.execute();

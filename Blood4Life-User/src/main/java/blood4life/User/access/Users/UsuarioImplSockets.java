@@ -44,7 +44,7 @@ public class UsuarioImplSockets implements IUserAccess {
             } else {
                 //Encontró el customer
                 User customer = jsonToUser(jsonResponse);
-                Logger.getLogger(UsuarioImplSockets.class.getName()).log(Level.INFO, "Lo que va en el JSon: ("+jsonResponse.toString()+ ")");
+                Logger.getLogger(UsuarioImplSockets.class.getName()).log(Level.INFO, "Lo que va en el JSon: ("+jsonResponse+ ")");
                 return customer;
             }
         }
@@ -71,7 +71,7 @@ public class UsuarioImplSockets implements IUserAccess {
             throw new Exception(extractMessages(jsonResponse));
         }
         // Se registró el customer
-        Logger.getLogger(UsuarioImplSockets.class.getName()).log(Level.INFO, "Lo que va en el JSon: ("+jsonResponse.toString()+ ")");
+        Logger.getLogger(UsuarioImplSockets.class.getName()).log(Level.INFO, "Lo que va en el JSon: ("+jsonResponse+ ")");
         return jsonResponse;
     }
 

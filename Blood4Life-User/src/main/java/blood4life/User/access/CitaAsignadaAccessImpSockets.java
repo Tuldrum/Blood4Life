@@ -52,7 +52,7 @@ public class CitaAsignadaAccessImpSockets implements ICitaAsignadaAcces{
                 }else{
                     //Encontró el customer
                     cita = jsonToCitaAsignada(jsonResponse);
-                    Logger.getLogger(CitaAccesImplSockets.class.getName()).log(Level.INFO, "Lo que va en el JSon: (" + jsonResponse.toString() + ")");
+                    Logger.getLogger(CitaAccesImplSockets.class.getName()).log(Level.INFO, "Lo que va en el JSon: ({0})", jsonResponse);
                     return cita;
                 }
             }
@@ -106,7 +106,7 @@ public class CitaAsignadaAccessImpSockets implements ICitaAsignadaAcces{
     public List<String> listaCitasAsignadas(int lugarId, Date today) throws Exception {
         String jsonResponse = null;
         String requestJson = doGetTableCitaAsignadaJson(lugarId, today);
-        List<String> citas = new ArrayList<String>(); 
+        List<String> citas = new ArrayList<>(); 
         jsonResponse = peticionSocket(requestJson);
         if (jsonResponse == null || jsonResponse.equals("")) {
             throw new Exception("No se pudo conectar con el servidor. Revise la red o que el servidor esté escuchando. ");
@@ -121,7 +121,7 @@ public class CitaAsignadaAccessImpSockets implements ICitaAsignadaAcces{
                 }else{
                     //Encontró el customer
                     citas = jsonToListaCitasAsignadas(jsonResponse);
-                    Logger.getLogger(CitaAccesImplSockets.class.getName()).log(Level.INFO, "Lo que va en el JSon: (" + jsonResponse.toString() + ")");
+                    Logger.getLogger(CitaAccesImplSockets.class.getName()).log(Level.INFO, "Lo que va en el JSon: (" + jsonResponse + ")");
                     return citas;
                 }
             }
@@ -142,7 +142,7 @@ public class CitaAsignadaAccessImpSockets implements ICitaAsignadaAcces{
 
     private List<String> jsonToListaCitasAsignadas (String jsonResponse) {
         JsonArray jsonObject = JsonParser.parseString(jsonResponse).getAsJsonArray();
-        List<String> listaCitasAsignadas = new ArrayList<String>();
+        List<String> listaCitasAsignadas = new ArrayList<>();
         for (JsonElement citaAsignada : jsonObject) {
             String jsonInfo = citaAsignada.getAsString();
             listaCitasAsignadas.add(jsonInfo);

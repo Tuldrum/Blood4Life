@@ -83,7 +83,7 @@ public class SangreRepository implements ISangreRepository {
 
     @Override
     public List<Sangre> getRepo() {
-        List<Sangre> sangres = new ArrayList<Sangre>();
+        List<Sangre> sangres = new ArrayList<>();
         try {
             String sql = "SELECT sangre_id, tipo, RH FROM sangre";
 

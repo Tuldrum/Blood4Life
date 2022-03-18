@@ -21,6 +21,7 @@ public class ClienteRepository implements IClienteRepository {
         this.sangre = sangre;  
     }
 
+    @Override
     public boolean save(UsuarioCliente newCliente) {
         try {
             //Validate product
@@ -48,6 +49,7 @@ public class ClienteRepository implements IClienteRepository {
         return false;
     }
 
+    @Override
     public UsuarioCliente find(int id) {
         UsuarioCliente cliente = null;
         try {
