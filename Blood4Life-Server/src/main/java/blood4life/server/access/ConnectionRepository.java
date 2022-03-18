@@ -20,20 +20,19 @@ public class ConnectionRepository implements IConnectionRepository {
     }
 
     public void connect() {
-        String driver = Utilities.loadProperty("server.db.driver").toString(); 
-        String cadenaCon = Utilities.loadProperty("server.db.url").toString(); 
-        String usuario = Utilities.loadProperty("server.db.username").toString(); 
-        String passwd = Utilities.loadProperty("server.db.password").toString(); 
+        String driver = Utilities.loadProperty("server.db.driver"); 
+        String cadenaCon = Utilities.loadProperty("server.db.url"); 
+        String usuario = Utilities.loadProperty("server.db.username"); 
+        String passwd = Utilities.loadProperty("server.db.password"); 
         try {
             Class.forName(driver);
             conn = DriverManager.getConnection(cadenaCon, usuario, passwd);
-        } catch (SQLException ex) {
-            Logger.getLogger(ConnectionRepository.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
+        } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(ConnectionRepository.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
+    @Override
     public void disconnect() {
         try {
             if (conn != null) {
@@ -45,6 +44,7 @@ public class ConnectionRepository implements IConnectionRepository {
 
     }
 
+    @Override
     public Connection getConn() {
         return conn;
     }

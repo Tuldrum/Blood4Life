@@ -52,7 +52,7 @@ public class CitaAccesImplSockets implements ICitaAcces {
             } else {
                 //Encontró el customer
                 Cita cita = jsonToCita(jsonResponse);
-                Logger.getLogger(CitaAccesImplSockets.class.getName()).log(Level.INFO, "Lo que va en el JSon: (" + jsonResponse.toString() + ")");
+                Logger.getLogger(CitaAccesImplSockets.class.getName()).log(Level.INFO, "Lo que va en el JSon: ({0})", jsonResponse);
                 return cita;
             }
         }
@@ -80,12 +80,12 @@ public class CitaAccesImplSockets implements ICitaAcces {
                 Logger.getLogger(CitaAccesImplSockets.class.getName()).log(Level.INFO, jsonResponse);
                 throw new Exception(extractMessages(jsonResponse));
             } else if (jsonResponse.toLowerCase().contains("info:")) {
-                Logger.getLogger(CitaAccesImplSockets.class.getName()).log(Level.INFO, "Lo que va en el JSon: (" + jsonResponse.toString() + ")");
+                Logger.getLogger(CitaAccesImplSockets.class.getName()).log(Level.INFO, "Lo que va en el JSon: ({0})", jsonResponse);
                 return null;
             } else {
                 //Encontró las citas
                 List<Cita> citas = jsonToList(jsonResponse);
-                Logger.getLogger(CitaAccesImplSockets.class.getName()).log(Level.INFO, "Lo que va en el JSon: (" + jsonResponse.toString() + ")");
+                Logger.getLogger(CitaAccesImplSockets.class.getName()).log(Level.INFO, "Lo que va en el JSon: ({0})", jsonResponse);
                 return citas;
             }
         }
@@ -169,12 +169,12 @@ public class CitaAccesImplSockets implements ICitaAcces {
                 Logger.getLogger(CitaAccesImplSockets.class.getName()).log(Level.INFO, jsonResponse);
                 throw new Exception(extractMessages(jsonResponse));
             } else if (jsonResponse.toLowerCase().contains("info:")) {
-                Logger.getLogger(CitaAccesImplSockets.class.getName()).log(Level.INFO, "Lo que va en el JSon: (" + jsonResponse.toString() + ")");
+                Logger.getLogger(CitaAccesImplSockets.class.getName()).log(Level.INFO, "Lo que va en el JSon: ({0})", jsonResponse);
                 return null;
             } else {
                 //Encontró las citas
                 List<Cita> citas = jsonToList(jsonResponse);
-                Logger.getLogger(CitaAccesImplSockets.class.getName()).log(Level.INFO, "Lo que va en el JSon: (" + jsonResponse.toString() + ")");
+                Logger.getLogger(CitaAccesImplSockets.class.getName()).log(Level.INFO, "Lo que va en el JSon: ({0})", jsonResponse);
                 return citas;
             }
         }

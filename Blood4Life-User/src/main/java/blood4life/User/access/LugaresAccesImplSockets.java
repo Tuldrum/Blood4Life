@@ -56,7 +56,7 @@ public class LugaresAccesImplSockets implements ILugaresAcces {
                 }
                 //Encontró el lugar
                 LugarRecogida lugares = jsonToLugares(jsonResponse);
-                Logger.getLogger(LugaresAccesImplSockets.class.getName()).log(Level.INFO, "Lo que va en el JSon: (" + jsonResponse.toString() + ")");
+                Logger.getLogger(LugaresAccesImplSockets.class.getName()).log(Level.INFO, "Lo que va en el JSon: (" + jsonResponse + ")");
                 return lugares;
             }
         }
@@ -173,7 +173,7 @@ public class LugaresAccesImplSockets implements ILugaresAcces {
             } else {
                 //Encontró el lugar
                 List<LugarRecogida> lugares = jsonToList(jsonResponse);
-                Logger.getLogger(LugaresAccesImplSockets.class.getName()).log(Level.INFO, "Lo que va en el JSon: (" + jsonResponse.toString() + ")");
+                Logger.getLogger(LugaresAccesImplSockets.class.getName()).log(Level.INFO, "Lo que va en el JSon: (" + jsonResponse + ")");
                 return lugares;
             }
         }
@@ -204,7 +204,7 @@ public class LugaresAccesImplSockets implements ILugaresAcces {
             } else {
                 //Encontró el lugar
                 List<LugarRecogida> lugares = jsonToList(jsonResponse);
-                Logger.getLogger(LugaresAccesImplSockets.class.getName()).log(Level.INFO, "Lo que va en el JSon: ("+jsonResponse.toString()+ ")");
+                Logger.getLogger(LugaresAccesImplSockets.class.getName()).log(Level.INFO, "Lo que va en el JSon: ("+jsonResponse+ ")");
                 return lugares;
             }
         }

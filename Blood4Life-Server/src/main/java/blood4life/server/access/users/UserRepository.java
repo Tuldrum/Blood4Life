@@ -72,7 +72,7 @@ public class UserRepository implements IUserRepository {
             if (rs.next()) {
                 return true;
             }
-        } catch (Exception ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(ClienteRepository.class.getName()).log(Level.SEVERE, "Error al buscar el producto en la base de datos", ex);
         }
         return false;

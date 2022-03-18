@@ -49,7 +49,7 @@ public class AssignmentsImplSockets implements IAssignmentsAccess {
                 } else {
                     //Encontró el customer
                     assis = jsonToAssignments(jsonResponse);
-                    Logger.getLogger(AssignmentsImplSockets.class.getName()).log(Level.INFO, "Lo que va en el JSon: (" + jsonResponse.toString() + ")");
+                    Logger.getLogger(AssignmentsImplSockets.class.getName()).log(Level.INFO, "Lo que va en el JSon: (" + jsonResponse + ")");
                     return assis;
                 }
             }
@@ -113,12 +113,12 @@ public class AssignmentsImplSockets implements IAssignmentsAccess {
                 Logger.getLogger(AssignmentsImplSockets.class.getName()).log(Level.INFO, jsonResponse);
                 throw new Exception(extractMessages(jsonResponse));
             } else if (jsonResponse.toLowerCase().contains("info:")) {
-                Logger.getLogger(AssignmentsImplSockets.class.getName()).log(Level.INFO, "Lo que va en el JSon: (" + jsonResponse.toString() + ")");
+                Logger.getLogger(AssignmentsImplSockets.class.getName()).log(Level.INFO, "Lo que va en el JSon: ({0})", jsonResponse);
                 return null;
             } else {
                 //Encontró las citas
                 List<Assignments> assis = jsonToList(jsonResponse);
-                Logger.getLogger(AssignmentsImplSockets.class.getName()).log(Level.INFO, "Lo que va en el JSon: (" + jsonResponse.toString() + ")");
+                Logger.getLogger(AssignmentsImplSockets.class.getName()).log(Level.INFO, "Lo que va en el JSon: ({0})", jsonResponse);
                 return assis;
             }
         }

@@ -69,11 +69,6 @@ public abstract class User {
         if(this.user_id < 0){
             return false;  
         }
-        
-        if(this.name.isEmpty() || this.lastname.isEmpty() || this.mail.isEmpty() || this.numeroTelefono.isEmpty() ){
-            return false;  
-        }
-        
-        return true; 
+        return !(this.name.isEmpty() || this.lastname.isEmpty() || this.mail.isEmpty() || this.numeroTelefono.isEmpty()); 
     }
 }

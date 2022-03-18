@@ -192,7 +192,7 @@ public class CitaAsignadaRepository implements ICitaAsignadaRepository {
     
     @Override
     public List<String> getAll(int lugarId, Date today) {
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         try {
             String sql = 
             "SELECT " +

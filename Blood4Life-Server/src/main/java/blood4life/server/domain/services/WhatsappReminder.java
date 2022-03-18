@@ -13,6 +13,7 @@ public class WhatsappReminder implements ITwilioWhatsappMessager {
         AUTH_TOKEN = "d6f536bab655f696b1dadf5f3c581b51"; 
     }
 
+    @Override
     public boolean sendReminder(String numCel, String reminderMessage) { 
         Twilio.init(ACCOUNT_SID, AUTH_TOKEN); 
         String destinataryNumber = "+57" + numCel;

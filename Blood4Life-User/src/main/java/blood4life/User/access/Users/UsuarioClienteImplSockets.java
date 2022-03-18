@@ -41,7 +41,7 @@ public class UsuarioClienteImplSockets implements IClienteAcces {
             } else {
                 //Encontró el customer
                 UsuarioCliente customer = jsonToCustomer(jsonResponse);
-                Logger.getLogger(UsuarioClienteImplSockets.class.getName()).log(Level.INFO, "Lo que va en el JSon: ("+jsonResponse.toString()+ ")");
+                Logger.getLogger(UsuarioClienteImplSockets.class.getName()).log(Level.INFO, "Lo que va en el JSon: ("+jsonResponse+ ")");
                 return customer;
             }
         }

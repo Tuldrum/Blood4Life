@@ -9,6 +9,7 @@ public class WhatsappReminder implements ITwilioWhatsappMessager {
     public static String ACCOUNT_SID;
     public static String AUTH_TOKEN;
  
+    @Override
     public boolean sendReminder(String destinataryNumber, String reminderMessage) {
         connectTwilio();
         Message message = Message.creator(

@@ -11,6 +11,7 @@ import blood4life.User.infra.Blood4LifeClientSocket;
 import blood4life.commons.domain.Sangre;
 import blood4life.commons.infra.JsonError;
 import blood4life.commons.infra.Protocol;
+import java.util.Arrays;
 
 public class SangreAccessImplSockets implements ISangreAcces {
 
@@ -40,7 +41,7 @@ public class SangreAccessImplSockets implements ISangreAcces {
                     }else{
                         //Encontró el customer
                         sangre = jsonToSangre(jsonResponse);
-                        Logger.getLogger(CitaAccesImplSockets.class.getName()).log(Level.INFO, "Lo que va en el JSon: (" + jsonResponse.toString() + ")");
+                        Logger.getLogger(CitaAccesImplSockets.class.getName()).log(Level.INFO, "Lo que va en el JSon: (" + jsonResponse + ")");
                     }
                 }
             }
@@ -66,7 +67,7 @@ public class SangreAccessImplSockets implements ISangreAcces {
     public List<Sangre> listaSangres() {
         String jsonResponse = null;
         String requestJson = doGetListSangreRequestJson();
-        List<Sangre> sangre = new ArrayList<Sangre>();
+        List<Sangre> sangre = new ArrayList<>();
         jsonResponse = peticionSocket(requestJson);
         try {
             if (jsonResponse == null) {
@@ -82,7 +83,7 @@ public class SangreAccessImplSockets implements ISangreAcces {
                     }else{
                         //Encontró el customer
                         sangre = jsonToListSangre(jsonResponse);
-                        Logger.getLogger(CitaAccesImplSockets.class.getName()).log(Level.INFO, "Lo que va en el JSon: (" + jsonResponse.toString() + ")");
+                        Logger.getLogger(CitaAccesImplSockets.class.getName()).log(Level.INFO, "Lo que va en el JSon: (" + jsonResponse + ")");
                     }
                 }
             }
@@ -136,10 +137,8 @@ public class SangreAccessImplSockets implements ISangreAcces {
     private List<Sangre> jsonToListSangre(String jsonSangres) {
         Gson gson = new Gson();
         Sangre[] sangres = gson.fromJson(jsonSangres, Sangre[].class);
-        List<Sangre> listaSangres = new ArrayList<Sangre>();
-        for (Sangre sangre : sangres) {
-            listaSangres.add(sangre);
-        }
+        List<Sangre> listaSangres = new ArrayList<>();
+        listaSangres.addAll(Arrays.asList(sangres));
         return listaSangres;
     }
 }
